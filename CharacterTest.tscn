@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/actors/characters/kevin/Kevin.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Gradient" id=3]
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 3 )
+width = 300
+
+[sub_resource type="LineShape2D" id=1]
+d = 47.6891
+
+[node name="Main" type="Node2D"]
+
+[node name="Kevin" parent="." instance=ExtResource( 1 )]
+position = Vector2( 206.941, 70.3403 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 443.358, 405.175 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+visible = false
+position = Vector2( 46.825, 16 )
+scale = Vector2( 1, 31.9194 )
+texture = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 32.9386, 49.4079 )
+shape = SubResource( 1 )
