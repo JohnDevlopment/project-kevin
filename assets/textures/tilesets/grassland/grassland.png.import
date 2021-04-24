@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/kevin.png-80c650eb51a83eb8257ecf34359176a4.stex"
+path="res://.import/grassland.png-d1850e4742944368a9044f27c178afc6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/actors/kevin/kevin.png"
-dest_files=[ "res://.import/kevin.png-80c650eb51a83eb8257ecf34359176a4.stex" ]
+source_file="res://assets/textures/tilesets/grassland/grassland.png"
+dest_files=[ "res://.import/grassland.png-d1850e4742944368a9044f27c178afc6.stex" ]
 
 [params]
 

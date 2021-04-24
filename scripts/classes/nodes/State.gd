@@ -5,29 +5,28 @@ var change_state: FuncRef
 var persistant_state: Object
 var user_data: Array setget set_user_data
 
-# Override this function to institute a destructor for the state.
-func cleanup() -> void:
-	pass
+# warning-ignore-all:shadowed_variable
 
-# Override this function to return a string name for the state.
-func get_name() -> String:
-	return "unknown"
+# Called when exiting a state; used for cleanup, as the name suggests.
+# Override _cleanup for custom code:
+#   void _cleanup()
+func cleanup() -> void:
+	if has_method("_cleanup"): call("_cleanup")
 
 # The main physics process for the state. Override this function
 # to implement it.
-func physics_main(_delta: float) -> void: pass
+func physics_main(_delta: float): pass
 
 # The main idle process for the state. Override this function
 # to implement it.
-func process_main(_delta: float) -> void: pass
+func process_main(_delta: float): pass
 
 # Do not override this function. Override _setup instead to add custom setup
 # code for a state.
 #   void _setup()
-func setup(pers_state, chg_state: FuncRef, udata = []) -> void:
-	persistant_state = pers_state
-	change_state = chg_state
-	set_user_data(udata)
+func setup(persistant_state, user_data = []) -> void:
+	self.persistant_state = persistant_state
+	set_user_data(user_data)
 	if has_method("_setup"): call("_setup")
 
 func set_user_data(udata: Array) -> void:

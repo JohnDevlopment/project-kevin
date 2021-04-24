@@ -1,174 +1,44 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/actors/characters/kevin/Kevin.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/actors/kevin/kevin.png" type="Texture" id=2]
+[ext_resource path="res://scripts/StateMachine.gd" type="Script" id=3]
+[ext_resource path="res://scenes/actors/characters/kevin/NormalState.gd" type="Script" id=4]
 
-[sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 22.9721, 45.5171 )
-
-[sub_resource type="Animation" id=1]
-resource_name = "idle"
-length = 2.8
-loop = true
-step = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath("kevin:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 2.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ 0, 1 ]
-}
-
-[sub_resource type="Animation" id=16]
-resource_name = "walk_left"
-length = 0.4
-loop = true
-step = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath("kevin:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ 2, 3 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("kevin:flip_h")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=12]
-resource_name = "walk_right"
-length = 0.4
-loop = true
-step = 0.2
-tracks/0/type = "value"
-tracks/0/path = NodePath("kevin:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ 2, 3 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("kevin:flip_h")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-
-[sub_resource type="AnimationNodeAnimation" id=5]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=6]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=7]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=8]
-animation = "idle"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id=4]
-blend_point_0/node = SubResource( 5 )
-blend_point_0/pos = Vector2( -1, 0 )
-blend_point_1/node = SubResource( 6 )
-blend_point_1/pos = Vector2( 0, 0.9 )
-blend_point_2/node = SubResource( 7 )
-blend_point_2/pos = Vector2( 1, 0 )
-blend_point_3/node = SubResource( 8 )
-blend_point_3/pos = Vector2( 0, -1 )
-
-[sub_resource type="AnimationNodeAnimation" id=13]
-animation = "walk_right"
-
-[sub_resource type="AnimationNodeAnimation" id=17]
-animation = "walk_left"
-
-[sub_resource type="AnimationNodeAnimation" id=19]
-animation = "walk_left"
-
-[sub_resource type="AnimationNodeAnimation" id=20]
-animation = "walk_right"
-
-[sub_resource type="AnimationNodeBlendSpace2D" id=10]
-blend_point_0/node = SubResource( 13 )
-blend_point_0/pos = Vector2( 1, 0 )
-blend_point_1/node = SubResource( 17 )
-blend_point_1/pos = Vector2( -1, 0 )
-blend_point_2/node = SubResource( 19 )
-blend_point_2/pos = Vector2( 0, -1 )
-blend_point_3/node = SubResource( 20 )
-blend_point_3/pos = Vector2( 0, 1 )
-blend_mode = 1
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
-switch_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id=2]
-states/Idle/node = SubResource( 4 )
-states/Idle/position = Vector2( 209, 87 )
-states/Walk/node = SubResource( 10 )
-states/Walk/position = Vector2( 415, 87 )
-transitions = [ "Idle", "Walk", SubResource( 14 ), "Walk", "Idle", SubResource( 15 ) ]
-start_node = "Idle"
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=11]
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 5.0
+height = 32.0
 
 [node name="Kevin" type="KinematicBody2D"]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 1 )
-speed_cap = Vector2( 100, 0 )
+speed_cap = Vector2( 85, 275 )
 disabled = null
 
-[node name="kevin" type="Sprite" parent="."]
+[node name="Frames" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 hframes = 4
-frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 2.06017, 12.5483 )
-shape = SubResource( 9 )
+position = Vector2( -14, 3 )
+shape = SubResource( 1 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 1 )
-anims/walk_left = SubResource( 16 )
-anims/walk_right = SubResource( 12 )
+[node name="PlayerCamera" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.65, 0.65 )
+limit_left = 0
+limit_top = 0
+limit_right = 1024
+limit_bottom = 600
+limit_smoothed = true
+editor_draw_screen = false
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 2 )
-anim_player = NodePath("../AnimationPlayer")
-active = true
-parameters/playback = SubResource( 11 )
-parameters/Idle/blend_position = Vector2( 0, 0 )
-parameters/Walk/blend_position = Vector2( 0, 0 )
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Normal" type="Node" parent="StateMachine"]
+script = ExtResource( 4 )
