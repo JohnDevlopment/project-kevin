@@ -104,7 +104,7 @@ static func is_valid_type(s: String, type: int) -> bool:
 		TYPE_STRING:
 			return true
 		TYPE_VECTOR2:
-			assert(not regex.compile("\\([0-9]{1,},[0-9]{1,}\\)"))
+			assert(not regex.compile("\\(-?[0-9]{1,},-?[0-9]{1,}\\)"))
 			var regex_match = regex.search(s)
 			return true if regex_match else false
 	
@@ -121,19 +121,23 @@ func parse_args(args: Array = []):
 		var arg = args[i]
 		var type = get_type(arg)
 		
-		# If the parameter is an integer but we want a float.
-		if type == TYPE_INT:
-			if param_types[i] == TYPE_REAL:
-				arg = (arg as String) + ".0"
-				type = TYPE_REAL
-		# If the parameter is a float but we want an integer.
-		elif type == TYPE_REAL:
-			if param_types[i] == TYPE_INT:
-				var _arg = arg as String
-				var idx = _arg.find(".")
-				_arg.erase(idx, _arg.length() - idx)
-				type = TYPE_INT
-				arg = _arg
+		match type:
+			TYPE_INT:
+				# Add decimal to integer-representing string.
+				if param_types[i] == TYPE_REAL:
+					arg = (arg as String) + ".0"
+					type = TYPE_REAL
+			TYPE_REAL:
+				# Truncate decimal from float-representing string.
+				if param_types[i] == TYPE_INT:
+					var _arg = arg as String
+					var idx = _arg.find(".")
+					_arg.erase(idx, _arg.length() - idx)
+					type = TYPE_INT
+					arg = _arg
+			TYPE_STRING:
+				if (arg as String) == "''":
+					arg = ""
 		
 		# Error if the deduced type doesn't match the argument's.
 		if param_types[i] >= 0 and type != param_types[i]:
@@ -181,7 +185,7 @@ static func str2val(s: String, type: int):
 			var vec: = Vector2()
 			
 			var _regex: = RegEx.new()
-			assert(not _regex.compile("[0-9]+"))
+			assert(not _regex.compile("-?[0-9]+"))
 			
 			var reg_match: RegExMatch
 			reg_match = _regex.search(s)

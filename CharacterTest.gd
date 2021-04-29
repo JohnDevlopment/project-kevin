@@ -2,7 +2,7 @@ extends Node2D
 
 onready var debug_console = $CanvasLayer/DebugConsole
 
-func _input(event):
+func _unhandled_input(event: InputEvent):
 	if event is InputEventKey:
 		if event.is_action_pressed("debug"):
 			if not debug_console.active:
@@ -16,3 +16,7 @@ func _ready():
 	
 	overlay.add_stat("Kevin Velocity", $Kevin, "velocity", false)
 	overlay.add_stat("Kevin Speed Cap", $Kevin, "speed_cap", false)
+	overlay.add_stat("Kevin is moving", $Kevin, "moving", false)
+	overlay.add_stat("Kevin is sprinting", $Kevin, "sprinting", false)
+	
+	debug_console.command_handler.initial_position = $Kevin.global_position

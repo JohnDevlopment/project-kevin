@@ -86,7 +86,10 @@ func goto_history_line(offset: int):
 #   @error:MSG -- output: "Error: MSG"
 #      A generic error message.
 func output_text(text: String) -> void:
-	text = _parse_error_string(text)
+	if not text:
+		text = " "
+	else:
+		text = _parse_error_string(text)
 	output_box.text = str(output_box.text, "\n", text)
 
 func process_command(text: String) -> void:
@@ -125,6 +128,8 @@ func process_command(text: String) -> void:
 func _parse_error_string(s: String):
 	var re: = RegEx.new()
 	assert(not re.compile("@[a-z]+"))
+	
+	if s == "": return
 	
 	var words: Array = s.split(":", false)
 	

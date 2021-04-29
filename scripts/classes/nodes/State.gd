@@ -3,7 +3,7 @@ class_name State
 
 var change_state: FuncRef
 var persistant_state: Object
-var user_data: Array setget set_user_data
+var user_data
 
 # warning-ignore-all:shadowed_variable
 
@@ -24,10 +24,7 @@ func process_main(_delta: float): pass
 # Do not override this function. Override _setup instead to add custom setup
 # code for a state.
 #   void _setup()
-func setup(persistant_state, user_data = []) -> void:
+func setup(persistant_state, user_data = null) -> void:
 	self.persistant_state = persistant_state
-	set_user_data(user_data)
+	self.user_data = user_data
 	if has_method("_setup"): call("_setup")
-
-func set_user_data(udata: Array) -> void:
-	user_data = udata

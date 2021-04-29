@@ -8,7 +8,7 @@ tool
 class_name Actor, "res://assets/textures/icons/actor.svg"
 extends KinematicBody2D
 
-const GRAVITY_STEP: float = 13.6
+const GRAVITY_STEP: float = 13.4
 
 # Properties #
 
@@ -69,6 +69,7 @@ func _get_property_list():
 
 func _physics_process(_delta):
 	if Engine.editor_hint: return
+	
 	velocity.y += GRAVITY_STEP
 	if velocity.y > gravity_value:
 		velocity.y = gravity_value

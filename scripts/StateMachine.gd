@@ -15,7 +15,7 @@ func _ready():
 		if not(state is State): continue
 		_states[_name] = state
 
-func change_state(state_name: String, user_data = []):
+func change_state(state_name: String, user_data = null):
 	var state = _states.get(state_name)
 	if not state:
 		push_error("no state called '%s' exists" % state_name)
