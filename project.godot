@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/classes/nodes/GameObject.gd"
 }, {
+"base": "Particles2D",
+"class": "Particles2D_Plus",
+"language": "GDScript",
+"path": "res://scripts/classes/nodes/Particles2D+.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -50,6 +55,7 @@ _global_script_class_icons={
 "AudioPack": "",
 "ErrorInfo": "",
 "GameObject": "",
+"Particles2D_Plus": "res://GPUParticles2D_Icon.svg",
 "State": "",
 "StringCommand": ""
 }
@@ -59,6 +65,10 @@ _global_script_class_icons={
 config/name="Project Kevin"
 run/main_scene="res://CharacterTest.tscn"
 config/icon="res://icon.png"
+
+[audio]
+
+mix_rate=22050
 
 [autoload]
 

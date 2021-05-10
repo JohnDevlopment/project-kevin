@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/textures/gui/sprint_meter/sprint_meter_middle.png" type="Texture" id=1]
+[ext_resource path="res://assets/textures/gui/sprint_meter/sprint_meter_top.png" type="Texture" id=2]
+[ext_resource path="res://assets/textures/gui/sprint_meter/sprint_meter_bottom.png" type="Texture" id=3]
+
+[node name="PlayerHUD" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 26.0
+margin_top = 25.0
+margin_right = -102.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Counters" type="VBoxContainer" parent="."]
+margin_right = 896.0
+margin_bottom = 575.0
+
+[node name="Health" type="HBoxContainer" parent="Counters"]
+margin_right = 896.0
+margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="Counters/Health"]
+margin_right = 46.0
+margin_bottom = 14.0
+text = "Health:"
+
+[node name="HealthCounter" type="Label" parent="Counters/Health"]
+margin_left = 50.0
+margin_right = 58.0
+margin_bottom = 14.0
+text = "0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Counters"]
+margin_top = 18.0
+margin_right = 896.0
+margin_bottom = 32.0
+custom_constants/separation = 9
+
+[node name="Label" type="Label" parent="Counters/HBoxContainer"]
+margin_right = 41.0
+margin_bottom = 14.0
+text = "Sprint:"
+
+[node name="SprintMeter" type="TextureProgress" parent="Counters/HBoxContainer"]
+margin_left = 50.0
+margin_right = 139.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.12
+value = 50.0
+texture_under = ExtResource( 3 )
+texture_over = ExtResource( 2 )
+texture_progress = ExtResource( 1 )
+nine_patch_stretch = true
+stretch_margin_left = 2
+stretch_margin_top = 2
+stretch_margin_right = 2
+stretch_margin_bottom = 2
+
+[node name="Control" type="Control" parent="Counters/HBoxContainer"]
+margin_left = 148.0
+margin_right = 896.0
+margin_bottom = 14.0
+size_flags_horizontal = 3

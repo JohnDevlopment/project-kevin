@@ -6,10 +6,8 @@ var initial_position: = Vector2()
 
 const valid_commands: = [
 	["kevin_speed", [-1, -1], ["x", "y"]],
+	["kevin_velocity", [TYPE_VECTOR2], ["velocity"]],
 	["kevin_animation", [TYPE_STRING, TYPE_REAL], ["animation", "speed"]],
-	["math_map_range", [TYPE_REAL, TYPE_REAL, TYPE_REAL, TYPE_REAL, TYPE_REAL], \
-		["val", "imin", "imax", "omin", "omax"]],
-	["kevin_gravity_vector", [TYPE_VECTOR2], ["vec"]],
 	["reset_position", [], []]
 ]
 
@@ -50,6 +48,13 @@ func kevin_speed(x, y) -> String:
 			return "@error:invalid parameter '%s'" % y
 	
 	return result
+
+func kevin_velocity(velocity: Vector2) -> String:
+	var kevin: Actor = parent_node.get_node(remote_nodes[0])
+	if kevin.is_on_floor():
+		return "@error:Kevin must be in the air for this to work."
+	kevin.velocity = velocity
+	return str("Set Kevin's velocity to ", velocity)
 
 func kevin_animation(animation: String, speed: float) -> String:
 	var kevin: Actor = parent_node.get_node(remote_nodes[0])

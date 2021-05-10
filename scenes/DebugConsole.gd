@@ -126,22 +126,17 @@ func process_command(text: String) -> void:
 	output_text("Error: command %s does not exist" % command_name)
 
 func _parse_error_string(s: String):
-	var re: = RegEx.new()
-	assert(not re.compile("@[a-z]+"))
-	
 	if s == "": return
-	
 	var words: Array = s.split(":", false)
 	
 	match (words.pop_front() as String):
 		"@argcount":
 			s = "Error: expected {0} arguments but got {1}"
-			s = s.format([words[1], words[2]])
+			s = s.format([words[0], words[1]])
 		"@arrayneed":
 			s = "array '{0}' requires {1} elements"
-#			s = s.format(words.slice(1, 2))
 		"@error":
-			s = "Error: " + words[1]
+			s = "Error: " + words[0]
 		"@exit":
 			s = "Exit Console"
 			if not words.empty():
