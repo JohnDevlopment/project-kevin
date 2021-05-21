@@ -16,12 +16,8 @@ func _ready():
 	add_child(overlay)
 	move_child(overlay, $CanvasLayer.get_index())
 	
-#	overlay.add_stat("Kevin Velocity", $Kevin, "velocity", false)
-#	overlay.add_stat("Kevin Speed Cap", $Kevin, "speed_cap", false)
-#	overlay.add_stat("Kevin is moving", $Kevin, "moving", false)
-#	overlay.add_stat("Kevin is sprinting", $Kevin, "sprinting", false)
-#	overlay.add_stat("Kevin sprint timer", $Kevin, "_sprint_meter", false)
-	overlay.add_stat("Kevin air frame", $Kevin, "get_air_frame", true)
+	var kevin = $Kevin
+	overlay.add_stat("Input disabled", kevin, "disable_input", false)
 	
 	debug_console.command_handler.initial_position = $Kevin.global_position
 

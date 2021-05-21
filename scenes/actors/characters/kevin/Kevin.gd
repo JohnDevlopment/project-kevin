@@ -4,28 +4,17 @@ extends Actor
 signal sprint_meter_updated(value)
 signal sprint_meter_update_parameters(min_value, max_value)
 
+# State constants
 const STATE_NORMAL = 0
 const STATE_SPRINT = 1
 const STATE_AIR = 2
-
-onready var state_functions: = [
-	funcref(self, "NormalState"),
-	funcref(self, "SprintState"),
-	funcref(self, "AirState")
-]
-
-onready var state_process_functions: = [
-	funcref(self, "NormalSprintState_Process"),
-	funcref(self, "NormalSprintState_Process"),
-	funcref(self, "JumpState_Process")
-]
+const STATE_ATTACK = 3
 
 const FLOOR_DETECTION_DISTANCE: = 20.0
 const ACCELERATION: = 200.0
 const FRICTION: = 360.0
 const MAX_SLOPE_ANGLE: float = deg2rad(45.0)
 const SPRINT_METER_CAP: float = 100.0
-
 const AIR_FRAMES: = PoolIntArray([
 	18, 19, 20, 21,
 	22, 23, 24, 25,
@@ -36,9 +25,24 @@ const AIR_FRAMES: = PoolIntArray([
 	38, 39, 40, 41
 ])
 
+export var disable_input: bool = false
+
+onready var state_functions: = [
+	funcref(self, "NormalState"),
+	funcref(self, "SprintState"),
+	funcref(self, "AirState"),
+	funcref(self, "AttackState")
+]
+
+onready var state_process_functions: = [
+	funcref(self, "NormalSprintState_Process"),
+	funcref(self, "NormalSprintState_Process"),
+	funcref(self, "JumpState_Process"),
+	funcref(self, "AttackState_Process")
+]
+
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
-#onready var recovery_timer = $RecoveryTimer
 onready var frames = $Frames
 var moving: = false
 var input_vector: = Vector2.RIGHT
@@ -65,9 +69,15 @@ func _process(delta: float):
 
 func _physics_process(_delta):
 	if Engine.editor_hint: return
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector = input_vector.normalized()
-	sprinting = Input.is_action_pressed("dash")
+	
+	# Get input at beginning of frame.
+	if disable_input:
+		input_vector.x = 0.0
+		sprinting = false
+	else:
+		input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+		input_vector = input_vector.normalized()
+		sprinting = Input.is_action_pressed("dash")
 	
 	if input_vector.x != 0.0 and _current_state != STATE_AIR:
 		_air_frame_offset = 0 if input_vector.x > 0.0 else 12
@@ -80,10 +90,17 @@ func _physics_process(_delta):
 			MAX_SLOPE_ANGLE, false).y
 
 func _unhandled_key_input(event):
+	if disable_input: return
 	if event.is_action_pressed("jump"):
 		if is_on_floor():
 			_jump_once = true
 			set_deferred("_jump_once", false)
+		get_tree().set_input_as_handled()
+	elif event.is_action_pressed("action"):
+		if is_on_floor():
+#			animation_state.travel("Attack")
+			change_state(STATE_ATTACK)
+			print("Enter attack state")
 		get_tree().set_input_as_handled()
 
 func update_velocity(goal_speed: Vector2, friction: float, acceleration: float):
@@ -94,8 +111,8 @@ func update_velocity(goal_speed: Vector2, friction: float, acceleration: float):
 		if abs(velocity.x) <= 0.01:
 			velocity.x = 0.0
 
-func set_sprint_meter(value: float):
-#	if Engine.editor_hint: return
+func set_sprint_meter(value: float) -> void:
+	if Engine.editor_hint: return
 	
 	var old_sprint_meter: float = _sprint_meter
 	_sprint_meter = value
@@ -131,6 +148,9 @@ func change_state(next_state: int) -> void:
 			moving = false
 			animation_tree.set("parameters/conditions/idle", false)
 			animation_state.travel("Idle")
+		STATE_ATTACK:
+			moving = false
+			animation_state.travel("Attack")
 
 func get_air_frame() -> int:
 	var idx = \
@@ -138,8 +158,6 @@ func get_air_frame() -> int:
 	idx = int(clamp(idx, 0, AIR_FRAMES.size() / 2 - 1))
 	
 	return AIR_FRAMES[idx + _air_frame_offset]
-	
-#	return AIR_FRAMES[int(clamp(idx, 0, AIR_FRAMES.size() - 1))]
 
 # States (Physics)
 
@@ -195,6 +213,11 @@ func AirState(_delta: float):
 		change_state(STATE_NORMAL)
 		return
 
+func AttackState(_delta: float) -> void:
+	velocity.x = move_toward(velocity.x, 0.0, FRICTION * _delta)
+	if is_on_wall():
+		velocity.x = 0.0
+
 func _on_RecoveryTimer_timeout():
 	if Engine.editor_hint: return
 	speed_cap *= 2
@@ -216,3 +239,11 @@ func NormalSprintState_Process(_delta: float) -> void:
 
 func JumpState_Process(_delta: float) -> void:
 	frames.frame = get_air_frame()
+
+func AttackState_Process(_delta: float) -> void:
+	pass
+
+func _on_Hitbox_body_entered(body: Node):
+	if body is TileMap:
+		if (body as TileMap).get_collision_layer_bit(Game.CollisionLayer.WALLS):
+			print("The attack hit a wall.")
