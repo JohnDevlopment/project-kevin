@@ -104,6 +104,7 @@ mix_rate=22050
 
 Game="*res://scripts/classes/singletons/Game.gd"
 History="*res://scripts/classes/singletons/History.gd"
+DialogicSingleton="*res://addons/dialogic/Other/DialogicSingleton.gd"
 
 [debug]
 
@@ -116,6 +117,10 @@ shapes/collision/shape_color=Color( 1, 1, 1, 0.419608 )
 
 window/size/resizable=false
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg" )
 
 [importer_defaults]
 

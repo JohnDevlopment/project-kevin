@@ -4,6 +4,9 @@ extends Actor
 signal sprint_meter_updated(value)
 signal sprint_meter_update_parameters(min_value, max_value)
 
+# temp signal, will delete later
+signal attack_anim_hit_wall
+
 # State constants
 const STATE_NORMAL = 0
 const STATE_SPRINT = 1
@@ -38,7 +41,7 @@ onready var state_process_functions: = [
 	funcref(self, "NormalSprintState_Process"),
 	funcref(self, "NormalSprintState_Process"),
 	funcref(self, "JumpState_Process"),
-	funcref(self, "AttackState_Process")
+	funcref(self, "DummyState")
 ]
 
 onready var animation_tree = $AnimationTree
@@ -48,6 +51,7 @@ var moving: = false
 var input_vector: = Vector2.RIGHT
 var sprinting: = false
 var recovering: = false
+var direction: = Vector2.RIGHT
 
 var _current_state: = 0
 var _current_anim_state: = ""
@@ -82,6 +86,10 @@ func _physics_process(_delta):
 	if input_vector.x != 0.0 and _current_state != STATE_AIR:
 		_air_frame_offset = 0 if input_vector.x > 0.0 else 12
 	
+	# Set the direction player is facing.
+	if input_vector != Vector2.ZERO:
+		direction = input_vector
+	
 	state_functions[_current_state].call_func(_delta)
 	
 	var snap_vector: Vector2 = Vector2.DOWN * 20 if not _jump_once else Vector2()
@@ -98,9 +106,9 @@ func _unhandled_key_input(event):
 		get_tree().set_input_as_handled()
 	elif event.is_action_pressed("action"):
 		if is_on_floor():
-#			animation_state.travel("Attack")
+			# TODO: Is this code right? The animation state is set
+			#       inside of change_state when initializing the attack state.
 			change_state(STATE_ATTACK)
-			print("Enter attack state")
 		get_tree().set_input_as_handled()
 
 func update_velocity(goal_speed: Vector2, friction: float, acceleration: float):
@@ -130,18 +138,15 @@ func change_state(next_state: int) -> void:
 	
 	# Cleanup the current state.
 	match prev_state:
-		STATE_NORMAL:
-			pass
-		STATE_SPRINT:
-			pass
 		STATE_AIR:
 			velocity.x = 0.0
+			moving = true
 	
 	# Initialize the next state.
 	match next_state:
 		STATE_NORMAL:
-			animation_tree.set("parameters/conditions/idle", false if moving else true)
-			animation_state.travel("Run")
+			animation_tree.set("parameters/conditions/idle", !moving)
+			animation_state.travel("Run" if moving else "Idle")
 		STATE_SPRINT:
 			moving = false
 		STATE_AIR:
@@ -151,6 +156,7 @@ func change_state(next_state: int) -> void:
 		STATE_ATTACK:
 			moving = false
 			animation_state.travel("Attack")
+			animation_tree.set("parameters/Attack/blend_position", direction)
 
 func get_air_frame() -> int:
 	var idx = \
@@ -215,8 +221,6 @@ func AirState(_delta: float):
 
 func AttackState(_delta: float) -> void:
 	velocity.x = move_toward(velocity.x, 0.0, FRICTION * _delta)
-	if is_on_wall():
-		velocity.x = 0.0
 
 func _on_RecoveryTimer_timeout():
 	if Engine.editor_hint: return
@@ -240,10 +244,11 @@ func NormalSprintState_Process(_delta: float) -> void:
 func JumpState_Process(_delta: float) -> void:
 	frames.frame = get_air_frame()
 
-func AttackState_Process(_delta: float) -> void:
+func DummyState(_delta: float) -> void:
 	pass
 
 func _on_Hitbox_body_entered(body: Node):
 	if body is TileMap:
 		if (body as TileMap).get_collision_layer_bit(Game.CollisionLayer.WALLS):
-			print("The attack hit a wall.")
+			velocity.x = -100.0
+			emit_signal("attack_anim_hit_wall")

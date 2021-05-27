@@ -231,10 +231,6 @@ func _add_definition(definition, select = false):
 
 
 func _on_item_selected():
-	# TODO: Ideally I would perform a "save" here before opening the next
-	#       resource. Unfortunately there has been so many bugs doing that 
-	#       that I'll revisit it in the future. 
-	#       save_current_resource()
 	var item = get_selected()
 	var metadata = item.get_metadata(0)
 	if metadata['editor'] == 'Timeline':

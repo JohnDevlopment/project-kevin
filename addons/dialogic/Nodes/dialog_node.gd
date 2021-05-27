@@ -354,7 +354,6 @@ func on_timeline_start():
 	if not Engine.is_editor_hint():
 		DialogicSingleton.save_definitions()
 		DialogicSingleton.set_current_timeline(current_timeline)
-	# TODO remove event_start in 2.0
 	emit_signal("event_start", "timeline", current_timeline)
 	emit_signal("timeline_start", current_timeline)
 
@@ -363,7 +362,6 @@ func on_timeline_end():
 	if not Engine.is_editor_hint():
 		DialogicSingleton.save_definitions()
 		DialogicSingleton.set_current_timeline('')
-	# TODO remove event_end in 2.0
 	emit_signal("event_end", "timeline")
 	emit_signal("timeline_end", current_timeline)
 	dprint('[D] Timeline End')
