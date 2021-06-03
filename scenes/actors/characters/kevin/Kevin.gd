@@ -87,7 +87,7 @@ func _physics_process(_delta):
 		_air_frame_offset = 0 if input_vector.x > 0.0 else 12
 	
 	# Set the direction player is facing.
-	if input_vector != Vector2.ZERO:
+	if input_vector.x != 0.0:
 		direction = input_vector
 	
 	state_functions[_current_state].call_func(_delta)
@@ -152,6 +152,7 @@ func change_state(next_state: int) -> void:
 		STATE_AIR:
 			moving = false
 			animation_tree.set("parameters/conditions/idle", false)
+			animation_tree.set("parameters/Idle/blend_position", direction)
 			animation_state.travel("Idle")
 		STATE_ATTACK:
 			moving = false
@@ -231,8 +232,8 @@ func _on_RecoveryTimer_timeout():
 
 func NormalSprintState_Process(_delta: float) -> void:
 	if moving:
-		animation_tree.set("parameters/Idle/blend_position", input_vector)
-		animation_tree.set("parameters/Run/blend_position", input_vector)
+		animation_tree.set("parameters/Idle/blend_position", direction)
+		animation_tree.set("parameters/Run/blend_position", direction)
 		
 		if _current_anim_state == "Idle":
 			animation_state.travel("Run")

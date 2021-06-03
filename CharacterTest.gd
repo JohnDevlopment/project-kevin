@@ -18,6 +18,7 @@ func _ready():
 	
 	var kevin = $Kevin
 	overlay.add_stat("Input disabled", kevin, "disable_input", false)
+	overlay.add_stat("Direction", kevin, "direction", false)
 	
 	debug_console.command_handler.initial_position = $Kevin.global_position
 
