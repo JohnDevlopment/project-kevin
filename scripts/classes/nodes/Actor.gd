@@ -41,7 +41,6 @@ func enable_collision(flag: bool) -> void:
 
 func _ready():
 	if Engine.editor_hint: return
-	
 
 func _enter_tree():
 	if not Engine.editor_hint:
