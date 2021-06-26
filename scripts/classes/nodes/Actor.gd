@@ -1,8 +1,7 @@
 """
-An actor is derived from a KinematicBody2D, so it is meant to be used for fully-
-controlled physics bodies. An actor as a velocity vector to controll its per-frame
+An actor is derived from a KinematicBody2D, so it is meant to be used for fully
+controlled physics bodies. An actor has a velocity vector to control its
 movement speed, and a gravity value to control which direction it heads.
-
 """
 tool
 class_name Actor, "res://assets/textures/icons/actor.svg"
@@ -13,6 +12,7 @@ const GRAVITY_STEP: float = 13.4
 # Properties #
 
 var speed_cap: = Vector2()
+var disabled: = false
 
 onready var gravity_value: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 onready var gravity_vector: Vector2 = ProjectSettings.get_setting("physics/2d/default_gravity_vector")
@@ -46,6 +46,22 @@ func _enter_tree():
 	if not Engine.editor_hint:
 		set_meta("collision_layer", collision_layer)
 		set_meta("collision_mask", collision_mask)
+
+func _set(property, value):
+	match property:
+		"speed_cap":
+			speed_cap = value
+			return true
+		"disabled":
+			disabled = value
+			return true
+
+func _get(property):
+	match property:
+		"speed_cap":
+			return speed_cap
+		"disabled":
+			return disabled
 
 func _get_property_list():
 	return [

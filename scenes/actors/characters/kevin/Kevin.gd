@@ -29,6 +29,7 @@ const AIR_FRAMES: = PoolIntArray([
 ])
 
 export var disable_input: bool = false
+export(Resource) var stats
 
 onready var state_functions: = [
 	funcref(self, "NormalState"),
@@ -253,3 +254,7 @@ func _on_Hitbox_body_entered(body: Node):
 		if (body as TileMap).get_collision_layer_bit(Game.CollisionLayer.WALLS):
 			velocity.x = -100.0
 			emit_signal("attack_anim_hit_wall")
+
+func _on_hit_enemy_hurtbox(area: Area2D):
+	var parent: Enemy = area.get_parent()
+	parent.call_deferred("do_damage", stats)

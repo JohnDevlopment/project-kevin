@@ -49,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/dialogic/Other/DialogicUtil.gd"
 }, {
+"base": "Actor",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://scripts/classes/nodes/Enemy.gd"
+}, {
 "base": "Resource",
 "class": "ErrorInfo",
 "language": "GDScript",
@@ -69,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/classes/nodes/State.gd"
 }, {
+"base": "Resource",
+"class": "Stats",
+"language": "GDScript",
+"path": "res://scripts/classes/resources/Stats.gd"
+}, {
 "base": "Reference",
 "class": "StringCommand",
 "language": "GDScript",
@@ -83,10 +93,12 @@ _global_script_class_icons={
 "DialogicDefinitionsUtil": "",
 "DialogicResources": "",
 "DialogicUtil": "",
+"Enemy": "",
 "ErrorInfo": "",
 "GameObject": "",
 "Particles2D_Plus": "res://GPUParticles2D_Icon.svg",
 "State": "",
+"Stats": "",
 "StringCommand": ""
 }
 
@@ -257,6 +269,8 @@ dash={
 2d_physics/layer_4="enemy"
 2d_physics/layer_5="player hitbox"
 2d_physics/layer_6="player hurtbox"
+2d_physics/layer_7="enemy hitbox"
+2d_physics/layer_8="enemy hurtbox"
 
 [physics]
 

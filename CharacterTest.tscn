@@ -181,9 +181,6 @@ scale = Vector2( 1.28, 1024.12 )
 texture = SubResource( 2 )
 centered = false
 
-[node name="DarkBeast" parent="." instance=ExtResource( 7 )]
-position = Vector2( 148, 509 )
-
 [node name="Kevin" parent="." instance=ExtResource( 1 )]
 position = Vector2( 38, 496 )
 
@@ -208,6 +205,9 @@ margin_right = -194.0
 margin_bottom = -130.0
 command_script = ExtResource( 4 )
 remote_nodes = [ NodePath("../../Kevin") ]
+
+[node name="DarkBeast" parent="." instance=ExtResource( 7 )]
+position = Vector2( 144, 509 )
 
 [connection signal="sprint_meter_update_parameters" from="Kevin" to="." method="_on_Kevin_sprint_meter_update_parameters" flags=3]
 [connection signal="sprint_meter_updated" from="Kevin" to="." method="_on_Kevin_sprint_meter_updated" flags=3]
