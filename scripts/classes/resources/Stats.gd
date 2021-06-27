@@ -13,6 +13,6 @@ func init_stats():
 	health = max_health
 	mana = max_mana
 
-# warning-ignore:unused_argument
-func calculate_damage(other_stats: Stats):
-	pass
+func calculate_damage(other_stats: Stats) -> int:
+	var result = max(0, other_stats.attack - defense)
+	return int(result)

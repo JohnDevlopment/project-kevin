@@ -1,6 +1,6 @@
 tool
 extends Actor
-class_name Enemy
+class_name Enemy, "res://assets/textures/icons/Enemy.svg"
 
 var stats
 var armor_time: float = 1.0
@@ -55,7 +55,15 @@ func _enter_tree():
 
 func _ready():
 	if Engine.editor_hint: return
+	stats.init_stats()
 
 # warning-ignore:shadowed_variable
-func do_damage(stats: Stats):
-	print("damage by %d points" % stats.attack)
+func do_damage(other_stats: Stats) -> void:
+	assert(stats is Stats, "\"stats\" is not an instance of Stats")
+	var dmg = stats.calculate_damage(other_stats)
+	stats.health = max(0, stats.health - dmg)
+	if has_method("_do_damage"):
+		call("_do_damage", other_stats)
+
+func get_health() -> int:
+	return stats.health

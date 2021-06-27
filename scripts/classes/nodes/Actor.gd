@@ -4,7 +4,7 @@ controlled physics bodies. An actor has a velocity vector to control its
 movement speed, and a gravity value to control which direction it heads.
 """
 tool
-class_name Actor, "res://assets/textures/icons/actor.svg"
+class_name Actor, "res://assets/textures/icons/Actor.svg"
 extends KinematicBody2D
 
 const GRAVITY_STEP: float = 13.4

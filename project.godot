@@ -85,7 +85,7 @@ _global_script_classes=[ {
 "path": "res://scripts/classes/resources/StringCommand.gd"
 } ]
 _global_script_class_icons={
-"Actor": "res://assets/textures/icons/actor.svg",
+"Actor": "res://assets/textures/icons/Actor.svg",
 "AudioList": "",
 "AudioPack": "",
 "Dialogic": "",
@@ -93,7 +93,7 @@ _global_script_class_icons={
 "DialogicDefinitionsUtil": "",
 "DialogicResources": "",
 "DialogicUtil": "",
-"Enemy": "",
+"Enemy": "res://assets/textures/icons/Enemy.svg",
 "ErrorInfo": "",
 "GameObject": "",
 "Particles2D_Plus": "res://GPUParticles2D_Icon.svg",
