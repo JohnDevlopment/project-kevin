@@ -24,31 +24,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/classes/resources/AudioPack.gd"
 }, {
-"base": "Node",
-"class": "Dialogic",
-"language": "GDScript",
-"path": "res://addons/dialogic/Other/DialogicClass.gd"
-}, {
-"base": "Control",
-"class": "DialogicBackgroundMusic",
-"language": "GDScript",
-"path": "res://addons/dialogic/Nodes/BackgroundMusic.gd"
-}, {
-"base": "Node",
-"class": "DialogicDefinitionsUtil",
-"language": "GDScript",
-"path": "res://addons/dialogic/Other/DialogicDefinitionsUtil.gd"
-}, {
-"base": "Reference",
-"class": "DialogicResources",
-"language": "GDScript",
-"path": "res://addons/dialogic/Other/DialogicResources.gd"
-}, {
-"base": "Reference",
-"class": "DialogicUtil",
-"language": "GDScript",
-"path": "res://addons/dialogic/Other/DialogicUtil.gd"
-}, {
 "base": "Actor",
 "class": "Enemy",
 "language": "GDScript",
@@ -64,10 +39,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/classes/nodes/GameObject.gd"
 }, {
-"base": "Particles2D",
-"class": "Particles2D_Plus",
+"base": "Container",
+"class": "HFlowContainer",
 "language": "GDScript",
-"path": "res://scripts/classes/nodes/Particles2D+.gd"
+"path": "res://scripts/classes/nodes/HFlowContainer.gd"
 }, {
 "base": "Node",
 "class": "State",
@@ -88,15 +63,10 @@ _global_script_class_icons={
 "Actor": "res://assets/textures/icons/Actor.svg",
 "AudioList": "",
 "AudioPack": "",
-"Dialogic": "",
-"DialogicBackgroundMusic": "",
-"DialogicDefinitionsUtil": "",
-"DialogicResources": "",
-"DialogicUtil": "",
 "Enemy": "res://assets/textures/icons/Enemy.svg",
 "ErrorInfo": "",
 "GameObject": "",
-"Particles2D_Plus": "res://GPUParticles2D_Icon.svg",
+"HFlowContainer": "res://assets/textures/icons/HFlowContainer.svg",
 "State": "",
 "Stats": "",
 "StringCommand": ""
@@ -116,7 +86,7 @@ mix_rate=22050
 
 Game="*res://scripts/classes/singletons/Game.gd"
 History="*res://scripts/classes/singletons/History.gd"
-DialogicSingleton="*res://addons/dialogic/Other/DialogicSingleton.gd"
+Application="*res://scripts/classes/singletons/Application.gd"
 
 [debug]
 
@@ -132,7 +102,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
 
 [importer_defaults]
 
@@ -147,7 +117,8 @@ texture={
 
 ui_accept={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"unicode":0,"echo":false,"script":null)
+ ]
 }
 ui_select={
 "deadzone": 0.5,

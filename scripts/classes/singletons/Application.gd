@@ -33,3 +33,16 @@ static func print_fields(fields: Array) -> void:
 func _exit(error_info: ErrorInfo) -> void:
 	if error_info.code: error_info.print()
 	get_tree().quit(error_info.code)
+
+func call_timed_func(delay: float, obj: Object, method: String, args: = []) -> void:
+	if delay <= 0.0:
+		push_error("delay parameter needs to be positive")
+		return
+	if not obj:
+		push_error("object parameter is NULL")
+		return
+	if method == "" or not obj.has_method(method):
+		push_error("invalid method \"%s\"" % method)
+		return
+	yield(get_tree().create_timer(delay), "timeout")
+	obj.callv(method, args)
