@@ -36,6 +36,8 @@ func _process(_delta):
 				value = s[1].call(s[2])
 			else:
 				value = s[1].get(s[2])
+		else:
+			remove_stat(s[0])
 		label_text += str(s[0], " : ", value, "\n")
 	
 	$Label.text = label_text

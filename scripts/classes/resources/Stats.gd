@@ -9,10 +9,11 @@ export(int, 0, 100) var defense: int = 0
 var health: int = 0
 var mana: int = 0
 
-func init_stats():
-	health = max_health
-	mana = max_mana
-
 func calculate_damage(other_stats: Stats) -> int:
 	var result = max(0, other_stats.attack - defense)
 	return int(result)
+
+func init_stats(owner: Object):
+	health = max_health
+	mana = max_mana
+	set_meta("owner", owner)

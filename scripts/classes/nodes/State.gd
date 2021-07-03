@@ -8,10 +8,8 @@ var user_data
 # warning-ignore-all:shadowed_variable
 
 # Called when exiting a state; used for cleanup, as the name suggests.
-# Override _cleanup for custom code:
-#   void _cleanup()
-func cleanup() -> void:
-	if has_method("_cleanup"): call("_cleanup")
+# Override cleanup() to implement a state destructor
+func cleanup() -> void: pass
 
 # The main physics process for the state. Override this function
 # to implement it.
