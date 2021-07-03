@@ -65,6 +65,9 @@ func _ready():
 	
 	emit_signal("sprint_meter_update_parameters", 0, 100)
 	emit_signal("sprint_meter_updated", 100)
+	
+	assert(stats, "'stats' object is empty")
+	(stats as Stats).init_stats(self)
 
 func _process(delta: float):
 	if Engine.editor_hint: return
@@ -252,9 +255,9 @@ func DummyState(_delta: float) -> void:
 func _on_Hitbox_body_entered(body: Node):
 	if body is TileMap:
 		if (body as TileMap).get_collision_layer_bit(Game.CollisionLayer.WALLS):
-			velocity.x = -100.0
+			velocity.x = -100.0 * direction.x
 			emit_signal("attack_anim_hit_wall")
 
 func _on_hit_enemy_hurtbox(area: Area2D):
 	var parent: Enemy = area.get_parent()
-	parent.call_deferred("do_damage", stats)
+	parent.call_deferred("decide_damage", stats)
