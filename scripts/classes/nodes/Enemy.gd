@@ -48,8 +48,10 @@ func _ready():
 	if Engine.editor_hint: return
 	assert(stats, "Enemy needs a 'stats' property")
 	stats.init_stats(self)
-	var temp = stats.get_meta("owner")
-	print(temp)
+	
+	for node in get_children():
+		if node is Area2D:
+			node.set_meta("owner", self)
 
 func _set(property, value):
 	match property:
@@ -70,6 +72,11 @@ func decide_damage(other_stats: Stats) -> void:
 
 func get_health() -> int:
 	return stats.health
+
+func get_meta_or_default(name: String, default = null):
+	if has_meta(name):
+		return get_meta(name)
+	return default
 
 func should_damage() -> bool:
 	var result: bool = invincibility_timer.is_stopped()

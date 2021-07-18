@@ -11,6 +11,11 @@ var user_data
 # Override cleanup() to implement a state destructor
 func cleanup() -> void: pass
 
+func get_meta_or_default(_name: String, default = null):
+	if has_meta(name):
+		return get_meta(name)
+	return default
+
 # The main physics process for the state. Override this function
 # to implement it.
 func physics_main(_delta: float): pass

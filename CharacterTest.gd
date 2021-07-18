@@ -16,13 +16,9 @@ func _ready():
 	add_child(overlay)
 	move_child(overlay, $CanvasLayer.get_index())
 	
-	var kevin = $Kevin
-	overlay.add_stat("Input disabled", kevin, "disable_input", false)
-	overlay.add_stat("Direction", kevin, "direction", false)
-#	overlay.add_stat("Beast 1 HP", $DarkBeast, "get_health", true)
-#	overlay.add_stat("Beast 2 HP", $DarkBeast2, "get_health", true)
-#	overlay.add_stat("Beast 1 speed", $DarkBeast, "velocity", false)
-#	overlay.add_stat("Beast 2 speed", $DarkBeast2, "velocity", false)
+#	var kevin = $Kevin
+#	overlay.add_stat("Input disabled", kevin, "disable_input", false)
+#	overlay.add_stat("Direction", kevin, "direction", false)
 	
 	debug_console.command_handler.initial_position = $Kevin.global_position
 

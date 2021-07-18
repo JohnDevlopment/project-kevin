@@ -47,6 +47,9 @@ func _enter_tree():
 		set_meta("collision_layer", collision_layer)
 		set_meta("collision_mask", collision_mask)
 
+func _to_string():
+	return "[Actor:%d]" % get_instance_id()
+
 func _set(property, value):
 	match property:
 		"speed_cap":

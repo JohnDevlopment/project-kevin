@@ -258,6 +258,20 @@ func _on_Hitbox_body_entered(body: Node):
 			velocity.x = -100.0 * direction.x
 			emit_signal("attack_anim_hit_wall")
 
-func _on_hit_enemy_hurtbox(area: Area2D):
+func _on_hit_enemy_hurtbox(_area_id: int, area: Area2D, area_shape: int, local_shape: int):
 	var parent: Enemy = area.get_parent()
+	(stats as Stats).set_meta("attack_center", $CenterOffset.position)
 	parent.call_deferred("decide_damage", stats)
+	
+	# Get our collision rectangle
+	var my_shape = Game.get_shape_from_id($Hitbox, local_shape)
+	var my_rect: Rect2 = Game.get_rect_from_shape(my_shape)
+	my_rect.position += $Hitbox/CollisionShape2D.global_position
+	
+	# Get the collision rectangle of the enemy
+	var their_shape = Game.get_shape_from_id(area, area_shape)
+	var their_rect: Rect2 = Game.get_rect_from_shape(their_shape)
+	their_rect.position += (area.get_child(0) as Node2D).global_position
+	
+	var clip_rectangle: = my_rect.clip(their_rect)
+	Game.insert_vfx("damage_strike", get_parent(), clip_rectangle.position)

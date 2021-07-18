@@ -11,6 +11,7 @@ max_health = 5
 max_mana = 10
 attack = 1
 defense = 0
+owner_name = "Kevin"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 5.0
@@ -32,48 +33,36 @@ tracks/0/keys = {
 "values": [ 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hitbox/CollisionShape2D:position")
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 21, 29 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Hitbox/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0.005, 0.25, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath(".:disable_input")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:disable_input")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.395 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 0.645 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -98,48 +87,36 @@ tracks/0/keys = {
 "values": [ 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Hitbox/CollisionShape2D:position")
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ Vector2( 44, 29.0514 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Hitbox/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0, 0.255, 0.385 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath(".:disable_input")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:disable_input")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 0.65 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -147,13 +124,13 @@ tracks/4/keys = {
 "method": "change_state"
 } ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Collision:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("Collision:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
@@ -186,6 +163,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [ Vector2( 31, 27 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hitbox/CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 21, 29 ) ]
+}
 
 [sub_resource type="Animation" id=6]
 length = 0.1
@@ -211,7 +200,19 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector2( 31, 27 ) ]
+"values": [ Vector2( 33, 27 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hitbox/CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 44, 29.0514 ) ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -229,6 +230,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 10, 11, 12, 13, 14, 15, 16, 17 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 21, 29 ) ]
+}
 
 [sub_resource type="Animation" id=8]
 length = 0.8
@@ -244,6 +257,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 2, 3, 4, 5, 6, 7, 8, 9 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hitbox/CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 44, 29.0514 ) ]
 }
 
 [sub_resource type="AnimationNodeAnimation" id=9]
@@ -348,11 +373,8 @@ scale = Vector2( 1, 0.998232 )
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_horizontal_guides_": [ 48.0 ]
-}
 stats = SubResource( 1 )
-speed_cap = Vector2( 75, 250 )
+speed_cap = Vector2( 82, 275 )
 disabled = false
 
 [node name="Frames" type="Sprite" parent="."]
@@ -364,7 +386,7 @@ vframes = 9
 [node name="Collision" type="CollisionShape2D" parent="."]
 self_modulate = Color( 0.0117647, 0.635294, 0.0509804, 1 )
 light_mask = 0
-position = Vector2( 31, 27 )
+position = Vector2( 33, 27 )
 shape = SubResource( 2 )
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
@@ -405,13 +427,16 @@ collision_layer = 16
 collision_mask = 131
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
-position = Vector2( 21, 29 )
+position = Vector2( 44, 29.0514 )
 scale = Vector2( 1, 1.04465 )
 shape = SubResource( 30 )
 disabled = true
 
+[node name="CenterOffset" type="Position2D" parent="."]
+position = Vector2( 31, 27.0478 )
+
 [connection signal="timeout" from="RecoveryTimer" to="." method="_on_RecoveryTimer_timeout"]
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hit_enemy_hurtbox"]
+[connection signal="area_shape_entered" from="Hitbox" to="." method="_on_hit_enemy_hurtbox"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]
 
 [editable path="Hitbox"]

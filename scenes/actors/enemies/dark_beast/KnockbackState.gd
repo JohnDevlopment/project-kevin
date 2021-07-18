@@ -1,31 +1,31 @@
 extends State
 
-var delay: int = 1
+var on_floor: = false
 
 func _setup():
-	var root: Enemy = persistant_state as Enemy
-	root.position.y -= 2
+	var root: Enemy = persistant_state
 	
-	var dir: Vector2
-	if root.has_meta("knockback_direction"):
-		var temp = root.get_meta("knockback_direction")
-		dir = temp
-	else:
-		var temp = root.direction
-		dir = temp
+	# Updates the on_* flags
+	root.move_and_slide(Vector2(0, -1), Vector2.UP)
+	
+	var dir: Vector2 = root.get_meta_or_default("knockback_direction", root.direction)
 	dir.x = round(dir.x)
-	
-	root.velocity = Vector2(-dir.x * root.speed_cap.x, -root.speed_cap.y)
+	root.velocity = Vector2(-dir.x * 100, -root.speed_cap.y)
+	on_floor = false
 
 #func cleanup():
 #	persistant_state.velocity.x = 0
 
 func process_main(_delta):
-	(user_data[2] as Sprite).frame = 5
-
-func physics_main(_delta):
-	if not delay:
-		if (persistant_state as Actor).is_on_floor():
-			return {state = persistant_state.MyState.IDLE}
+	if on_floor:
+		(user_data[2] as Sprite).frame = 6
 	else:
-		delay -= 1
+		(user_data[2] as Sprite).frame = 5
+
+func physics_main(delta):
+	var root: Enemy = persistant_state
+	if on_floor:
+		root.velocity.x = move_toward(root.velocity.x, 0, delta * root.FRICTION)
+		if root.velocity.x == 0.0:
+			return {state = persistant_state.MyState.IDLE}
+	on_floor = root.is_on_floor()
