@@ -24,8 +24,8 @@ func kevin_speed(x, y) -> String:
 			result = str("set X speed cap to ", x, "\n")
 		TYPE_STRING:
 			if x == "-":
-				result = "Set X component to the default, which is %s\n" % Game.globals.default_kevin_speed.x
-				kevin.speed_cap.x = Game.globals.default_kevin_speed.x
+				result = "Set X component to the default, which is %s\n" % Game.default_kevin_speed.x
+				kevin.speed_cap.x = Game.default_kevin_speed.x
 			else:
 				result = "Leave X component to its initial value of %s\n" % kevin.speed_cap.x
 		_:
@@ -40,8 +40,8 @@ func kevin_speed(x, y) -> String:
 			result += str("set Y speed cap to ", y)
 		TYPE_STRING:
 			if y == "-":
-				result += "Set Y component to the default, which is %s" % Game.globals.default_kevin_speed.y
-				kevin.speed_cap.y = Game.globals.default_kevin_speed.y
+				result += "Set Y component to the default, which is %s" % Game.default_kevin_speed.y
+				kevin.speed_cap.y = Game.default_kevin_speed.y
 			else:
 				result += "Leave Y component to its initial value of %s" % kevin.speed_cap.y
 		_:

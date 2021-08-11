@@ -35,8 +35,9 @@ func change_state(next_state: int) -> void:
 	do_physics = funcref(temp, "physics_main")
 	do_process = funcref(temp, "process_main")
 
-func set_user_data(udata):
-	user_data = udata
+func current_state() -> int: return _current_state
+
+func set_user_data(udata) -> void: user_data = udata
 
 func state_call(method: String, args: Array = []):
 	var result

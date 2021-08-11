@@ -194,7 +194,7 @@ region_rect = Rect2( 0, 0, 300, 300 )
 position = Vector2( 88, 384 )
 
 [node name="DarkBeast" parent="." instance=ExtResource( 7 )]
-position = Vector2( 271, 396 )
+position = Vector2( 342, 396 )
 stats = SubResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]

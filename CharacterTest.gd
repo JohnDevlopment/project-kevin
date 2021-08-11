@@ -16,9 +16,10 @@ func _ready():
 	add_child(overlay)
 	move_child(overlay, $CanvasLayer.get_index())
 	
-#	var kevin = $Kevin
-#	overlay.add_stat("Input disabled", kevin, "disable_input", false)
-#	overlay.add_stat("Direction", kevin, "direction", false)
+	overlay.add_stat("Input disabled", $Kevin, "disable_input", false)
+	overlay.add_stat("Direction", $Kevin, "direction", false)
+	
+	overlay.add_stat("Dark Beast Direction", $DarkBeast, "direction", false)
 	
 	debug_console.command_handler.initial_position = $Kevin.global_position
 
@@ -28,3 +29,7 @@ func _on_Kevin_sprint_meter_update_parameters(min_value: float, max_value: float
 
 func _on_Kevin_sprint_meter_updated(value: float):
 	sprint_meter.value = value
+
+func _on_Button_pressed():
+	var dir = $DarkBeast.direction.x
+	$DarkBeast.set_indexed("direction:x", -dir)

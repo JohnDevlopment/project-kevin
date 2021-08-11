@@ -68,6 +68,8 @@ func _ready():
 	
 	assert(stats, "'stats' object is empty")
 	(stats as Stats).init_stats(self)
+	
+	Game.connect("changed_game_param", self, "_on_game_param_changed")
 
 func _process(delta: float):
 	if Engine.editor_hint: return
@@ -170,6 +172,11 @@ func get_air_frame() -> int:
 	
 	return AIR_FRAMES[idx + _air_frame_offset]
 
+# Connected in _ready()
+func _on_game_param_changed(_param: String, value):
+	# param is "dialog_mode"
+	disable_input = (value as bool)
+
 # States (Physics)
 
 func NormalState(delta: float) -> void:
@@ -258,7 +265,7 @@ func _on_Hitbox_body_entered(body: Node):
 			velocity.x = -100.0 * direction.x
 			emit_signal("attack_anim_hit_wall")
 
-func _on_hit_enemy_hurtbox(_area_id: int, area: Area2D, area_shape: int, local_shape: int):
+func _on_hit_enemy_hurtbox(_area_rid: RID, area: Area2D, area_shape: int, local_shape: int):
 	var parent: Enemy = area.get_parent()
 	(stats as Stats).set_meta("attack_center", $CenterOffset.position)
 	parent.call_deferred("decide_damage", stats)
