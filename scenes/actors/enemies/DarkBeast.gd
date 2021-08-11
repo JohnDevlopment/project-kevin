@@ -4,6 +4,8 @@ extends Enemy
 enum MyState {
 	IDLE,
 	KNOCKBACK,
+	ATTACK,
+	PROWL,
 	COUNT
 }
 
@@ -14,6 +16,13 @@ onready var animation_player = $AnimationPlayer
 onready var state_machine = $StateMachine
 onready var timer1 = $Timer1
 onready var frames = $Frames
+
+func _input(event: InputEvent):
+	if event is InputEventKey:
+		if Game.is_key_pressed(event, KEY_A):
+			print("attack!")
+			if state_machine.current_state() == MyState.IDLE:
+				state_machine.change_state(MyState.ATTACK)
 
 func _physics_process(delta: float):
 	if Engine.editor_hint: return
@@ -59,3 +68,8 @@ func _on_damaged(other_stats: Stats) -> void:
 # NOTE: animation "IdleLeft" starts timer for 3 seconds
 func _on_Timer1_timeout():
 	state_machine.state_call("timer1_timeout")
+
+func _choose_animation(anim: String) -> String:
+	if direction.x:
+		anim += "Left" if direction.x < 0.0 else "Right"
+	return anim

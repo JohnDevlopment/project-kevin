@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/actors/enemies/DarkBeast.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/actors/enemies/dark_beast.png" type="Texture" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://scripts/classes/nodes/StateMachine.gd" type="Script" id=5]
 [ext_resource path="res://scenes/actors/enemies/dark_beast/IdleState.gd" type="Script" id=6]
 [ext_resource path="res://scenes/actors/enemies/dark_beast/KnockbackState.gd" type="Script" id=7]
+[ext_resource path="res://scenes/actors/enemies/AttackState.gd" type="Script" id=8]
+[ext_resource path="res://scenes/actors/enemies/ProwlState.gd" type="Script" id=9]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 17.0
@@ -25,7 +27,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.166, 0.332, 0.498, 0.664, 0.83, 0.996, 1.162 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 3, 2, 1 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Frames:flip_h")
@@ -54,7 +56,126 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="Animation" id=3]
+resource_name = "IdleRight"
+length = 1.328
+step = 0.166
+tracks/0/type = "value"
+tracks/0/path = NodePath("Frames:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("Timer1")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.328 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 3.0 ],
+"method": "start"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Frames:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.166, 0.332, 0.498, 0.664, 0.83, 0.996, 1.162 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "RESET"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Frames:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Frames:flip_v")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Frames:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Collision:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 0.812252 ),
+"update": 0,
+"values": [ Vector2( 30, 19 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Collision:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Hurtbox/CollisionShape2D:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 30, 19 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 17, 16 )
 
 [node name="DarkBeast" type="KinematicBody2D" groups=[
@@ -73,24 +194,27 @@ disabled = false
 [node name="Frames" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 centered = false
-hframes = 7
+hframes = 8
+vframes = 2
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 self_modulate = Color( 0.0666667, 0.945098, 0.0156863, 1 )
-position = Vector2( 22, 19 )
+position = Vector2( 30, 19 )
 rotation = 1.57079
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/IdleLeft = SubResource( 2 )
+anims/IdleRight = SubResource( 3 )
+anims/RESET = SubResource( 6 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 3 )]
 collision_layer = 128
 collision_mask = 16
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2( 21, 19 )
-shape = SubResource( 3 )
+position = Vector2( 30, 19 )
+shape = SubResource( 5 )
 
 [node name="Timer1" type="Timer" parent="."]
 one_shot = true
@@ -105,6 +229,12 @@ script = ExtResource( 6 )
 
 [node name="KnockbackState" type="Node" parent="StateMachine"]
 script = ExtResource( 7 )
+
+[node name="AttackState" type="Node" parent="StateMachine"]
+script = ExtResource( 8 )
+
+[node name="ProwlState" type="Node" parent="StateMachine"]
+script = ExtResource( 9 )
 
 [connection signal="timeout" from="Timer1" to="." method="_on_Timer1_timeout"]
 

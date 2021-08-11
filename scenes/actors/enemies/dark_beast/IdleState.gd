@@ -1,7 +1,8 @@
 extends State
 
 func _setup():
-	(user_data[2] as Sprite).frame = 0
+	var x_dir: float = persistant_state.direction.x
+	(user_data[2] as Sprite).frame = 0 if x_dir > 0.0 else 6
 	timer1_timeout()
 
 func cleanup():
@@ -15,4 +16,5 @@ func physics_main(delta: float):
 		persistant_state.velocity.x = vel.x
 
 func timer1_timeout() -> void:
-	(user_data[1] as AnimationPlayer).play("IdleLeft")
+	var anim = persistant_state._choose_animation("Idle")
+	(user_data[1] as AnimationPlayer).play(anim)
