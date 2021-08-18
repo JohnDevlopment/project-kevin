@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/gui/Vector2Input.gd" type="Script" id=1]
+[ext_resource path="res://assets/gui/themes/DarkStyleFlat.tres" type="Theme" id=2]
+[ext_resource path="res://assets/gui/themes/DarkStyleFlat_Label.stylebox" type="StyleBox" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends LineEdit
+
+signal need_current_value(path, component)
+signal update_value(new_value)
+
+# X/LineEdit
+
+func _notification(what):
+	match what:
+		NOTIFICATION_FOCUS_EXIT:
+			if text.empty():
+				emit_signal(\"need_current_value\", @\"X/LineEdit\", \"x\")
+			else:
+				emit_signal(\"update_value\", text)
+		NOTIFICATION_FOCUS_EXIT:
+			emit_signal(\"update_value\", text)
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends LineEdit
+
+signal need_current_value(path, component)
+signal update_value(new_value)
+
+# Y/LineEdit
+
+func _notification(what):
+	match what:
+		NOTIFICATION_FOCUS_EXIT:
+			if text.empty():
+				emit_signal(\"need_current_value\", @\"Y/LineEdit\", \"y\")
+			else:
+				emit_signal(\"update_value\", text)
+		NOTIFICATION_FOCUS_EXIT:
+			emit_signal(\"update_value\", text)
+"
+
+[node name="Vector2Input" type="VBoxContainer"]
+margin_right = 177.0
+margin_bottom = 42.0
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="X" type="HBoxContainer" parent="."]
+margin_right = 177.0
+margin_bottom = 21.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="X"]
+margin_right = 12.0
+margin_bottom = 21.0
+size_flags_horizontal = 0
+custom_colors/font_color = Color( 0.831373, 0.32549, 0.32549, 1 )
+custom_styles/normal = ExtResource( 3 )
+text = "x"
+align = 1
+
+[node name="LineEdit" type="LineEdit" parent="X"]
+margin_left = 12.0
+margin_right = 177.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "0"
+script = SubResource( 1 )
+
+[node name="Y" type="HBoxContainer" parent="."]
+margin_top = 25.0
+margin_right = 177.0
+margin_bottom = 46.0
+custom_constants/separation = 0
+
+[node name="Label" type="Label" parent="Y"]
+margin_right = 12.0
+margin_bottom = 21.0
+size_flags_horizontal = 0
+custom_colors/font_color = Color( 0.3726, 0.69, 0.46782, 1 )
+custom_styles/normal = ExtResource( 3 )
+text = "y"
+align = 1
+
+[node name="LineEdit" type="LineEdit" parent="Y"]
+margin_left = 12.0
+margin_right = 177.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "0"
+script = SubResource( 2 )
+
+[connection signal="need_current_value" from="X/LineEdit" to="." method="_on_LineEdit_need_current_value"]
+[connection signal="text_entered" from="X/LineEdit" to="." method="_update_value" binds= [ "X", "x" ]]
+[connection signal="update_value" from="X/LineEdit" to="." method="_update_value" binds= [ "X", "x" ]]
+[connection signal="text_entered" from="Y/LineEdit" to="." method="_update_value" binds= [ "Y", "y" ]]
+[connection signal="update_value" from="Y/LineEdit" to="." method="_update_value" binds= [ "Y", "y" ]]

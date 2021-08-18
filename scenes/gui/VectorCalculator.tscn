@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/gui/themes/DarkStyleFlat.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/gui/vector_calculator_files/DotProduct.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/gui/VectorCalculator.gd" type="Script" id=3]
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Tabs" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Vector Functions" type="MarginContainer" parent="Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 25.0
+margin_right = -5.0
+margin_bottom = -2.0
+size_flags_horizontal = 5
+custom_constants/margin_right = 319
+custom_constants/margin_top = 60
+custom_constants/margin_left = 109
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="List" type="VBoxContainer" parent="Tabs/Vector Functions"]
+margin_left = 109.0
+margin_top = 60.0
+margin_right = 690.0
+margin_bottom = 549.0
+
+[node name="DotProduct" parent="Tabs/Vector Functions/List" instance=ExtResource( 2 )]
+margin_right = 581.0
+margin_bottom = 94.0
+
+[node name="ResultWindow" type="AcceptDialog" parent="."]
+margin_left = 353.0
+margin_top = 269.0
+margin_right = 698.0
+margin_bottom = 421.0
+window_title = "Calculation Result"
+dialog_text = "afsasfsadfasdfsdafsdfsdfsdfsdfsdf"
+__meta__ = {
+"_edit_use_anchors_": false
+}
