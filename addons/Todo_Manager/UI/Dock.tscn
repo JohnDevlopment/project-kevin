@@ -65,12 +65,11 @@ __meta__ = {
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
 margin_right = 1024.0
-margin_bottom = 600.0
+margin_bottom = 576.0
 size_flags_vertical = 3
 tab_align = 0
 
 [node name="Project" type="Panel" parent="VBoxContainer/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -115,6 +114,7 @@ __meta__ = {
 }
 
 [node name="Settings" type="Panel" parent="VBoxContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -134,7 +134,7 @@ __meta__ = {
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Settings/ScrollContainer"]
 margin_right = 1016.0
-margin_bottom = 564.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 5
@@ -146,7 +146,7 @@ custom_constants/margin_bottom = 5
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 1011.0
-margin_bottom = 559.0
+margin_bottom = 595.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 14
@@ -430,6 +430,7 @@ margin_left = -97.0
 margin_right = -6.0
 margin_bottom = 20.0
 text = "Rescan Files"
+
 [connection signal="toggled" from="VBoxContainer/Header/HeaderRight/SettingsButton" to="." method="_on_SettingsButton_toggled"]
 [connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="_on_TabContainer_tab_changed"]
 [connection signal="item_activated" from="VBoxContainer/TabContainer/Project/Tree" to="." method="_on_Tree_item_activated"]

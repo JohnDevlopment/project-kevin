@@ -1,7 +1,9 @@
 extends Node
 class_name State
 
-var change_state: FuncRef
+signal state_change_request(new_state)
+
+#var change_state: FuncRef
 var persistant_state: Object
 var user_data
 
@@ -11,6 +13,7 @@ var user_data
 # Override cleanup() to implement a state destructor
 func cleanup() -> void: pass
 
+# Returns a meta value if defined or DEFAULT otherwise.
 func get_meta_or_default(_name: String, default = null):
 	if has_meta(name):
 		return get_meta(name)

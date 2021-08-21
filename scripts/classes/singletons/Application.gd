@@ -1,3 +1,4 @@
+tool
 extends Node
 
 static func is_equal_approx_comp(a, b) -> bool:

@@ -15,13 +15,15 @@ func _ready():
 		if not (state is State):
 			push_error("node \"%s\" is not a valid State instance" % state.name)
 			continue
+		# TODO: Let's make sure this works!
+		(state as State).connect("state_change_request", self, "_change_state")
 		_states.append(state)
 
-func change_state(next_state: int) -> void:
+func change_state(next_state: int) -> int:
 	var old_state = _current_state
 	if next_state < 0 or next_state >= _states.size():
 		push_error(str("invalid index ", next_state))
-		return
+		return ERR_PARAMETER_RANGE_ERROR
 	
 	# Call the cleanup function of the old state
 	if old_state >= 0:
@@ -34,6 +36,8 @@ func change_state(next_state: int) -> void:
 	
 	do_physics = funcref(temp, "physics_main")
 	do_process = funcref(temp, "process_main")
+	
+	return OK
 
 func current_state() -> int: return _current_state
 
@@ -45,3 +49,6 @@ func state_call(method: String, args: Array = []):
 	if state.has_method(method):
 		result = state.callv(method, args)
 	return result
+
+func _change_state(new_state: int):
+	change_state(new_state)

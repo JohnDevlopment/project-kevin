@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://scripts/classes/resources/MessageData.gd" type="Script" id=1]
+
+[resource]
+resource_name = "Dialog Example 1"
+script = ExtResource( 1 )
+string_data = PoolStringArray( "Hello and welcome to the first demo of Project Kevin!", "In this example, you will see how this dialog box can dynamically change the speed of moving text.", "Here is an example:[wait=1] This text will [speed=10]start slowing down[speed] to a crawl.", "For another example, let\'s [speed=10]delay the text...[speed][wait]and there you go!", "And that\'s it for this example, for the sign anyway. Moving on to the next example..." )

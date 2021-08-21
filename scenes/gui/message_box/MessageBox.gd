@@ -33,7 +33,8 @@ func _unhandled_key_input(event: InputEventKey):
 	if event.is_action_pressed("ui_accept"):
 		if not _can_advance:
 			$DlgBox/DlgText._handle_finished()
-			_handle_message_finished()
+#			_handle_message_finished()
+			_can_advance = true
 			return
 		
 		_index += 1

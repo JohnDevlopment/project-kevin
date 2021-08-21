@@ -39,15 +39,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/classes/resources/ErrorInfo.gd"
 }, {
-"base": "Area2D",
-"class": "GameObject",
-"language": "GDScript",
-"path": "res://scripts/classes/nodes/GameObject.gd"
-}, {
 "base": "Container",
 "class": "HFlowContainer",
 "language": "GDScript",
 "path": "res://scripts/classes/nodes/HFlowContainer.gd"
+}, {
+"base": "Resource",
+"class": "MessageData",
+"language": "GDScript",
+"path": "res://scripts/classes/resources/MessageData.gd"
+}, {
+"base": "Actor",
+"class": "Messenger",
+"language": "GDScript",
+"path": "res://scripts/classes/nodes/Messenger.gd"
 }, {
 "base": "Node",
 "class": "State",
@@ -68,6 +73,11 @@ _global_script_classes=[ {
 "class": "StringCommand",
 "language": "GDScript",
 "path": "res://scripts/classes/resources/StringCommand.gd"
+}, {
+"base": "Reference",
+"class": "VarRef",
+"language": "GDScript",
+"path": "res://scripts/classes/resources/VarRef.gd"
 } ]
 _global_script_class_icons={
 "Actor": "res://assets/textures/icons/Actor.svg",
@@ -76,12 +86,14 @@ _global_script_class_icons={
 "DebugShape2D": "",
 "Enemy": "res://assets/textures/icons/Enemy.svg",
 "ErrorInfo": "",
-"GameObject": "",
 "HFlowContainer": "res://assets/textures/icons/HFlowContainer.svg",
+"MessageData": "",
+"Messenger": "",
 "State": "",
 "StateMachine": "",
 "Stats": "",
-"StringCommand": ""
+"StringCommand": "",
+"VarRef": ""
 }
 
 [application]
@@ -115,7 +127,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/dialog_helper/plugin.cfg" )
 
 [importer_defaults]
 
