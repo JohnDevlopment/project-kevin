@@ -1,35 +1,33 @@
-extends Sprite
+tool
+extends Messenger
 
-export(NodePath) var canvas_layer
-export(PoolStringArray) var text_data
+export var enable_physics := false setget set_enable_physics
 
 var _player_inside: = false
-var _msg_box
 
-func _player_entered(_body):
+func _on_player_entered(_body) -> void:
 	_player_inside = true
 
-func _player_exited(_body):
+func _on_player_exited(_body) -> void:
 	_player_inside = false
 
-func _unhandled_key_input(event: InputEventKey):
+func _physics_process(_delta) -> void:
+	if Engine.editor_hint: return
+	velocity = move_and_slide(velocity, Vector2.UP)
+
+func _ready() -> void:
+	if Engine.editor_hint:
+		set_physics_process(false)
+		return
+	set_physics_process(enable_physics)
+
+func _unhandled_key_input(event: InputEventKey) -> void:
 	if _player_inside:
 		if event.is_action_pressed("up"):
-			_msg_box.start_dialog()
 			get_tree().set_input_as_handled()
+			if render_message_box():
+				show_message_box()
 
-func _ready():
-	var cl = get_node(canvas_layer)
-	if not cl:
-		push_warning("No canvas layer provided, this node will do nothing")
-		set_process_unhandled_key_input(false)
-		return
-	if not (cl is CanvasLayer):
-		push_error(str(canvas_layer, " does not refer to a canvas layer"))
-		set_process_unhandled_key_input(false)
-		return
-	
-	_msg_box = load("res://scenes/gui/message_box/MessageBox.tscn")
-	_msg_box = _msg_box.instance()
-	_msg_box.text_data = text_data
-	(cl as Node).add_child(_msg_box)
+func set_enable_physics(value: bool):
+	enable_physics = value
+	set_physics_process(enable_physics)

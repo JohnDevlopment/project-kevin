@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scenes/actors/characters/kevin/Kevin.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/textures/tilesets/grassland/grassland.png" type="Texture" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://scenes/PlayerHUD.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/actors/enemies/DarkBeast.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/classes/resources/Stats.gd" type="Script" id=8]
+[ext_resource path="res://scenes/actors/Sign.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/dialogues/example1.tres" type="Resource" id=10]
 
 [sub_resource type="Gradient" id=1]
 
@@ -178,7 +180,6 @@ script = ExtResource( 5 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 __meta__ = {
-"_edit_group_": true,
 "_edit_lock_": true
 }
 
@@ -189,13 +190,21 @@ scale = Vector2( 1.28, 1024.12 )
 texture = SubResource( 2 )
 centered = false
 region_rect = Rect2( 0, 0, 300, 300 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sign" parent="." instance=ExtResource( 9 )]
+position = Vector2( 189, 416 )
+message_data = ExtResource( 10 )
+canvas_layer = NodePath("../CanvasLayer")
+
+[node name="DarkBeast" parent="." instance=ExtResource( 7 )]
+position = Vector2( 460, 396 )
+stats = SubResource( 3 )
 
 [node name="Kevin" parent="." instance=ExtResource( 1 )]
 position = Vector2( 88, 384 )
-
-[node name="DarkBeast" parent="." instance=ExtResource( 7 )]
-position = Vector2( 342, 396 )
-stats = SubResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 14 )
