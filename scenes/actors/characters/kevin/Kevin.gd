@@ -3,6 +3,7 @@ extends Actor
 
 signal sprint_meter_updated(value)
 signal sprint_meter_update_parameters(min_value, max_value)
+signal state_changed(old_state, new_state)
 
 # temp signal, will delete later
 signal attack_anim_hit_wall
@@ -164,6 +165,11 @@ func change_state(next_state: int) -> void:
 			moving = false
 			animation_state.travel("Attack")
 			animation_tree.set("parameters/Attack/blend_position", direction)
+		_:
+			push_error(str("invalid state ", next_state))
+			return
+	
+	emit_signal("state_changed", prev_state, next_state)
 
 func get_air_frame() -> int:
 	var idx = \
@@ -280,5 +286,5 @@ func _on_hit_enemy_hurtbox(_area_rid: RID, area: Area2D, area_shape: int, local_
 	var their_rect: Rect2 = Game.get_rect_from_shape(their_shape)
 	their_rect.position += (area.get_child(0) as Node2D).global_position
 	
-	var clip_rectangle: = my_rect.clip(their_rect)
-	Game.insert_vfx("damage_strike", get_parent(), clip_rectangle.position)
+#	var clip_rectangle := my_rect.clip(their_rect)
+	Game.insert_vfx("damage_strike", get_parent(), my_rect.clip(their_rect).position)
