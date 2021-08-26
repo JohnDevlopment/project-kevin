@@ -1,0 +1,74 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/gui/themes/DarkStyleFlat.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/gui/Vector2Input.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends HBoxContainer
+
+signal vector_calc_result(value)
+
+var _vector_a: VarRef
+var _vector_b: VarRef
+var _calc: Node
+
+func _ready() -> void:
+	_vector_a = VarRef.new()
+	_vector_b = VarRef.new()
+
+func _connect(node: Node, method: String) -> void:
+	var udata := [_vector_a, _vector_b]
+	connect(\"vector_calc_result\", node, method, [\"distance_to\", udata], CONNECT_DEFERRED)
+
+func _return_value() -> void:
+	var a = $VectorA.get_value()
+	_vector_a.set_object(a)
+	
+	var b = $VectorB.get_value()
+	_vector_b.set_object(b)
+	
+	emit_signal(\"vector_calc_result\", a.distance_to(b))
+"
+
+[node name="DistanceTo" type="HBoxContainer" groups=[
+"get_result",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VecALabel" type="Label" parent="."]
+margin_right = 56.0
+margin_bottom = 19.0
+size_flags_vertical = 0
+text = "VectorA"
+
+[node name="VectorA" parent="." instance=ExtResource( 2 )]
+margin_left = 60.0
+margin_right = 122.0
+margin_bottom = 576.0
+
+[node name="VecBLabel" type="Label" parent="."]
+margin_left = 126.0
+margin_right = 182.0
+margin_bottom = 19.0
+size_flags_vertical = 0
+text = "VectorB"
+
+[node name="VectorB" parent="." instance=ExtResource( 2 )]
+margin_left = 186.0
+margin_right = 248.0
+margin_bottom = 576.0
+
+[node name="Button" type="Button" parent="."]
+margin_left = 252.0
+margin_right = 322.0
+margin_bottom = 21.0
+size_flags_vertical = 0
+text = "Calculate"
+
+[connection signal="pressed" from="Button" to="." method="_return_value"]

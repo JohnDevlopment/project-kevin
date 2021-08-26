@@ -22,8 +22,9 @@ func _return_value():
 	
 	emit_signal(\"vector_calc_result\", a.dot(b))
 
-func _connect(node: Node, method: String):
-	connect(\"vector_calc_result\", node, method, [\"dot\", vector_a, vector_b], CONNECT_DEFERRED)
+func _connect(node: Node, method: String) -> void:
+	var temp = [vector_a, vector_b]
+	connect(\"vector_calc_result\", node, method, [\"dot\", temp], CONNECT_DEFERRED)
 
 func _ready():
 	vector_a = VarRef.new(Vector2())

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/gui/themes/DarkStyleFlat.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/gui/vector_calculator_files/DotProduct.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/gui/VectorCalculator.gd" type="Script" id=3]
+[ext_resource path="res://scenes/gui/vector_calculator_files/DistanceTo.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -42,10 +43,18 @@ margin_left = 109.0
 margin_top = 60.0
 margin_right = 690.0
 margin_bottom = 549.0
+custom_constants/separation = 30
 
 [node name="DotProduct" parent="Tabs/Vector Functions/List" instance=ExtResource( 2 )]
 margin_right = 581.0
 margin_bottom = 94.0
+
+[node name="DistanceTo" parent="Tabs/Vector Functions/List" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 124.0
+margin_right = 581.0
+margin_bottom = 170.0
 
 [node name="ResultWindow" type="AcceptDialog" parent="."]
 margin_left = 353.0

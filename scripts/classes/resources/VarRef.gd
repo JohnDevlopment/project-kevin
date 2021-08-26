@@ -12,6 +12,6 @@ func set_object(o):
 	object = o
 	type = typeof(o)
 
-func _init(o): set_object(o)
+func _init(o = null): set_object(o)
 
 func _to_string() -> String: return str(object)
