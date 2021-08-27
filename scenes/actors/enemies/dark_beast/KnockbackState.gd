@@ -17,20 +17,20 @@ func _setup():
 	root.velocity = Vector2(-dir * 100, -root.speed_cap.y)
 	on_floor = false
 	
-	(user_data[2] as Sprite).flip_h = dir > 0.0
+	(user_data.frames as Sprite).flip_h = dir > 0.0
 
 func process_main(_delta):
 	if on_floor:
-		(user_data[2] as Sprite).frame = 9
+		(user_data.frames as Sprite).frame = 9
 	else:
-		(user_data[2] as Sprite).frame = 8
+		(user_data.frames as Sprite).frame = 8
 
 func physics_main(delta):
 	var root: Enemy = persistant_state
 	if on_floor:
 		root.velocity.x = move_toward(root.velocity.x, 0, delta * (root.FRICTION * 1.5))
 		if root.velocity.x == 0.0:
-			return {state = persistant_state.MyState.IDLE}
+			return persistant_state.MyState.IDLE
 	on_floor = root.is_on_floor()
 
 #func cleanup():
