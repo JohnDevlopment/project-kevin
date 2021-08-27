@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/actors/enemies/DarkBeast.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/actors/enemies/dark_beast.png" type="Texture" id=2]
@@ -175,8 +175,69 @@ tracks/5/keys = {
 "values": [ Vector2( 30, 19 ) ]
 }
 
+[sub_resource type="Animation" id=8]
+resource_name = "WalkLeft"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Frames:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Frames:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14, 15, 16, 17, 18, 19 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "WalkRight"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Frames:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Frames:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14, 15, 16, 17, 18, 19 ]
+}
+
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 17, 16 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 175, 21 )
 
 [node name="DarkBeast" type="KinematicBody2D" groups=[
 "actors",
@@ -188,14 +249,14 @@ collision_mask = 3
 script = ExtResource( 1 )
 armor_time = 1.0
 stats = ExtResource( 4 )
-speed_cap = Vector2( 85, 175 )
+speed_cap = Vector2( 70, 175 )
 disabled = false
 
 [node name="Frames" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 centered = false
 hframes = 8
-vframes = 2
+vframes = 3
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 self_modulate = Color( 0.0666667, 0.945098, 0.0156863, 1 )
@@ -207,6 +268,8 @@ shape = SubResource( 1 )
 anims/IdleLeft = SubResource( 2 )
 anims/IdleRight = SubResource( 3 )
 anims/RESET = SubResource( 6 )
+anims/WalkLeft = SubResource( 8 )
+anims/WalkRight = SubResource( 9 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 3 )]
 collision_layer = 128
@@ -215,6 +278,14 @@ collision_mask = 16
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2( 30, 19 )
 shape = SubResource( 5 )
+
+[node name="TriggerArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2( 30.5, 20.5 )
+shape = SubResource( 7 )
 
 [node name="Timer1" type="Timer" parent="."]
 one_shot = true
@@ -236,6 +307,7 @@ script = ExtResource( 8 )
 [node name="ProwlState" type="Node" parent="StateMachine"]
 script = ExtResource( 9 )
 
+[connection signal="body_entered" from="TriggerArea" to="." method="_on_Kevin_body_entered"]
 [connection signal="timeout" from="Timer1" to="." method="_on_Timer1_timeout"]
 
 [editable path="Hurtbox"]

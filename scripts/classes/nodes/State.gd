@@ -2,6 +2,7 @@ extends Node
 class_name State
 
 signal state_change_request(new_state)
+signal invalid_state(mode)
 
 #var change_state: FuncRef
 var persistant_state: Object

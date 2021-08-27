@@ -3,6 +3,8 @@ class_name StateMachine
 
 export(NodePath) var root_node: NodePath
 
+enum StateCallMode {PHYSICS, PROCESS}
+
 var user_data setget set_user_data
 var do_physics: FuncRef
 var do_process: FuncRef
@@ -15,8 +17,8 @@ func _ready():
 		if not (state is State):
 			push_error("node \"%s\" is not a valid State instance" % state.name)
 			continue
-		# TODO: Let's make sure this works!
 		(state as State).connect("state_change_request", self, "_change_state")
+		(state as State).connect("invalid_state", self, "_invalid_state")
 		_states.append(state)
 
 func change_state(next_state: int) -> int:
@@ -52,3 +54,15 @@ func state_call(method: String, args: Array = []):
 
 func _change_state(new_state: int):
 	change_state(new_state)
+
+func _invalid_state(mode: int) -> void:
+	match mode:
+		StateCallMode.PHYSICS:
+			do_physics = funcref(self, "_dummy_state")
+		StateCallMode.PROCESS:
+			do_process = funcref(self, "_dummy_state")
+		_:
+			push_error("invalid mode %d" % mode)
+
+func _dummy_state(_delta):
+	pass

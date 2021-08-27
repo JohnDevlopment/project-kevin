@@ -12,17 +12,14 @@ enum MyState {
 const MAX_SLOPE_ANGLE: float = deg2rad(45.0)
 const FRICTION: = 360.0
 
-onready var animation_player = $AnimationPlayer
 onready var state_machine = $StateMachine
-onready var timer1 = $Timer1
-onready var frames = $Frames
 
-func _input(event: InputEvent):
-	if event is InputEventKey:
-		if Game.is_key_pressed(event, KEY_A):
-			print("attack!")
-			if state_machine.current_state() == MyState.IDLE:
-				state_machine.change_state(MyState.ATTACK)
+var triggered := false
+
+func get_center() -> Vector2:
+	var center = $Frames.get_rect()
+	center = (center as Rect2).position + (center as Rect2).size / 2
+	return global_position + center
 
 func _physics_process(delta: float):
 	if Engine.editor_hint: return
@@ -31,13 +28,16 @@ func _physics_process(delta: float):
 		queue_free()
 		return
 	
+	# Evaluate the current state and parse the result
 	var result = state_machine.do_physics.call_func(delta)
-	if result is Dictionary:
-		var ns: int = (result as Dictionary).get("state", -1)
-		assert(ns < MyState.COUNT, str("invalid state ", ns))
+	
+	if result is int:
+		var ns: int = result
 		if ns >= 0:
+			assert(ns < MyState.COUNT, str("invalid state ", ns))
 			state_machine.change_state(ns)
 	
+	# Update position based on velocity
 	velocity.y = move_and_slide(velocity, Vector2.UP, true, 4,
 		MAX_SLOPE_ANGLE, false).y
 
@@ -47,7 +47,23 @@ func _process(delta):
 
 func _ready():
 	if Engine.editor_hint: return
-	state_machine.set_user_data([timer1, animation_player, frames])
+	
+	var center = $Frames.get_rect()
+	center = (center as Rect2).position + (center as Rect2).size / 2
+	var player = Game.get_player()
+	if player:
+		player.connect("state_changed", self, "_on_Kevin_state_changed")
+	
+	var udata := {
+		timer = $Timer1,
+		animation_player = $AnimationPlayer,
+		frames = $Frames,
+		center = center
+	}
+	if player is Game.Classes.Kevin:
+		udata["player"] = player
+	
+	state_machine.set_user_data(udata)
 	state_machine.change_state(MyState.IDLE)
 
 func _on_damaged(other_stats: Stats) -> void:
@@ -65,7 +81,6 @@ func _on_damaged(other_stats: Stats) -> void:
 	else:
 		state_machine.change_state(MyState.KNOCKBACK)
 
-# NOTE: animation "IdleLeft" starts timer for 3 seconds
 func _on_Timer1_timeout():
 	state_machine.state_call("timer1_timeout")
 
@@ -73,3 +88,12 @@ func _choose_animation(anim: String) -> String:
 	if direction.x:
 		anim += "Left" if direction.x < 0.0 else "Right"
 	return anim
+
+func _on_Kevin_body_entered(body: Node):
+	triggered = true
+	set_meta("player", body)
+	$TriggerArea.queue_free()
+
+# Note: connected to Kevin's "state_changed" signal in _ready
+func _on_Kevin_state_changed(old_state, new_state) -> void:
+	state_machine.state_call("_kevin_state_changed", [old_state, new_state])
