@@ -9,6 +9,9 @@ func _unhandled_input(event: InputEvent):
 			if not debug_console.active:
 				debug_console.activate()
 				get_tree().set_input_as_handled()
+		elif event.is_action_pressed("ui_start"):
+			var ps: Control = Game.Scenes.pause_screen.instance()
+			$CanvasLayer.add_child(ps)
 
 func _ready():
 	var packed_overlay = load("res://scenes/DebugOverlay.tscn")
