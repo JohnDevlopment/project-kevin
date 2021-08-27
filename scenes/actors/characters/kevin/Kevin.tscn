@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://scenes/actors/characters/kevin/Kevin.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/actors/kevin/kevin.png" type="Texture" id=2]
@@ -207,6 +207,46 @@ tracks/2/keys = {
 "values": [ Vector2( 44, 29.0514 ) ]
 }
 
+[sub_resource type="Animation" id=31]
+resource_name = "RESET"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Frames:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:disable_input")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
 [sub_resource type="Animation" id=7]
 length = 0.8
 loop = true
@@ -396,6 +436,7 @@ anims/Attack1Left = SubResource( 3 )
 anims/Attack1Right = SubResource( 4 )
 anims/IdleLeft = SubResource( 5 )
 anims/IdleRight = SubResource( 6 )
+anims/RESET = SubResource( 31 )
 anims/RunLeft = SubResource( 7 )
 anims/RunRight = SubResource( 8 )
 

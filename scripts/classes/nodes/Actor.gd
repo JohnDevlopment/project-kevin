@@ -39,6 +39,9 @@ func enable_collision(flag: bool) -> void:
 		collision_layer = 0
 		collision_mask = 0
 
+func get_center() -> Vector2:
+	return Vector2()
+
 func _ready():
 	if Engine.editor_hint: return
 
