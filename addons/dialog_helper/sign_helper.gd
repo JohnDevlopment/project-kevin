@@ -8,9 +8,7 @@ var _index := -1
 
 func apply_changes() -> void:
 	var wr = weakref(_data)
-	if wr.get_ref() == null:
-		print("wr is Null")
-	else:
+	if wr.get_ref() != null:
 		_data.emit_changed()
 
 func edit(data: MessageData):
