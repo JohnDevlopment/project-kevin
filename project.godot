@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/classes/nodes/Messenger.gd"
 }, {
+"base": "Resource",
+"class": "MethodData",
+"language": "GDScript",
+"path": "res://scripts/classes/resources/MethodData.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -95,6 +100,7 @@ _global_script_class_icons={
 "HFlowContainer": "res://assets/textures/icons/HFlowContainer.svg",
 "MessageData": "",
 "Messenger": "",
+"MethodData": "",
 "State": "",
 "StateMachine": "",
 "Stats": "",
@@ -105,7 +111,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Project Kevin"
-run/main_scene="res://CharacterTest.tscn"
+run/main_scene="res://TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [audio]
@@ -117,6 +123,7 @@ mix_rate=22050
 Game="*res://scripts/classes/singletons/Game.gd"
 History="*res://scripts/classes/singletons/History.gd"
 Application="*res://scripts/classes/singletons/Application.gd"
+BackgroundMusic="*res://scenes/BackgroundMusic.tscn"
 
 [debug]
 
