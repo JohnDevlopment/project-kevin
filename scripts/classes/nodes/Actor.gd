@@ -1,8 +1,5 @@
-"""
-An actor is derived from a KinematicBody2D, so it is meant to be used for fully
-controlled physics bodies. An actor has a velocity vector to control its
-movement speed, and a gravity value to control which direction it heads.
-"""
+# Extends the functionality of KinematicBody2D with gravity and a vector speed and velocity.
+# By default, the physics process handles gravity with linear interpolation.
 tool
 class_name Actor, "res://assets/textures/icons/Actor.svg"
 extends KinematicBody2D
@@ -12,55 +9,64 @@ const GRAVITY_STEP: float = 13.4
 # Properties #
 
 var speed_cap: = Vector2()
-var disabled: = false
+var disabled: = false setget set_disabled
 
 onready var gravity_value: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-onready var gravity_vector: Vector2 = ProjectSettings.get_setting("physics/2d/default_gravity_vector")
 
 # Velocity of the actor. Updated by the user.
 var velocity: = Vector2.ZERO
-
-# A signal that indicates the actor has collided with something. When emitted,
-# includes information about the collision as well as the actor that was
-# collided with. The collision info will be a KinematicCollision2D.
-signal actor_collided(collision, actor)
 
 # Sets the active/enabled status of the actor. Disables all collision and
 # renders the actor invisible. To add custom code to this function,
 # define _enable_actor in your code. _enable_actor must accept a boolean value.
 func enable_actor(flag: bool) -> void:
 	visible = flag
+	enable_collision(flag)
 	
 	if has_method("_enable_actor"):
 		call("_enable_actor", flag)
 
+# Enables or disables collision by modifying the collision layer and mask properties.
 func enable_collision(flag: bool) -> void:
 	if not flag:
 		collision_layer = 0
 		collision_mask = 0
+	else:
+		collision_layer = get_meta('collision_layer')
+		collision_mask = get_meta('collision_mask')
 
-func get_center() -> Vector2:
-	return Vector2()
+# Override this function to return the global position of the center of the actor.
+func get_center() -> Vector2: return Vector2()
 
-func _ready():
-	if Engine.editor_hint: return
+# Setter function for property 'disabled'
+func set_disabled(d: bool) -> void:
+	disabled = d
+	enable_actor(disabled)
+
+func _ready() -> void:
+	if Engine.editor_hint:
+		set_physics_process(false)
+		set_process(false)
 
 func _enter_tree():
-	if not Engine.editor_hint:
-		set_meta("collision_layer", collision_layer)
-		set_meta("collision_mask", collision_mask)
+	if Engine.editor_hint:
+		set_physics_process(false)
+		set_process(false)
+		return
+	set_meta("collision_layer", collision_layer)
+	set_meta("collision_mask", collision_mask)
 
-func _to_string():
-	return "[Actor:%d]" % get_instance_id()
+func _to_string(): return "[Actor:%d]" % get_instance_id()
 
 func _set(property, value):
 	match property:
 		"speed_cap":
 			speed_cap = value
-			return true
 		"disabled":
-			disabled = value
-			return true
+			set_disabled(value)
+		_:
+			return false
+	return true
 
 func _get(property):
 	match property:
@@ -89,8 +95,7 @@ func _get_property_list():
 	]
 
 func _physics_process(_delta):
-	if Engine.editor_hint: return
-	
-	velocity.y += GRAVITY_STEP
-	if velocity.y > gravity_value:
-		velocity.y = gravity_value
+	velocity.y = move_toward(velocity.y, gravity_value, GRAVITY_STEP)
+#	velocity.y += GRAVITY_STEP
+#	if velocity.y > gravity_value:
+#		velocity.y = gravity_value

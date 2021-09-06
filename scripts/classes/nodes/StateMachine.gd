@@ -8,6 +8,7 @@ enum StateCallMode {PHYSICS, PROCESS}
 var user_data setget set_user_data
 var do_physics: FuncRef
 var do_process: FuncRef
+var state_queue := []
 
 var _states: = []
 var _current_state: int = -1
@@ -17,9 +18,16 @@ func _ready():
 		if not (state is State):
 			push_error("node \"%s\" is not a valid State instance" % state.name)
 			continue
-		(state as State).connect("state_change_request", self, "_change_state")
-		(state as State).connect("invalid_state", self, "_invalid_state")
-		_states.append(state)
+		var s: State = state
+		s.connect("state_change_request", self, "_change_state")
+		s.connect("invalid_state", self, "_invalid_state")
+		s.connect("queue_add_state", self, "queue_add_state")
+		_states.append(s)
+		remove_child(s)
+
+func _exit_tree() -> void:
+	for s in _states:
+		(s as Node).queue_free()
 
 func change_state(next_state: int) -> int:
 	var old_state = _current_state
@@ -51,6 +59,24 @@ func state_call(method: String, args: Array = []):
 	if state.has_method(method):
 		result = state.callv(method, args)
 	return result
+
+func queue_add_state(state: int) -> int:
+	if state < 0 or state >= _states.size():
+		push_error(str("Invalid state: ", state))
+		return ERR_PARAMETER_RANGE_ERROR
+	
+	state_queue.push_front(state)
+	
+	return OK
+
+func queue_is_empty() -> bool: return state_queue.empty()
+
+func queue_next_state() -> int:
+	if queue_is_empty():
+		push_error('No states loaded in the queue')
+		return FAILED
+	
+	return change_state(state_queue.pop_back())
 
 func _change_state(new_state: int):
 	change_state(new_state)

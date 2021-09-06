@@ -1,8 +1,9 @@
 extends Node
 class_name State
 
-signal state_change_request(new_state)
 signal invalid_state(mode)
+signal state_change_request(new_state)
+signal queue_add_state(state)
 
 #var change_state: FuncRef
 var persistant_state: Object
