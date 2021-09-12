@@ -17,7 +17,7 @@ func _setup():
 	root.velocity = Vector2(-dir * 100, -root.speed_cap.y)
 	on_floor = false
 	
-	(user_data.frames as Sprite).flip_h = dir > 0.0
+	root.start_animation_with_blend('Knockback', root.direction)
 
 func process_main(_delta):
 	if on_floor:

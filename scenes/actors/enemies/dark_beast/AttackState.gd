@@ -4,22 +4,28 @@ var on_floor: = false
 var next: = false
 
 func _setup():
-	(user_data.timer as Timer).start(1)
 	on_floor = true
 	next = false
+	persistant_state.start_animation_with_blend('Attack', persistant_state.direction)
+	persistant_state.velocity.x = 0.0
 
 func process_main(_delta):
-	(user_data.frames as Sprite).frame = 10 if on_floor else 11
+	if on_floor and next:
+		(user_data.frames as Sprite).frame = 10
 
 func physics_main(delta: float):
 	var root: Enemy = persistant_state
 	if on_floor and next:
 		root.velocity.x = move_toward(root.velocity.x, 0, delta * (root.FRICTION * 1.5))
 		if root.velocity.x == 0.0:
-			return {state = persistant_state.MyState.IDLE}
+			user_data.start_cooldown = true
+			return persistant_state.MyState.EVADE
+			
 	on_floor = root.is_on_floor()
 
-func timer1_timeout() -> void:
+func attack() -> void:
 	var root: Enemy = persistant_state
-	root.velocity = Vector2(100 * root.direction.x, -150)
+	root.velocity = Vector2(200 * root.direction.x, -150)
 	next = true
+	on_floor = false
+	root.move_and_collide(Vector2.UP)

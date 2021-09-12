@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/actors/characters/kevin/Kevin.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/actors/kevin/kevin.png" type="Texture" id=2]
-[ext_resource path="res://scenes/Hitbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/components/Hitbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/actors/characters/kevin/KevinStats.tres" type="Resource" id=4]
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -405,9 +405,13 @@ scale = Vector2( 1, 0.998232 )
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 1 )
+__meta__ = {
+"collision_layer": 4,
+"collision_mask": 3
+}
 stats = ExtResource( 4 )
 speed_cap = Vector2( 82, 275 )
-disabled = false
+disabled = null
 
 [node name="Frames" type="Sprite" parent="."]
 texture = ExtResource( 2 )

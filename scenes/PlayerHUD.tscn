@@ -18,7 +18,7 @@ __meta__ = {
 
 [node name="Counters" type="VBoxContainer" parent="."]
 margin_right = 896.0
-margin_bottom = 575.0
+margin_bottom = 551.0
 
 [node name="Health" type="HBoxContainer" parent="Counters"]
 margin_right = 896.0

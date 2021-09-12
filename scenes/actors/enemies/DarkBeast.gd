@@ -6,23 +6,40 @@ enum MyState {
 	KNOCKBACK,
 	ATTACK,
 	PROWL,
-	COUNT
+	EVADE
 }
 
-const MAX_SLOPE_ANGLE: float = deg2rad(45.0)
-const FRICTION: = 360.0
+const MAX_SLOPE_ANGLE := deg2rad(45.0)
+const FRICTION := 360.0
+const ATTACK_RANGE := 70.0
 
-onready var state_machine = $StateMachine
+onready var state_machine := $StateMachine
+onready var animation_tree := $AnimationTree
+onready var animation_state: AnimationNodeStateMachinePlayback = animation_tree['parameters/playback']
 
 var triggered := false
 
 func get_center() -> Vector2:
-	var center = $Frames.get_rect()
-	center = (center as Rect2).position + (center as Rect2).size / 2
-	return global_position + center
+	var rect: Rect2 = $Frames.get_rect()
+	return global_position + (rect.position + rect.size / 2)
 
-func _physics_process(delta: float):
-	if Engine.editor_hint: return
+func get_cooldown_time() -> float:
+	return $CooldownTimer.time_left
+
+func start_animation_with_blend(anim: String, blend) -> void:
+	animation_state.travel(anim)
+	if blend:
+		if blend is Vector2:
+			var path := 'parameters/' + anim + '/blend_position'
+			animation_tree[path] = blend
+
+# Internal functions
+
+func _physics_process(delta: float) -> void:
+	if Engine.editor_hint:
+		print('editor physics process')
+		set_physics_process(false)
+		return
 	
 	if global_position.y > Game.level_size.y:
 		queue_free()
@@ -34,37 +51,51 @@ func _physics_process(delta: float):
 	if result is int:
 		var ns: int = result
 		if ns >= 0:
-			assert(ns < MyState.COUNT, str("invalid state ", ns))
+			assert(ns < MyState.size(), str("invalid state ", ns))
 			state_machine.change_state(ns)
 	
 	# Update position based on velocity
-	velocity.y = move_and_slide(velocity, Vector2.UP, true, 4,
-		MAX_SLOPE_ANGLE, false).y
+	velocity.y = move_and_slide(velocity, Vector2.UP, true, 4, MAX_SLOPE_ANGLE, false).y
 
-func _process(delta):
-	if Engine.editor_hint: return
+func _process(delta) -> void:
+	if Engine.editor_hint:
+		print('editor process')
+		set_process(false)
+		return
+	
 	state_machine.do_process.call_func(delta)
 
+func _enter_tree() -> void:
+	if Engine.editor_hint:
+		set_process(false)
+		set_physics_process(false)
+
 func _ready():
-	if Engine.editor_hint: return
+	if Engine.editor_hint:
+		set_process(false)
+		set_physics_process(false)
+		return
 	
-	var center = $Frames.get_rect()
-	center = (center as Rect2).position + (center as Rect2).size / 2
-	var player = Game.get_player()
-	if player:
-		player.connect("state_changed", self, "_on_Kevin_state_changed")
-	
+	var frames_rect: Rect2 = $Frames.get_rect()
 	var udata := {
-		timer = $Timer1,
 		animation_player = $AnimationPlayer,
 		frames = $Frames,
-		center = center
+		hitbox_shape = $Hitbox/CollisionShape2D,
+		center = frames_rect.position + frames_rect.size / 2,
+		cooldown_timer = $CooldownTimer,
+		start_cooldown = false
 	}
-	if player is Game.Classes.Kevin:
+	
+	if Game.has_player():
+		var player: Node = Game.get_player()
+		assert(player is Game.Kevin)
+		player.connect("state_changed", self, "_on_Kevin_state_changed")
 		udata["player"] = player
 	
 	state_machine.set_user_data(udata)
 	state_machine.change_state(MyState.IDLE)
+
+# Signal callbacks
 
 func _on_damaged(other_stats: Stats) -> void:
 	assert(other_stats.has_meta("owner"), str("no \"owner\" meta set for ", other_stats))
@@ -81,19 +112,15 @@ func _on_damaged(other_stats: Stats) -> void:
 	else:
 		state_machine.change_state(MyState.KNOCKBACK)
 
-func _on_Timer1_timeout():
-	state_machine.state_call("timer1_timeout")
-
-func _choose_animation(anim: String) -> String:
-	if direction.x:
-		anim += "Left" if direction.x < 0.0 else "Right"
-	return anim
-
 func _on_Kevin_body_entered(body: Node):
 	triggered = true
 	set_meta("player", body)
 	$TriggerArea.queue_free()
 
-# Note: connected to Kevin's "state_changed" signal in _ready
-func _on_Kevin_state_changed(old_state, new_state) -> void:
-	state_machine.state_call("_kevin_state_changed", [old_state, new_state])
+func _on_Kevin_state_changed(_old_state: int, new_state: int) -> void:
+	match new_state:
+		Game.Kevin.STATE_ATTACK:
+			state_machine.state_call("_kevin_attacking")
+
+func _on_CooldownTimer_timeout() -> void:
+	state_machine.state_call('_cooldown_timer_timeout')

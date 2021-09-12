@@ -113,31 +113,22 @@ func _unhandled_key_input(event):
 		get_tree().set_input_as_handled()
 	elif event.is_action_pressed("action"):
 		if is_on_floor():
-			# TODO: Is this code right? The animation state is set
-			#       inside of change_state when initializing the attack state.
 			change_state(STATE_ATTACK)
 		get_tree().set_input_as_handled()
 
-func update_velocity(goal_speed: Vector2, friction: float, acceleration: float):
-	if moving:
-		velocity.x = move_toward(velocity.x, goal_speed.x, acceleration)
-	else:
-		velocity.x = move_toward(velocity.x, 0.0, friction)
-		if abs(velocity.x) <= 0.01:
-			velocity.x = 0.0
+func _on_Hitbox_body_entered(body: Node):
+	if body is TileMap:
+		if (body as TileMap).get_collision_layer_bit(Game.CollisionLayer.WALLS):
+			velocity.x = -100.0 * direction.x
+			emit_signal("attack_anim_hit_wall")
 
-func set_sprint_meter(value: float) -> void:
-	if Engine.editor_hint: return
+func _on_hit_enemy_hurtbox(_area_rid: RID, area: Area2D, _area_shape: int, _local_shape: int):
+	var parent: Enemy = area.get_parent()
+	(stats as Stats).set_meta("attack_center", $CenterOffset.position)
+	parent.call_deferred("decide_damage", stats)
 	
-	var old_sprint_meter: float = _sprint_meter
-	_sprint_meter = value
-	
-	if old_sprint_meter != _sprint_meter:
-		if _sprint_meter == 0.0:
-			$RecoveryTimer.start()
-			recovering = true
-			speed_cap /= 2
-		emit_signal("sprint_meter_updated", _sprint_meter)
+	var vfx_position: Vector2 = $Hitbox/CollisionShape2D.global_position
+	Game.insert_vfx("damage_strike", get_parent(), vfx_position)
 
 func change_state(next_state: int) -> void:
 	var prev_state: = _current_state
@@ -181,10 +172,38 @@ func get_air_frame() -> int:
 func get_center() -> Vector2:
 	return global_position + $CenterOffset.position
 
-# Connected in _ready()
-func _on_game_param_changed(_param: String, value):
-	# param is "dialog_mode"
-	disable_input = (value as bool)
+func set_sprint_meter(value: float) -> void:
+	if Engine.editor_hint: return
+	
+	var old_sprint_meter: float = _sprint_meter
+	_sprint_meter = value
+	
+	if old_sprint_meter != _sprint_meter:
+		if _sprint_meter == 0.0:
+			$RecoveryTimer.start()
+			recovering = true
+			speed_cap /= 2
+		emit_signal("sprint_meter_updated", _sprint_meter)
+
+func update_velocity(goal_speed: Vector2, friction: float, acceleration: float):
+	if moving:
+		velocity.x = move_toward(velocity.x, goal_speed.x, acceleration)
+	else:
+		velocity.x = move_toward(velocity.x, 0.0, friction)
+		if abs(velocity.x) <= 0.01:
+			velocity.x = 0.0
+
+func _on_game_param_changed(param: String, value):
+	match param:
+		"dialog_mode":
+			disable_input = (value as bool)
+		"tree_paused":
+			print("tree paused: ", value)
+
+func _on_RecoveryTimer_timeout():
+	if Engine.editor_hint: return
+	speed_cap *= 2
+	recovering = false
 
 # States (Physics)
 
@@ -243,11 +262,6 @@ func AirState(_delta: float):
 func AttackState(_delta: float) -> void:
 	velocity.x = move_toward(velocity.x, 0.0, FRICTION * _delta)
 
-func _on_RecoveryTimer_timeout():
-	if Engine.editor_hint: return
-	speed_cap *= 2
-	recovering = false
-
 # States (Process)
 
 func NormalSprintState_Process(_delta: float) -> void:
@@ -267,17 +281,3 @@ func JumpState_Process(_delta: float) -> void:
 
 func DummyState(_delta: float) -> void:
 	pass
-
-func _on_Hitbox_body_entered(body: Node):
-	if body is TileMap:
-		if (body as TileMap).get_collision_layer_bit(Game.CollisionLayer.WALLS):
-			velocity.x = -100.0 * direction.x
-			emit_signal("attack_anim_hit_wall")
-
-func _on_hit_enemy_hurtbox(_area_rid: RID, area: Area2D, _area_shape: int, _local_shape: int):
-	var parent: Enemy = area.get_parent()
-	(stats as Stats).set_meta("attack_center", $CenterOffset.position)
-	parent.call_deferred("decide_damage", stats)
-	
-	var vfx_position: Vector2 = $Hitbox/CollisionShape2D.global_position
-	Game.insert_vfx("damage_strike", get_parent(), vfx_position)
