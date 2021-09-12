@@ -1,10 +1,19 @@
+## An enemy actor type
 tool
 extends Actor
 class_name Enemy, "res://assets/textures/icons/Enemy.svg"
 
-var stats
+## The stats of the @class enemy
+# @export
+var stats: Stats
+
+## The amount of time the @class Enemy is invincible after taking damage
+# @export
 var armor_time: float = 1.0
+
 var invincibility_timer: Timer
+
+## Direction the @class Enemy is facing
 var direction: = Vector2.LEFT
 
 func _enter_tree():
@@ -46,7 +55,7 @@ func _get_property_list():
 
 func _ready():
 	if Engine.editor_hint: return
-	assert(stats, "Enemy needs a 'stats' property")
+	assert(is_instance_valid(stats), "Enemy needs a 'stats' property")
 	stats.init_stats(self)
 	
 	for node in get_children():
@@ -63,21 +72,42 @@ func _set(property, value):
 			return false
 	return true
 
+## Called to decide the amount of damage to take based on the attacker's stats
+# @arg other_stats The Stats belonging to an opposing actor
 func decide_damage(other_stats: Stats) -> void:
 	if not should_damage(): return
 	var dmg = stats.calculate_damage(other_stats)
-	stats.health = max(0, stats.health - dmg)
+	stats.health = int(max(0, stats.health - dmg))
 	if has_method("_on_damaged"):
 		call("_on_damaged", other_stats)
 
-func get_health() -> int:
-	return stats.health
+## Calculates the enemy's direction and distance to the player
+# @return  A dictionary with the direction and distance to the player, or null
+#          if the player does not exist inside the tree
+func direction_to_player():
+	if Game.has_player():
+		var player: Actor = Game.get_player()
+		var distance := player.get_center() - get_center()
+		return {distance = distance, direction = distance.normalized()}
 
+## Returns the current health
+# @return  The health of the @class Enemy
+func get_health() -> int: return stats.health
+
+## Returns a metadata value with a default as fallback
+# @arg    name     The key for which a metadata is defined
+# @arg    default  The default return value if @a name does not exist
+# @return          The metadata for @a name (if it exists) or @a default otherwise
 func get_meta_or_default(name: String, default = null):
 	if has_meta(name):
 		return get_meta(name)
 	return default
 
+## Returns true if the @class Enemy should take damage
+# @virtual
+# @return  True if the Enemt should take damage, false otherwise
+# @note    This function is called by @function decide_damage; if this returns
+#          true, the @class Enemy takes damage according to the Stats of the other Actor.
 func should_damage() -> bool:
 	var result: bool = invincibility_timer.is_stopped()
 	if has_method("_should_damage"):

@@ -1,24 +1,32 @@
-# Extends the functionality of KinematicBody2D with gravity and a vector speed and velocity.
-# By default, the physics process handles gravity with linear interpolation.
+## Kinematic Actor type
+# @desc  Extends the functionality of KinematicBody2D with gravity and a vector speed and velocity.
+#        By default, the physics process handles gravity with linear interpolation.
 tool
 class_name Actor, "res://assets/textures/icons/Actor.svg"
 extends KinematicBody2D
 
 const GRAVITY_STEP: float = 13.4
 
-# Properties #
-
+## Speed cap of the actor
+# @export
 var speed_cap: = Vector2()
-var disabled: = false setget set_disabled
 
+## Terminal Y velocity based on gravity
 onready var gravity_value: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-# Velocity of the actor. Updated by the user.
+## Velocity of the actor, manually updated
 var velocity: = Vector2.ZERO
 
 # Sets the active/enabled status of the actor. Disables all collision and
 # renders the actor invisible. To add custom code to this function,
 # define _enable_actor in your code. _enable_actor must accept a boolean value.
+
+## Enable/disable the @class Actor
+# @arg{bool}  True for enable, false for disable
+# @desc       Call this function to enable or disable the actor.
+#             Affects the visibility and collision of the actor.
+# @note       This function calls @function _enable_actor if it is overridden
+#             in the instance.
 func enable_actor(flag: bool) -> void:
 	visible = flag
 	enable_collision(flag)
@@ -26,7 +34,8 @@ func enable_actor(flag: bool) -> void:
 	if has_method("_enable_actor"):
 		call("_enable_actor", flag)
 
-# Enables or disables collision by modifying the collision layer and mask properties.
+## Enable/disabled collision
+# @arg{bool}  True for enable, false for disable
 func enable_collision(flag: bool) -> void:
 	if not flag:
 		collision_layer = 0
@@ -35,26 +44,25 @@ func enable_collision(flag: bool) -> void:
 		collision_layer = get_meta('collision_layer')
 		collision_mask = get_meta('collision_mask')
 
-# Override this function to return the global position of the center of the actor.
+## Returns the center of the actor
+# @virtual
+# @return   The center of the actor as a @type Vector2
+# @note     Override this function to return the global position of the center of the actor.
 func get_center() -> Vector2: return Vector2()
-
-# Setter function for property 'disabled'
-func set_disabled(d: bool) -> void:
-	disabled = d
-	enable_actor(disabled)
 
 func _ready() -> void:
 	if Engine.editor_hint:
 		set_physics_process(false)
 		set_process(false)
 
-func _enter_tree():
+func _init() -> void:
+	set_meta("collision_layer", collision_layer)
+	set_meta("collision_mask", collision_mask)
+
+func _enter_tree() -> void:
 	if Engine.editor_hint:
 		set_physics_process(false)
 		set_process(false)
-		return
-	set_meta("collision_layer", collision_layer)
-	set_meta("collision_mask", collision_mask)
 
 func _to_string(): return "[Actor:%d]" % get_instance_id()
 
@@ -62,8 +70,6 @@ func _set(property, value):
 	match property:
 		"speed_cap":
 			speed_cap = value
-		"disabled":
-			set_disabled(value)
 		_:
 			return false
 	return true
@@ -72,8 +78,6 @@ func _get(property):
 	match property:
 		"speed_cap":
 			return speed_cap
-		"disabled":
-			return disabled
 
 func _get_property_list():
 	return [
