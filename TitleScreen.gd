@@ -33,6 +33,12 @@ func _ready() -> void:
 	
 	var button = get_node(@"CanvasLayer/MarginContainer/VBoxContainer/music_fade")
 	button.disabled = true
+	
+	# Automatically disables a button after the music finishes
+	BackgroundMusic.connect('finished', self, '_on_music_finished', [button], CONNECT_ONESHOT)
+
+func _on_music_finished(button: Button) -> void:
+	button.disabled = true
 
 func _on_button_pressed(tag: String):
 	match tag:
@@ -43,14 +49,11 @@ func _on_button_pressed(tag: String):
 			button.disabled = true
 			button = get_node(@"CanvasLayer/MarginContainer/VBoxContainer/music_fade")
 			button.disabled = false
-			yield(BackgroundMusic, 'finished')
-			button.disabled = true
 		"music_fade":
 			BackgroundMusic.fade_out(3.0)
 			var button = get_node(@"CanvasLayer/MarginContainer/VBoxContainer/music_fade")
 			button.disabled = true
 		"ctest_start":
-#			BackgroundMusic.stop()
 			BackgroundMusic.fade_out(3.0)
 			get_tree().change_scene("res://CharacterTest.tscn")
 		"vec_calc":

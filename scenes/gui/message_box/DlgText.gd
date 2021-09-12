@@ -44,12 +44,10 @@ func _compile_tag_stack(s: String):
 	var regex := RegEx.new()
 	regex.compile("\\[[a-z]*=(.+?)\\](.*?)")
 	
-	var loops := 0 # TODO: Used for debugging, will remove later
 	var result
 	var index: int = s.find('[')
 	
 	while index >= 0:
-		assert(loops < 100, "infinite recursion error!")
 		result = regex.search(s)
 		if result:
 			var setting = result.get_string()
@@ -59,7 +57,6 @@ func _compile_tag_stack(s: String):
 			(_tags[index] as Array).append([(values[0] as String).substr(1), float(values[1])])
 			s = s.replace(setting, '')
 		index = s.find('[')
-		loops += 1
 	return s
 
 func _on_message_timeout() -> void:

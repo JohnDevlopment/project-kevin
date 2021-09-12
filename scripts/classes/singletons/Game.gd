@@ -23,9 +23,7 @@ const Scenes := {
 	damage_strike = preload("res://scenes/vfx/Sprite.tscn")
 }
 
-const Classes := {
-	Kevin = preload("res://scenes/actors/characters/kevin/Kevin.gd")
-}
+const Kevin := preload("res://scenes/actors/characters/kevin/Kevin.gd")
 
 func get_player() -> Actor:
 	return get_tree().get_nodes_in_group("player")[0]
@@ -47,6 +45,9 @@ func get_player() -> Actor:
 #
 #	var _owner = area.shape_find_owner(shape)
 #	return area.shape_owner_get_shape(_owner, shape)
+
+func has_player() -> bool:
+	return get_tree().has_group('player')
 
 func insert_vfx(vfx_name: String, parent: Node, position: Vector2):
 	var vfx = Scenes.get(vfx_name)
