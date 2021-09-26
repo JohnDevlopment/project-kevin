@@ -18,6 +18,7 @@ func start_dialog():
 	Game.dialog_mode = true
 	_can_advance = false
 	visible = true
+	grab_focus()
 
 # Called when a message is finished rendering.
 func _handle_message_finished():
@@ -29,21 +30,37 @@ func _handle_all_messages_finished():
 	Game.dialog_mode = false
 	reset()
 
-func _unhandled_key_input(event: InputEventKey):
-	if event.is_action_pressed("ui_accept"):
-		if not _can_advance:
-			$DlgBox/DlgText._handle_finished()
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		accept_event()
+		if event.is_action_pressed("ui_accept"):
+			if not _can_advance:
+				$DlgBox/DlgText._handle_finished()
+				_handle_message_finished()
+				return
+			
+			_index += 1
+			if _index >= text_data.size():
+				_handle_all_messages_finished()
+				return
+			
+			$DlgBox/DlgText.start(text_data[_index], message_speed, delay)
+			_can_advance = false
+
+#func _unhandled_key_input(event: InputEventKey):
+#	if event.is_action_pressed("ui_accept"):
+#		if not _can_advance:
+#			$DlgBox/DlgText._handle_finished()
 #			_handle_message_finished()
-			_can_advance = true
-			return
-		
-		_index += 1
-		if _index >= text_data.size():
-			_handle_all_messages_finished()
-			return
-		
-		$DlgBox/DlgText.start(text_data[_index], message_speed, delay)
-		_can_advance = false
+#			return
+#
+#		_index += 1
+#		if _index >= text_data.size():
+#			_handle_all_messages_finished()
+#			return
+#
+#		$DlgBox/DlgText.start(text_data[_index], message_speed, delay)
+#		_can_advance = false
 
 func _enter_tree():
 	visible = false
