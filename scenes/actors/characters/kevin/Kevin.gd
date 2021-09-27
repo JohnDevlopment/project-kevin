@@ -116,19 +116,35 @@ func _unhandled_key_input(event):
 			change_state(STATE_ATTACK)
 		get_tree().set_input_as_handled()
 
+# Signals
+
 func _on_Hitbox_body_entered(body: Node):
 	if body is TileMap:
-		if (body as TileMap).get_collision_layer_bit(Game.CollisionLayer.WALLS):
-			velocity.x = -100.0 * direction.x
-			emit_signal("attack_anim_hit_wall")
+		pass
+#		if (body as TileMap).get_collision_layer_bit(Game.CollisionLayer.WALLS):
+#			velocity.x = -100.0 * direction.x
+#			emit_signal("attack_anim_hit_wall")
 
 func _on_hit_enemy_hurtbox(_area_rid: RID, area: Area2D, _area_shape: int, _local_shape: int):
 	var parent: Enemy = area.get_parent()
-	(stats as Stats).set_meta("attack_center", $CenterOffset.position)
-	parent.call_deferred("decide_damage", stats)
 	
-	var vfx_position: Vector2 = $Hitbox/CollisionShape2D.global_position
-	Game.insert_vfx("damage_strike", get_parent(), vfx_position)
+	if parent.invincibility_timer.is_stopped():
+		(stats as Stats).set_meta("attack_center", $CenterOffset.position)
+		var vfx_position: Vector2 = $Hitbox/CollisionShape2D.global_position
+		parent.call_deferred("decide_damage", stats)
+		Game.insert_vfx("damage_strike", get_parent(), vfx_position)
+
+func _on_game_param_changed(param: String, value):
+	match param:
+		"dialog_mode":
+			disable_input = (value as bool)
+		"tree_paused":
+			pass
+
+func _on_RecoveryTimer_timeout():
+	if Engine.editor_hint: return
+	speed_cap *= 2
+	recovering = false
 
 func change_state(next_state: int) -> void:
 	var prev_state: = _current_state
@@ -192,18 +208,6 @@ func update_velocity(goal_speed: Vector2, friction: float, acceleration: float):
 		velocity.x = move_toward(velocity.x, 0.0, friction)
 		if abs(velocity.x) <= 0.01:
 			velocity.x = 0.0
-
-func _on_game_param_changed(param: String, value):
-	match param:
-		"dialog_mode":
-			disable_input = (value as bool)
-		"tree_paused":
-			print("tree paused: ", value)
-
-func _on_RecoveryTimer_timeout():
-	if Engine.editor_hint: return
-	speed_cap *= 2
-	recovering = false
 
 # States (Physics)
 

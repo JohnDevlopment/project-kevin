@@ -397,10 +397,7 @@ start_node = "Idle"
 [sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 7, 15.3432 )
 
-[node name="Kevin" type="KinematicBody2D" groups=[
-"actors",
-"player",
-]]
+[node name="Kevin" type="KinematicBody2D" groups=["actors", "player"]]
 scale = Vector2( 1, 0.998232 )
 collision_layer = 4
 collision_mask = 3

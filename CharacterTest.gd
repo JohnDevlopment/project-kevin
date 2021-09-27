@@ -12,6 +12,7 @@ func _unhandled_input(event: InputEvent):
 		elif event.is_action_pressed("ui_start"):
 			var ps: Control = Game.Scenes.pause_screen.instance()
 			$CanvasLayer.add_child(ps)
+			get_tree().set_input_as_handled()
 
 func _enter_tree() -> void:
 	sprint_meter = $CanvasLayer/PlayerHUD/Counters/HBoxContainer/SprintMeter
