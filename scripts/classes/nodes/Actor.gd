@@ -1,6 +1,18 @@
 ## Kinematic Actor type
-# @desc  Extends the functionality of KinematicBody2D with gravity and a vector speed and velocity.
+# @desc  Extends the functionality of @class KinematicBody2D with gravity and a vector speed and velocity.
 #        By default, the physics process handles gravity with linear interpolation.
+#
+#        In addition to the exported properties, there are some variables that you can access
+#        that are not exported to the editor.
+#        Here is a list of them:
+#
+#        @code float gravity_value = 98 @br
+#        The maximum Y velocity the actor can have due to gravity. Defaults to the value of
+#        physics/2d/default_gravity in the project settings.
+#
+#        @code Vector2 velocity = Vector2() @br
+#        The current velocity of the actor. For the most part, this variable must be manually
+#        updated, except that the Y component is affected by gravity every physics step.
 tool
 class_name Actor, "res://assets/textures/icons/Actor.svg"
 extends KinematicBody2D
@@ -8,34 +20,32 @@ extends KinematicBody2D
 const GRAVITY_STEP: float = 13.4
 
 ## Speed cap of the actor
-# @export
-var speed_cap: = Vector2()
+# @type   Vector2
+# @desc   The max speed of the actor. As this property is not acted upon in @class Actor, it is
+#         up to the programmer whether to use it. That being said, it is meant to be used to
+# 		  cap the actor's speed, hence the name.
+var speed_cap := Vector2()
 
-## Terminal Y velocity based on gravity
 onready var gravity_value: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-## Velocity of the actor, manually updated
 var velocity: = Vector2.ZERO
 
-# Sets the active/enabled status of the actor. Disables all collision and
-# renders the actor invisible. To add custom code to this function,
-# define _enable_actor in your code. _enable_actor must accept a boolean value.
-
 ## Enable/disable the @class Actor
-# @arg{bool}  True for enable, false for disable
-# @desc       Call this function to enable or disable the actor.
-#             Affects the visibility and collision of the actor.
-# @note       This function calls @function _enable_actor if it is overridden
-#             in the instance.
+# @desc  Call this function to enable or disable the actor.
+#        Affects the visibility and collision of the actor.
+#        The argument @a flag can be true or false; true to enable
+#        the actor's collision and rendering, or false to disable it.
 func enable_actor(flag: bool) -> void:
 	visible = flag
 	enable_collision(flag)
-	
+
 	if has_method("_enable_actor"):
 		call("_enable_actor", flag)
 
 ## Enable/disabled collision
-# @arg{bool}  True for enable, false for disable
+# @desc  Call this function to enable or disable the actor's collision.
+#        The argument @a flag can be true or false; true to enable
+#        the actor's collision, or false to disable it.
 func enable_collision(flag: bool) -> void:
 	if not flag:
 		collision_layer = 0
@@ -46,8 +56,11 @@ func enable_collision(flag: bool) -> void:
 
 ## Returns the center of the actor
 # @virtual
+# @const
 # @return   The center of the actor as a @type Vector2
-# @note     Override this function to return the global position of the center of the actor.
+# @desc     Call this function to return the center of the actor. In its base form,
+#           this function returns an empty Vector2, but you can override it to return the actual
+#           center of your actor.
 func get_center() -> Vector2: return Vector2()
 
 func _ready() -> void:
@@ -100,6 +113,3 @@ func _get_property_list():
 
 func _physics_process(_delta):
 	velocity.y = move_toward(velocity.y, gravity_value, GRAVITY_STEP)
-#	velocity.y += GRAVITY_STEP
-#	if velocity.y > gravity_value:
-#		velocity.y = gravity_value

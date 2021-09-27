@@ -11,6 +11,8 @@
 #
 #        * state_change_request(int new_state) @br
 #        Change to a different state. @a new_state is the index of the state to switch to.
+#        This signal is deferred, that is, emitted at the next idle frame after all the physics steps
+#        have been exhausted.
 #
 #        * state_parent_call(String name, Array args) @br
 #        Invoke an action in the @class StateMachine parent. @br

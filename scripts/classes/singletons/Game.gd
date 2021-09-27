@@ -1,5 +1,7 @@
 extends Node
 
+# TODO: add documentation
+
 signal changed_game_param(param, value)
 
 enum CollisionLayer {

@@ -3,17 +3,18 @@ tool
 extends Actor
 class_name Enemy, "res://assets/textures/icons/Enemy.svg"
 
+# TODO: add documentation
+
 ## The stats of the @class enemy
-# @export
+# @type Stats
 var stats: Stats
 
 ## The amount of time the @class Enemy is invincible after taking damage
-# @export
+# @type float
 var armor_time: float = 1.0
 
 var invincibility_timer: Timer
 
-## Direction the @class Enemy is facing
 var direction: = Vector2.LEFT
 
 func _enter_tree():
