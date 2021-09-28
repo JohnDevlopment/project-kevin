@@ -37,7 +37,6 @@ func start_animation_with_blend(anim: String, blend) -> void:
 
 func _physics_process(delta: float) -> void:
 	if Engine.editor_hint:
-		print('editor physics process')
 		set_physics_process(false)
 		return
 	
@@ -46,7 +45,7 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	# Evaluate the current state and parse the result
-	var result = state_machine.do_physics.call_func(delta)
+	var result = state_machine.state_physics(delta)
 	
 	if result is int:
 		var ns: int = result
@@ -54,16 +53,21 @@ func _physics_process(delta: float) -> void:
 			assert(ns < MyState.size(), str("invalid state ", ns))
 			state_machine.change_state(ns)
 	
-	# Update position based on velocity
-	velocity.y = move_and_slide(velocity, Vector2.UP, true, 4, MAX_SLOPE_ANGLE, false).y
+	if not state_machine.paused:
+		velocity.y = move_and_slide(velocity, Vector2.UP, true, 4, MAX_SLOPE_ANGLE, false).y
 
-func _process(delta) -> void:
+func _process(delta: float) -> void:
 	if Engine.editor_hint:
-		print('editor process')
 		set_process(false)
 		return
 	
-	state_machine.do_process.call_func(delta)
+	state_machine.state_physics(delta)
+
+func _enable_actor(flag: bool) -> void:
+	if !flag:
+		enable_collision(true)
+		visible = true
+	state_machine.paused = !flag
 
 func _enter_tree() -> void:
 	if Engine.editor_hint:
@@ -76,6 +80,12 @@ func _ready():
 		set_physics_process(false)
 		return
 	
+	if Game.has_player():
+		var distnot: DistanceNotifier = $DistanceToPlayer
+		#distnot.component = DistanceNotifier.Y_COMPONENT
+		#distnot.threshold = Vector2(0, 90.0)
+		distnot.set_other_node(Game.get_player().get_node(@"CenterOffset"))
+	
 	var frames_rect: Rect2 = $Frames.get_rect()
 	var udata := {
 		animation_player = $AnimationPlayer,
@@ -83,7 +93,8 @@ func _ready():
 		hitbox_shape = $Hitbox/CollisionShape2D,
 		center = frames_rect.position + frames_rect.size / 2,
 		cooldown_timer = $CooldownTimer,
-		start_cooldown = false
+		start_cooldown = false,
+		distance_notifier = $DistanceToPlayer
 	}
 	
 	if Game.has_player():
@@ -91,6 +102,8 @@ func _ready():
 		assert(player is Game.Kevin)
 		player.connect("state_changed", self, "_on_Kevin_state_changed")
 		udata["player"] = player
+	
+	Game.connect('changed_game_param', self, '_on_game_param_changed', [], CONNECT_DEFERRED)
 	
 	state_machine.set_user_data(udata)
 	state_machine.change_state(MyState.IDLE)
@@ -111,16 +124,33 @@ func _on_damaged(other_stats: Stats) -> void:
 		queue_free()
 	else:
 		state_machine.change_state(MyState.KNOCKBACK)
+		invincibility_timer.start()
 
 func _on_Kevin_body_entered(body: Node):
 	triggered = true
 	set_meta("player", body)
 	$TriggerArea.queue_free()
+#	$DistanceToPlayer.connect('entered_range', self, '_on_PlayerTooHigh_entered_range')
+#	$DistanceToPlayer.connect('exited_range', self, '_on_PlayerTooHigh_exited_range')
 
 func _on_Kevin_state_changed(_old_state: int, new_state: int) -> void:
 	match new_state:
 		Game.Kevin.STATE_ATTACK:
 			state_machine.state_call("_kevin_attacking")
+		Game.Kevin.STATE_AIR:
+			state_machine.state_call("_kevin_jumping")
 
 func _on_CooldownTimer_timeout() -> void:
 	state_machine.state_call('_cooldown_timer_timeout')
+
+func _on_game_param_changed(param: String, value) -> void:
+	if param == 'dialog_mode':
+		enable_actor(! (value as bool))
+
+#func _on_PlayerTooHigh_exited_range(_node) -> void:
+#	triggered = false
+#	state_machine.change_state(MyState.IDLE)
+
+#func _on_PlayerTooHigh_entered_range(_node) -> void:
+#	triggered = true
+#	state_machine.change_state(MyState.IDLE)

@@ -4,7 +4,7 @@ func _setup():
 	if user_data.start_cooldown:
 		user_data.start_cooldown = false
 		(user_data.cooldown_timer as Timer).start()
-		emit_signal('state_disable', StateMachine.StateCallMode.PHYSICS)
+		emit_signal('state_parent_call', 'disable', [StateMachine.StateCallMode.PHYSICS])
 	else:
 		var root: Enemy = persistant_state
 		root.velocity.x = root.direction.x * root.speed_cap.x
@@ -35,3 +35,9 @@ func _kevin_attacking() -> void:
 
 func _cooldown_timer_timeout() -> void:
 	emit_signal('state_change_request', persistant_state.MyState.PROWL)
+
+func _kevin_jumping() -> void:
+	var distnot: DistanceNotifier = user_data.distance_notifier
+	if distnot.get_vector().x < (persistant_state.ATTACK_RANGE + 10.0):
+		user_data.start_cooldown = true
+		emit_signal('state_change_request', persistant_state.MyState.EVADE)

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://scripts/classes/resources/MessageData.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+string_data = PoolStringArray( "Up ahead is a [speed=30]dark beast,[speed] a type of enemy you find in this game.", "If you get too close to it, it will attack, so be careful!", "If you do have to fight it, keep this in mind:[wait] the monster will quickly approach you, slow down, then lunge! In that order...", "Right before the beast lunges at you, [speed=10]start to swing your sword.[speed] That will do damage to it!", "Now! You are ready to face this challenge! Go get them, Kevin!" )

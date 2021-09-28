@@ -30,6 +30,7 @@ func physics_main(delta):
 	if on_floor:
 		root.velocity.x = move_toward(root.velocity.x, 0, delta * (root.FRICTION * 1.5))
 		if root.velocity.x == 0.0:
+			user_data.start_cooldown = true
 			return persistant_state.MyState.IDLE
 	on_floor = root.is_on_floor()
 

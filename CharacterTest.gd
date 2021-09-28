@@ -26,7 +26,7 @@ func _ready():
 	overlay.add_stat("Input disabled", $Kevin, "disable_input", false)
 	overlay.add_stat("Direction", $Kevin, "direction", false)
 	
-	overlay.add_stat("Dark Beast->direction", $DarkBeast, "direction", false)
+	#overlay.add_stat("Dark Beast->direction", $DarkBeast, "direction", false)
 	
 	debug_console.command_handler.initial_position = $Kevin.global_position
 
@@ -36,3 +36,6 @@ func _on_Kevin_sprint_meter_update_parameters(min_value: float, max_value: float
 
 func _on_Kevin_sprint_meter_updated(value: float):
 	sprint_meter.value = value
+
+func _on_near_sign(_node) -> void:
+	print("kevin is near the sign")

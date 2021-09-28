@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://scenes/actors/enemies/DarkBeast.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/actors/enemies/dark_beast.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scenes/actors/enemies/dark_beast/ProwlState.gd" type="Script" id=9]
 [ext_resource path="res://scenes/components/Hitbox.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/actors/enemies/dark_beast/EvadeState.gd" type="Script" id=11]
+[ext_resource path="res://scripts/classes/nodes/DistanceNotifier.gd" type="Script" id=12]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 17.0
@@ -725,12 +726,9 @@ extents = Vector2( 17, 16 )
 [sub_resource type="RectangleShape2D" id=10]
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 175, 21 )
+extents = Vector2( 200, 21 )
 
-[node name="DarkBeast" type="KinematicBody2D" groups=[
-"actors",
-"enemies",
-]]
+[node name="DarkBeast" type="KinematicBody2D" groups=["actors", "enemies"]]
 light_mask = 0
 collision_layer = 8
 collision_mask = 3
@@ -790,6 +788,7 @@ position = Vector2( 30, 19 )
 shape = SubResource( 5 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 10 )]
+visible = false
 collision_layer = 64
 collision_mask = 32
 
@@ -799,7 +798,6 @@ shape = SubResource( 10 )
 disabled = true
 
 [node name="TriggerArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 4
 
@@ -810,6 +808,7 @@ shape = SubResource( 7 )
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 5 )
 root_node = NodePath("..")
+paused = false
 
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
@@ -829,6 +828,22 @@ script = ExtResource( 11 )
 [node name="CooldownTimer" type="Timer" parent="."]
 wait_time = 2.5
 one_shot = true
+
+[node name="DistanceToPlayer" type="Node2D" parent="."]
+position = Vector2( 30, 19 )
+script = ExtResource( 12 )
+__meta__ = {
+"_other_node": null,
+"other_node_position": Vector2( 0, 0 )
+}
+other_node = NodePath("")
+component = 1
+threshold = Vector2( 200, 85 )
+editor/line_color = Color( 0.37, 0.62, 0.63, 1 )
+editor/line_range_color = Color( 1, 0.75, 0.8, 1 )
+editor/line_width = 1.0
+editor/radius = 5.0
+editor/circle_color = Color( 0.65, 0.16, 0.16, 0.5 )
 
 [connection signal="body_entered" from="TriggerArea" to="." method="_on_Kevin_body_entered"]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_CooldownTimer_timeout"]

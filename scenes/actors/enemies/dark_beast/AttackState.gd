@@ -18,8 +18,17 @@ func physics_main(delta: float):
 	if on_floor and next:
 		root.velocity.x = move_toward(root.velocity.x, 0, delta * (root.FRICTION * 1.5))
 		if root.velocity.x == 0.0:
-			user_data.start_cooldown = true
-			return persistant_state.MyState.EVADE
+			var distance: Vector2
+			if true:
+				var player: Game.Kevin = Game.get_player()
+				distance = (root.get_center() - player.get_center()).abs()
+			
+			# Don't evade if far away
+			if distance.x < 90.0:
+				user_data.start_cooldown = true
+				return persistant_state.MyState.EVADE
+			root.direction.x = -root.direction.x
+			return persistant_state.MyState.PROWL
 			
 	on_floor = root.is_on_floor()
 
@@ -28,4 +37,10 @@ func attack() -> void:
 	root.velocity = Vector2(200 * root.direction.x, -150)
 	next = true
 	on_floor = false
-	root.move_and_collide(Vector2.UP)
+	root.move_and_slide(Vector2.UP, Vector2.UP)
+
+#func get_distance():
+#	var root: Enemy = persistant_state
+#	var player: Game.Kevin = Game.get_player()
+#
+#	return (root.get_center() - player.get_center()).abs()
