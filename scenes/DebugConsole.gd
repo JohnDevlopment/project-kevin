@@ -135,6 +135,7 @@ func _parse_error_string(s: String):
 			s = s.format([words[0], words[1]])
 		"@arrayneed":
 			s = "array '{0}' requires {1} elements"
+			s = s.format([words[0], words[1]])
 		"@error":
 			s = "Error: " + words[0]
 		"@exit":

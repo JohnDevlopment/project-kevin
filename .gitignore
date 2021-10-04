@@ -2,3 +2,4 @@ temp/*
 .ignore/*
 .import/
 generate_docs.sh
+bin/*

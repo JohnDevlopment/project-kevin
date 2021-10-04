@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>DistanceNotifier - Class Documentation</title>
+        <style media="screen">
+            :root {
+                --bodybg: #E1EBF0;
+                --contentbg: #F7FDFF;
+                --monofont: "Liberation Mono", "Courier New", monospace;
+                --sansfont: FreeSans, Arial, sans-serif;
+            }
+            .brief {
+                margin-left: 1cm;
+            }
+            .class {
+                color: #E54B4E;
+            }
+            #flex-container {
+                display: flex;
+                flex-flow: row nowrap;
+                height: 100%;
+            }
+            #main-article {
+                flex: 4 1 300px;
+                height: 100%;
+                overflow-y: auto;
+                padding: 4px 1cm 4px 1cm;
+            }
+            #toc {
+                background-color: #9ABDE2;
+                flex: 1 4 100px;
+                height: 100%;
+                overflow-x: hidden;
+                padding: 4px;
+            }
+            #main {
+                background-color: var(--contentbg);
+                box-sizing: border-box;
+                height: 95%;
+                margin: 2px 20% 2px 20%;
+            }
+            abbr[title] {
+                border-bottom: 1px dotted;
+                text-decoration: none;
+            }
+            body, html {
+                height: 100%;
+            }
+            body {
+                background-color: var(--bodybg);
+                font-family: var(--sansfont);
+            }
+            code {
+                font-family: var(--monofont);
+            }
+            div {
+                margin-bottom: 30px;
+            }
+            div.note {
+                border-left-color: #FCE94F;
+                border-left-style: solid;
+                border-left-width: 5px;
+                margin-left: 1cm;
+                padding-left: 2px;
+            }
+            hr {
+                display: block;
+                border-style: inset;
+                border-width: 2px;
+                border-color: #BCBCBC;
+                overflow: hidden;
+            }
+            hr.faint-line {
+                border-color: #FDFDFD;
+                border-width: 1px;
+            }
+            p {
+                margin-bottom: 30px;
+            }
+            /* table */
+            table {
+                border-collapse: collapse;
+            }
+            th {
+                font-weight: bold;
+            }
+            td, th {
+                border: 1px solid #9FA695;
+                padding: 4px 8px 4px 8px;
+            }
+            span.complextype {
+                color: #386908;
+                font-family: var(--monofont);
+            }
+            span.podtype {
+                color: #C15252;
+                font-family: var(--monofont);
+            }
+            /* table class="bicolor_light" */
+            table.bicolor_light td:nth-child(2) {
+                font-family: var(--monofont);
+            }
+            table.bicolor_light tr:nth-child(even) {
+                background-color: #F7FDFF;
+                font-family: var(--monofont);
+            }
+            table.bicolor_light tr:nth-child(odd) {
+                background-color: #E9F0F2;
+                font-family: var(--monofont);
+            }
+            /* table class="bicolor" */
+            table.bicolor {
+                width: 100%;
+            }
+            table.bicolor td:nth-child(1), table.bicolor td:nth-child(3) {
+                font-family: var(--monofont);
+            }
+            table.bicolor tr {
+                font-family: var(--monofont);
+            }
+            table.bicolor tr:nth-child(even) {
+                background-color: #DCE6E8;
+            }
+            table.bicolor tr:nth-child(odd) {
+                background-color: #EDF9FA;
+            }
+        </style>
+        <script type="text/javascript">
+            /*function changeNote() {
+                const es = document.getElementsByClassName('note');
+                let flen = es.length;
+                for (let i = 0; i < flen; ++i) {
+                    let buf = es[i].innerHTML;
+                    es[i].innerHTML = "<b>Note</b>" + buf;
+                }
+            }*/
+            function addRefsToFunctionClass() {
+                const es = document.getElementsByClassName('functionref');
+                let flen = es.length;
+                for (let i = 0; i < flen; ++i) {
+                    let buf = es[i].innerHTML;
+                    es[i].innerHTML = "<a href=\"#" + buf.match(/[a-zA-Z_]*(?=\(\))/) + "\">" + buf + "</a>";
+                }
+            }
+        </script>
+    </head>
+    <body onload="addRefsToFunctionClass()">
+        <div id="main">
+            <div id="flex-container">
+                <nav id="toc">
+                    <h1>Table of Contents</h1>
+                    <ul>
+                        <li> <a href="#description">Description</a> </li>
+                        <li> <a href="#properties">Properties</a> </li>
+                        <li> <a href="#enumerations">Enumerations</a> </li>
+                        <li> <a href="#constants">Constants</a> </li>
+                        <li> <a href="#signals">Signals</a> </li>
+                        <li> <a href="#methods">Methods</a> </li>
+                    </ul>
+                </nav>
+                <section id="main-article">
+                    <header id="header">
+                        <h1>DistanceNotifier</h1>
+                        <p>Inherits from: Node2D</p>
+                        <p>Measures the distances between two things</p>
+                    </header>
+                    <hr>
+                    <div id="description">
+                        <h2>Description</h2>
+                        <p>This node measures the distance between itself and the node specified by the <i class="argument">other_node</i> property.</p><p>What exactly gets measured depends on the <i>component</i> property. Either the X or Y distance between two nodes can be checked, or both. Alternatively, the linear distance between the two nodes can be checked.</p>
+                    </div>
+                    <div id="properties">
+                        <h2>Properties</h2>
+                        <table class="bicolor"><tr><th>Type</th><th>Name</th><th>Default</th></tr><tr><td><span class="complextype">NodePath</span></td><td>other_node</td><td><span class="complextype">NodePath</span>() </td></tr>
+<tr><td><span class="podtype">int</span></td><td>component</td><td>X_COMPONENT</td></tr>
+<tr><td><span class="complextype">Vector2</span></td><td>threshold</td><td><span class="complextype">Vector2</span>() </td></tr>
+<tr><td><span class="complextype">Color</span></td><td>editor_line_color</td><td><span class="complextype">Color</span>.cadetblue </td></tr>
+<tr><td><span class="complextype">Color</span></td><td>editor_line_range_color</td><td><span class="complextype">Color</span>.pink </td></tr>
+<tr><td><span class="podtype">float</span></td><td>editor_line_width</td><td>1.0 </td></tr>
+<tr><td><span class="podtype">float</span></td><td>editor_radius</td><td>15.0 </td></tr>
+<tr><td><span class="complextype">Color</span></td><td>editor_circle_color</td><td><span class="complextype">Color</span>(0.65, 0.16, 0.16, 0.5) </td></tr>
+</table>
+<br>
+<p>&bullet; <b><span class="complextype">NodePath</span> other_node</b> &mdash; The other node being measured. </p>
+<table class="bicolor_light">
+    <tr id="other_node_default">
+        <td>Default</td>
+        <td><span class="complextype">NodePath</span>() </td>
+    </tr>
+    <tr id="other_node_setter">
+        <td>Setter</td>
+        <td>set_other_node(v)</td>
+    </tr>
+</table>
+<p>&bullet; <b><span class="podtype">int</span> component</b> &mdash; This determines what gets measures exactly. </p>
+<table class="bicolor_light">
+    <tr id="component_default">
+        <td>Default</td>
+        <td>X_COMPONENT</td>
+    </tr>
+</table>
+<p>Valid values are: <code>X_COMPONENT</code>, <code>Y_COMPONENT</code>, <code>BOTH_COMPONENTS</code>, or <code>FLOAT</code>. <code>X_COMPONENT</code> and <code>Y_COMPONENT</code> are obvious, but <code>BOTH_COMPONENTS</code> and <code>FLOAT</code> need explaining.</p><p>With <code>BOTH_COMPONENTS</code>, both the X and Y component of <i class="argument">threshold</i> are checked: the X and Y distance between two nodes both need to be less than or equal to the threshold's X and Y component, respectively, in order to be considered "within range".</p><p>With <code>FLOAT</code>, the linear distance between the two nodes is calculated. Imagine a line between the connected nodes: the length of that line is the distance being checked under this mode. In this case, the X component of <i class="argument">threshold</i> is used as the threshold.</p>
+<p>&bullet; <b><span class="complextype">Vector2</span> threshold</b> &mdash; Maximum distance between nodes </p>
+<table class="bicolor_light">
+    <tr id="threshold_default">
+        <td>Default</td>
+        <td><span class="complextype">Vector2</span>() </td>
+    </tr>
+    <tr id="threshold_setter">
+        <td>Setter</td>
+        <td>set_threshold(value)</td>
+    </tr>
+</table>
+<p>What you put in here depends on <i class="argument">component</i>: if <code>X_COMPONENT</code> or <code>Y_COMPONENT</code>, either the X component or the Y component are used; if <code>BOTH_COMPONENTS</code>, both components are used; if <code>FLOAT</code>, the X component is used to hold a linear distance.</p><p>In the case of <code>FLOAT</code>, the linear distance refers to the result of <code class="function"><span class="complextype">Vector2</span>::distance</code>.</p>
+<p>&bullet; <b><span class="complextype">Color</span> editor_line_color</b> &mdash; The color of the line when out of range </p>
+<table class="bicolor_light">
+    <tr id="editor_line_color_default">
+        <td>Default</td>
+        <td><span class="complextype">Color</span>.cadetblue </td>
+    </tr>
+    <tr id="editor_line_color_setter">
+        <td>Setter</td>
+        <td>set_editor_line_color(value)</td>
+    </tr>
+</table>
+<p>&bullet; <b><span class="complextype">Color</span> editor_line_range_color</b> &mdash; The color of the line when in range </p>
+<table class="bicolor_light">
+    <tr id="editor_line_range_color_default">
+        <td>Default</td>
+        <td><span class="complextype">Color</span>.pink </td>
+    </tr>
+    <tr id="editor_line_range_color_setter">
+        <td>Setter</td>
+        <td>set_editor_line_color(value)</td>
+    </tr>
+</table>
+<p>&bullet; <b><span class="podtype">float</span> editor_line_width</b> &mdash; Thickness of the line drawn between nodes </p>
+<table class="bicolor_light">
+    <tr id="editor_line_width_default">
+        <td>Default</td>
+        <td>1.0 </td>
+    </tr>
+    <tr id="editor_line_width_setter">
+        <td>Setter</td>
+        <td>set_editor_line_width(value)</td>
+    </tr>
+</table>
+<p>&bullet; <b><span class="podtype">float</span> editor_radius</b> &mdash; Radius of the circle </p>
+<table class="bicolor_light">
+    <tr id="editor_radius_default">
+        <td>Default</td>
+        <td>15.0 </td>
+    </tr>
+    <tr id="editor_radius_setter">
+        <td>Setter</td>
+        <td>set_editor_radius(value)</td>
+    </tr>
+</table>
+<p>&bullet; <b><span class="complextype">Color</span> editor_circle_color</b> &mdash; <span class="complextype">Color</span> of the circle </p>
+<table class="bicolor_light">
+    <tr id="editor_circle_color_default">
+        <td>Default</td>
+        <td><span class="complextype">Color</span>(0.65, 0.16, 0.16, 0.5) </td>
+    </tr>
+    <tr id="editor_circle_color_setter">
+        <td>Setter</td>
+        <td>set_editor_circle_color(value)</td>
+    </tr>
+</table>
+                    </div>
+                    <div id="constants">
+                        <h2>Constants</h2>
+                        <ul><li id="const_<b>X_COMPONENT</b> = 0"><b>X_COMPONENT</b> = 0 -- Measure only the X distance</li>
+<li id="const_<b>Y_COMPONENT</b> = 1"><b>Y_COMPONENT</b> = 1 -- Measure only the Y distance</li>
+<li id="const_<b>BOTH_COMPONENTS</b> = 2"><b>BOTH_COMPONENTS</b> = 2 -- Measure both the X and Y distances</li>
+<li id="const_<b>FLOAT</b> = 3"><b>FLOAT</b> = 3 -- Calculate the linear difference between two nodes</li>
+</ul>
+                    </div>
+                    <div id="signals">
+                        <h2>Signals</h2>
+                        <div id="signal_entered_range">
+    <p>&bullet; <b>entered_range(Node2D node)</b></p>
+    <p>The other node is closer than <i class="argument">threshold</i>.</p>
+</div>
+<hr class="faint-line"><div id="signal_exited_range">
+    <p>&bullet; <b>exited_range(Node2D node)</b></p>
+    <p>The other node is farther away then <i class="argument">threshold</i>.</p>
+</div>
+                    </div>
+                    <div id="methods">
+                        <h2>Methods</h2>
+                        <div id="method_get_vector">
+    <p>&bullet; <span class="complextype">Vector2</span> <b>get_vector</b>()</p>
+    <p class="brief">Returns the distance between this and the other node.</p><p>This function checks the distance between this node and the one referenced by <i class="argument">other_node</i>. The return valued is a <span class="complextype">Vector2</span> specifying the positive distance between the two.</p><p>If <i class="argument">other_node</i> is empty or points to an invalid node, <span class="complextype">Vector2</span>() is returned and an error is emitted.</p>
+</div>
+<div id="method_is_within_range">
+    <p>&bullet; <span class="podtype">bool</span> <b>is_within_range</b>()</p>
+    <p class="brief">Returns true if the other node is within range.</p>
+</div>
+<div id="method_set_other_node">
+    <p>&bullet; <span class="podtype">void</span> <b>set_other_node</b>(<span class="podtype">Variant</span> v)</p>
+    <p class="brief">Set the <i class="argument">other_node</i> property.</p><p>Sets the node to be measured by <code class="class">DistanceNotifier</code>. If <i class="argument">v</i> is a Node2D-derived type, the path is derived from its position in the tree.</p>
+</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </body>
+</html>

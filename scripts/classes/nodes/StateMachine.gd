@@ -88,7 +88,6 @@ func _ready():
 		s.connect('state_change_request', self, "_change_state", [], CONNECT_DEFERRED)
 		s.connect('state_parent_call', self, '_state_parent_call')
 		_states.append(s)
-		remove_child(s)
 
 func _set(property: String, value) -> bool:
 	match property:

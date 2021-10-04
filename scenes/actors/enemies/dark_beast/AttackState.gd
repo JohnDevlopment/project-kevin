@@ -20,7 +20,7 @@ func physics_main(delta: float):
 		if root.velocity.x == 0.0:
 			var distance: Vector2
 			if true:
-				var player: Game.Kevin = Game.get_player()
+				var player = Game.get_player()
 				distance = (root.get_center() - player.get_center()).abs()
 			
 			# Don't evade if far away

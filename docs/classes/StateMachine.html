@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>StateMachine - Class Documentation</title>
+        <style media="screen">
+            :root {
+                --bodybg: #E1EBF0;
+                --contentbg: #F7FDFF;
+                --monofont: "Liberation Mono", "Courier New", monospace;
+                --sansfont: FreeSans, Arial, sans-serif;
+            }
+            .brief {
+                margin-left: 1cm;
+            }
+            .class {
+                color: #E54B4E;
+            }
+            #flex-container {
+                display: flex;
+                flex-flow: row nowrap;
+                height: 100%;
+            }
+            #main-article {
+                flex: 4 1 300px;
+                height: 100%;
+                overflow-y: auto;
+                padding: 4px 1cm 4px 1cm;
+            }
+            #toc {
+                background-color: #9ABDE2;
+                flex: 1 4 100px;
+                height: 100%;
+                overflow-x: hidden;
+                padding: 4px;
+            }
+            #main {
+                background-color: var(--contentbg);
+                box-sizing: border-box;
+                height: 95%;
+                margin: 2px 20% 2px 20%;
+            }
+            abbr[title] {
+                border-bottom: 1px dotted;
+                text-decoration: none;
+            }
+            body, html {
+                height: 100%;
+            }
+            body {
+                background-color: var(--bodybg);
+                font-family: var(--sansfont);
+            }
+            code {
+                font-family: var(--monofont);
+            }
+            div {
+                margin-bottom: 30px;
+            }
+            div.note {
+                border-left-color: #FCE94F;
+                border-left-style: solid;
+                border-left-width: 5px;
+                margin-left: 1cm;
+                padding-left: 2px;
+            }
+            hr {
+                display: block;
+                border-style: inset;
+                border-width: 2px;
+                border-color: #BCBCBC;
+                overflow: hidden;
+            }
+            hr.faint-line {
+                border-color: #FDFDFD;
+                border-width: 1px;
+            }
+            p {
+                margin-bottom: 30px;
+            }
+            /* table */
+            table {
+                border-collapse: collapse;
+            }
+            th {
+                font-weight: bold;
+            }
+            td, th {
+                border: 1px solid #9FA695;
+                padding: 4px 8px 4px 8px;
+            }
+            span.complextype {
+                color: #386908;
+                font-family: var(--monofont);
+            }
+            span.podtype {
+                color: #C15252;
+                font-family: var(--monofont);
+            }
+            /* table class="bicolor_light" */
+            table.bicolor_light td:nth-child(2) {
+                font-family: var(--monofont);
+            }
+            table.bicolor_light tr:nth-child(even) {
+                background-color: #F7FDFF;
+                font-family: var(--monofont);
+            }
+            table.bicolor_light tr:nth-child(odd) {
+                background-color: #E9F0F2;
+                font-family: var(--monofont);
+            }
+            /* table class="bicolor" */
+            table.bicolor {
+                width: 100%;
+            }
+            table.bicolor td:nth-child(1), table.bicolor td:nth-child(3) {
+                font-family: var(--monofont);
+            }
+            table.bicolor tr {
+                font-family: var(--monofont);
+            }
+            table.bicolor tr:nth-child(even) {
+                background-color: #DCE6E8;
+            }
+            table.bicolor tr:nth-child(odd) {
+                background-color: #EDF9FA;
+            }
+        </style>
+        <script type="text/javascript">
+            /*function changeNote() {
+                const es = document.getElementsByClassName('note');
+                let flen = es.length;
+                for (let i = 0; i < flen; ++i) {
+                    let buf = es[i].innerHTML;
+                    es[i].innerHTML = "<b>Note</b>" + buf;
+                }
+            }*/
+            function addRefsToFunctionClass() {
+                const es = document.getElementsByClassName('functionref');
+                let flen = es.length;
+                for (let i = 0; i < flen; ++i) {
+                    let buf = es[i].innerHTML;
+                    es[i].innerHTML = "<a href=\"#" + buf.match(/[a-zA-Z_]*(?=\(\))/) + "\">" + buf + "</a>";
+                }
+            }
+        </script>
+    </head>
+    <body onload="addRefsToFunctionClass()">
+        <div id="main">
+            <div id="flex-container">
+                <nav id="toc">
+                    <h1>Table of Contents</h1>
+                    <ul>
+                        <li> <a href="#description">Description</a> </li>
+                        <li> <a href="#properties">Properties</a> </li>
+                        <li> <a href="#enumerations">Enumerations</a> </li>
+                        <li> <a href="#constants">Constants</a> </li>
+                        <li> <a href="#signals">Signals</a> </li>
+                        <li> <a href="#methods">Methods</a> </li>
+                    </ul>
+                </nav>
+                <section id="main-article">
+                    <header id="header">
+                        <h1>StateMachine</h1>
+                        <p>Inherits from: Node</p>
+                        <p>Container and controller of states</p>
+                    </header>
+                    <hr>
+                    <div id="description">
+                        <h2>Description</h2>
+                        <p>A StateMachine controls the state of an object, referred internally as the persistent state. The state machine collects all its <code class="class">State</code> children and compiles them into an array. From there, they are accessible by functions like <code class="function">change_state</code>.</p><p>It is necessary that you call <code class="function">change_state</code> at least once before calling <code class="function">state_physics</code> or <code class="function">state_process</code>.</p><p>While the <code class="class">StateMachine</code> collects a list of its <code class="class">State</code> children, it also connects to a number of signals as well. The signals it connects to are as follows.</p><p>* state_change_request(<span class="podtype">int</span> new_state) <br> Change to a different state. <i class="argument">new_state</i> is the index of the state to switch to. This signal is deferred, that is, emitted at the next idle frame after all the physics steps have been exhausted.</p><p>* state_parent_call(<span class="podtype">String</span> name, <span class="podtype">Array</span> args) <br> Invoke an action in the <code class="class">StateMachine</code> parent. <br> If <i class="argument">name</i> is "disable" or "enable", disable or enable a portion of the active state, respectively. Index 0 of <i class="argument">args</i> is a constant of @enum StateCallMode.</p>
+                    </div>
+                    <div id="properties">
+                        <h2>Properties</h2>
+                        <table class="bicolor"><tr><th>Type</th><th>Name</th><th>Default</th></tr><tr><td><span class="complextype">NodePath</span></td><td>root_node</td><td></td></tr>
+<tr><td><span class="podtype">bool</span></td><td>paused</td><td>false </td></tr>
+</table>
+<br>
+<p>&bullet; <b><span class="complextype">NodePath</span> root_node</b> &mdash; Path to the root node </p>
+<p>The root node of the <code class="class">StateMachine</code>. Referred by the <code class="class">State</code> children as the persistent state.</p>
+<p>&bullet; <b><span class="podtype">bool</span> paused</b> &mdash; Whether the <code class="class">StateMachine</code> is paused or not </p>
+<table class="bicolor_light">
+    <tr id="paused_default">
+        <td>Default</td>
+        <td>false </td>
+    </tr>
+</table>
+                    </div>
+                    <div id="enumerations">
+                        <h2>Enumerations</h2>
+                        <p style="margin-bottom:1px">enum <strong>StateCallMode:</strong></p>
+<ul>
+    <li><b>PHYSICS</b> = 0 &mdash; Physics process</li><li><b>PROCESS</b> = 1 &mdash; Idle process</li>
+</ul>
+                    </div>
+                    <div id="methods">
+                        <h2>Methods</h2>
+                        <div id="method_change_state">
+    <p>&bullet; <span class="podtype">int</span> <b>change_state</b>(<span class="podtype">int</span> next_state)</p>
+    <p class="brief">Change to a different state</p><p>Call this function to switch to a different state in the machine. <i class="argument">next_state</i> is the index of the state you wish to go to. The states are in the same order as they appear in the editor, starting from zero.</p><p>Before switching to a new state, the old state's <code class="function">cleanup</code> method is invoked. Then after switching to the new state, its <code class="function">setup</code> method is invoked.</p>
+</div>
+<div id="method_current_state">
+    <p>&bullet; <span class="podtype">int</span> <b>current_state</b>()</p>
+    <p class="brief">Get the current state</p>
+</div>
+<div id="method_state_physics">
+    <p>&bullet; <span class="podtype">Variant</span> <b>state_physics</b>(<span class="podtype">float</span> delta)</p>
+    <p class="brief">Go to the state's physics method</p>
+</div>
+<div id="method_state_process">
+    <p>&bullet; <span class="podtype">Variant</span> <b>state_process</b>(<span class="podtype">float</span> delta)</p>
+    <p class="brief">Go to the state's process method</p>
+</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </body>
+</html>
