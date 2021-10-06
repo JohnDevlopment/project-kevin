@@ -36,6 +36,3 @@ func _on_Kevin_sprint_meter_update_parameters(min_value: float, max_value: float
 
 func _on_Kevin_sprint_meter_updated(value: float):
 	sprint_meter.value = value
-
-func _on_near_sign(_node) -> void:
-	print("kevin is near the sign")

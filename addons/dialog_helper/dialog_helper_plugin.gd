@@ -10,7 +10,6 @@ func _enter_tree() -> void:
 	_dock = DockScene.instance() as Control
 	_show_button = add_control_to_bottom_panel(_dock, "MessageData")
 	_show_button.hide()
-	print("is in tree: ", is_inside_tree())
 
 func _exit_tree() -> void:
 	if _dock:

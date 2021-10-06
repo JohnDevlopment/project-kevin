@@ -3,7 +3,6 @@ extends PanelContainer
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.is_action_pressed("ui_start"):
-			print("ui_start")
 			Game.set_paused(false)
 			get_tree().set_input_as_handled()
 			queue_free()

@@ -243,7 +243,6 @@ func _notification(what: int) -> void:
 			if not Engine.editor_hint:
 				_other_node = get_node_or_null(other_node)
 				var valid := _check_valid_other_node()
-				print("valid: ", valid)
 				set_process(valid)
 				if valid:
 					_distance_met = _check_distance_met()
