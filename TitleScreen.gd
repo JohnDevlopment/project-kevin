@@ -20,6 +20,7 @@ func _ready() -> void:
 	for node in box.get_children():
 		node.queue_free()
 	
+	# create buttons based on the fields in BUTTON_COMMANDS
 	for command in BUTTON_COMMANDS:
 		var btn_name: String = command[0]
 		var btn_tag: String = command[1]
@@ -36,6 +37,12 @@ func _ready() -> void:
 	
 	# Automatically disables a button after the music finishes
 	BackgroundMusic.connect('finished', self, '_on_music_finished', [button], CONNECT_ONESHOT)
+	
+	# fade into scene
+	Game.set_paused(true)
+	TransitionRect.fade_in()
+	yield(TransitionRect, 'fade_finished')
+	Game.set_paused(false)
 
 func _on_music_finished(button: Button) -> void:
 	button.disabled = true
@@ -54,8 +61,11 @@ func _on_button_pressed(tag: String):
 			var button = get_node(@"CanvasLayer/MarginContainer/VBoxContainer/music_fade")
 			button.disabled = true
 		"ctest_start":
-			BackgroundMusic.fade_out(3.0)
-			get_tree().change_scene("res://CharacterTest.tscn")
+			BackgroundMusic.fade_out(4.0)
+			TransitionRect.queue_next_scene("res://CharacterTest.tscn")
+			TransitionRect.queue_fade('in', {duration = 5.0})
+			TransitionRect.fade_out()
+			#get_tree().change_scene("res://CharacterTest.tscn")
 		"vec_calc":
 			BackgroundMusic.fade_out(6.0)
 			get_tree().change_scene("res://scenes/gui/VectorCalculator.tscn")
