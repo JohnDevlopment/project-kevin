@@ -61,7 +61,7 @@ func _process(delta: float) -> void:
 		set_process(false)
 		return
 	
-	state_machine.state_physics(delta)
+	state_machine.state_process(delta)
 
 func _enable_actor(flag: bool) -> void:
 	if !flag:

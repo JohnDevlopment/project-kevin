@@ -23,7 +23,8 @@ func process_main(_delta):
 func physics_main(delta):
 	var root: Enemy = persistant_state
 	if on_floor:
-		root.velocity.x = move_toward(root.velocity.x, 0, delta * (root.FRICTION * 1.5))
+		root.velocity.x = move_toward(root.velocity.x, 0, delta * (root.FRICTION))
 		if root.velocity.x == 0.0:
+			root.start_animation_with_blend('Idle', root.direction)
 			return persistant_state.MyState.PROWL
 	on_floor = root.is_on_floor()
