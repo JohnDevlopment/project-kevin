@@ -123,8 +123,8 @@ mix_rate=22050
 Game="*res://scripts/classes/singletons/Game.gd"
 History="*res://scripts/classes/singletons/History.gd"
 Application="*res://scripts/classes/singletons/Application.gd"
-BackgroundMusic="*res://scenes/BackgroundMusic.tscn"
-TransitionRect="*res://scenes/TransitionRect.tscn"
+BackgroundMusic="*res://scenes/autoloads/BackgroundMusic.tscn"
+TransitionRect="*res://scenes/autoloads/TransitionRect.tscn"
 Math="*res://scripts/classes/singletons/Math.gd"
 
 [debug]
