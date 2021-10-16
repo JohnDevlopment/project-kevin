@@ -49,6 +49,9 @@ func actor_id_to_string(id: int) -> String:
 func get_player() -> Actor:
 	return get_tree().get_nodes_in_group("player")[0]
 
+func go_to_scene(scene: String) -> void:
+	get_tree().change_scene(scene)
+
 func has_player() -> bool:
 	return get_tree().has_group('player')
 
