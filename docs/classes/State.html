@@ -64,6 +64,9 @@
                 margin-left: 1cm;
                 padding-left: 2px;
             }
+            /*h1 {
+                font-size: 2em;
+            }*/
             hr {
                 display: block;
                 border-style: inset;
@@ -136,20 +139,20 @@
                 }
             }*/
             function addRefsToFunctionClass() {
-                const es = document.getElementsByClassName('functionref');
+                const es = document.getElementsByClassName('function');
                 let flen = es.length;
                 for (let i = 0; i < flen; ++i) {
                     let buf = es[i].innerHTML;
-                    es[i].innerHTML = "<a href=\"#" + buf.match(/[a-zA-Z_]*(?=\(\))/) + "\">" + buf + "</a>";
+                    es[i].innerHTML = "<a href=\"#method_" + buf.match(/[a-zA-Z_]*/) + "\">" + buf + "</a>";
                 }
             }
         </script>
     </head>
-    <body onload="addRefsToFunctionClass()">
+    <body > <!-- onload="addRefsToFunctionClass()" -->
         <div id="main">
             <div id="flex-container">
                 <nav id="toc">
-                    <h1>Table of Contents</h1>
+                    <h1 style="font-size: 2em">Table of Contents</h1>
                     <ul>
                         <li> <a href="#description">Description</a> </li>
                         <li> <a href="#properties">Properties</a> </li>
@@ -161,11 +164,15 @@
                 </nav>
                 <section id="main-article">
                     <header id="header">
-                        <h1>State</h1>
-                        <p>Inherits from: Node</p>
+                        <h1 style="font-size: 2em">State</h1>
                         <p>A self-contained state, to be used with <code class="class">StateMachine</code></p>
+                        <p><p>Inherits from <code class="class">Node</code> </p></p>
                     </header>
                     <hr>
+<!-- a7d28a62ddc9342aaf8aa343fb13885b -->
+<!-- 2ba0108686528bb3cc3abf08b34e1d2f -->
+<!-- dbb2de43bcb6db6ff4f7c60dc0e51aa3 -->
+<!-- 4b245a71c688bce9fbb8bf9225b5f7b4 -->
                     <div id="signals">
                         <h2>Signals</h2>
                         <div id="signal_state_change_request">

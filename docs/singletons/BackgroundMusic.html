@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>Actor - Class Documentation</title>
+        <title>BackgroundMusic - Class Documentation</title>
         <style media="screen">
             :root {
                 --bodybg: #E1EBF0;
@@ -164,47 +164,38 @@
                 </nav>
                 <section id="main-article">
                     <header id="header">
-                        <h1 style="font-size: 2em">Actor</h1>
-                        <p>Kinematic Actor type</p>
-                        <p><p>Inherits from <code class="class">KinematicBody2D</code> </p></p>
+                        <h1 style="font-size: 2em">BackgroundMusic</h1>
+                        <h2>Singleton Reference</h2>
+                        <p>Singleton for playing background music.</p>
+                        <p><p>Inherits from <code class="class">AudioStreamPlayer</code> </p></p>
                     </header>
                     <hr>
-                    <div id="description">
-                        <h2>Description</h2>
-                        <p>Extends the functionality of <code class="class">KinematicBody2D</code> with gravity and a vector speed and velocity. By default, the physics process handles gravity with linear interpolation.</p><p>In addition to the exported properties, there are some variables that you can access that are not exported to the editor. Here is a list of them:</p><p><code><span class="podtype">float</span></code> gravity_value = 98 <br> The maximum Y velocity the actor can have due to gravity. Defaults to the value of physics/2d/default_gravity in the project settings.</p><p><code><span class="complextype">Vector2</span></code> velocity = <span class="complextype">Vector2</span>() <br> The current velocity of the actor. For the most part, this variable must be manually updated, except that the Y component is affected by gravity every physics step.</p>
-                    </div>
+<!-- a7d28a62ddc9342aaf8aa343fb13885b -->
                     <div id="properties">
                         <h2>Properties</h2>
-                        <table class="bicolor"><tr><th>Type</th><th>Name</th><th>Default</th></tr><tr><td><span class="complextype">Vector2</span></td><td>speed_cap</td><td><span class="complextype">Vector2</span>()</td></tr>
+                        <table class="bicolor"><tr><th>Type</th><th>Name</th><th>Default</th></tr><tr><td><span class="podtype">Dictionary</span></td><td>songs</td><td></td></tr>
 </table>
 <br>
-<p>&bullet; <b><span class="complextype">Vector2</span> speed_cap</b> &mdash; Speed cap of the actor </p>
-<table class="bicolor_light">
-    <tr id="speed_cap_default">
-        <td>Default</td>
-        <td><span class="complextype">Vector2</span>()</td>
-    </tr>
-<!-- 8e494bdcf766a0bbcdc82f607cf76a82 -->
-<!-- ecd16561fc0121bf417000b65c8dec1c -->
-</table>
-<p>The max speed of the actor. As this property is not acted upon in <code class="class">Actor</code>, it is up to the programmer whether to use it. That being said, it is meant to be used to cap the actor's speed, hence the name.</p>
+<p>&bullet; <b><span class="podtype">Dictionary</span> songs</b> &mdash; A list of songs each mapped to a name. </p>
+<!-- 734c8fb41aa1a2223711377973152836 -->
+<p>This holds a bunch of songs, mapping each name of a file relative to @constant MUSIC_PATH. Each call to <a href="#method_play_music">play_music</a>() is expects a key from this dictionary.</p>
                     </div>
 <!-- dbb2de43bcb6db6ff4f7c60dc0e51aa3 -->
-<!-- 4b245a71c688bce9fbb8bf9225b5f7b4 -->
+                    <div id="constants">
+                        <h2>Constants</h2>
+                        <ul><li id="const_<b>MUSIC_PATH</b> = "res://assets/audio/music""><b>MUSIC_PATH</b> = "res://assets/audio/music" -- Path to the music folder</li>
+</ul>
+                    </div>
 <!-- fd3943bb1502d0570e63e2e474747700 -->
                     <div id="methods">
                         <h2>Methods</h2>
-                        <div id="method_enable_actor">
-    <p>&bullet; <span class="podtype">void</span> <b>enable_actor</b>(<span class="podtype">bool</span> flag)</p>
-    <p class="brief">Enable/disable the <code class="class">Actor</code></p><p>Call this function to enable or disable the actor. Affects the visibility and collision of the actor. The argument <i class="argument">flag</i> can be true or false; true to enable the actor's collision and rendering, or false to disable it.</p>
+                        <div id="method_fade_out">
+    <p>&bullet; <span class="podtype">void</span> <b>fade_out</b>(<span class="podtype">float</span> duration)</p>
+    <p class="brief">Fades the music out.</p><p>Call this function to fade the music over a period of time specified by <i class="argument">duration</i> seconds. Once the fade is complete, the music stops.</p>
 </div>
-<div id="method_enable_collision">
-    <p>&bullet; <span class="podtype">void</span> <b>enable_collision</b>(<span class="podtype">bool</span> flag)</p>
-    <p class="brief">Enable/disabled collision</p><p>Call this function to enable or disable the actor's collision. The argument <i class="argument">flag</i> can be true or false; true to enable the actor's collision, or false to disable it.</p>
-</div>
-<div id="method_get_center">
-    <p>&bullet; <abbr title="This method should typically be overridden by the user to have any effect.">virtual</abbr> <span class="complextype">Vector2</span> <b>get_center</b>() <abbr title="This method does not modify any of the instance variables.">const</abbr></p>
-    <p class="brief">Returns the center of the actor</p><p>Call this function to return the center of the actor. In its base form, this function returns an empty <span class="complextype">Vector2</span>, but you can override it to return the actual center of your actor.</p>
+<div id="method_play_music">
+    <p>&bullet; <span class="podtype">void</span> <b>play_music</b>(<span class="podtype">String</span> song, <span class="podtype">float</span> position = 0.0)</p>
+    <p class="brief">Play a song from the mapping.</p><p>Plays a song from the mapping specified by <i class="argument">song</i>. If <i class="argument">position</i> is specified and is greater than zero, marks the position in the song (in seconds) to start playback.</p>
 </div>
                     </div>
                 </section>

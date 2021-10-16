@@ -64,6 +64,9 @@
                 margin-left: 1cm;
                 padding-left: 2px;
             }
+            /*h1 {
+                font-size: 2em;
+            }*/
             hr {
                 display: block;
                 border-style: inset;
@@ -136,20 +139,20 @@
                 }
             }*/
             function addRefsToFunctionClass() {
-                const es = document.getElementsByClassName('functionref');
+                const es = document.getElementsByClassName('function');
                 let flen = es.length;
                 for (let i = 0; i < flen; ++i) {
                     let buf = es[i].innerHTML;
-                    es[i].innerHTML = "<a href=\"#" + buf.match(/[a-zA-Z_]*(?=\(\))/) + "\">" + buf + "</a>";
+                    es[i].innerHTML = "<a href=\"#method_" + buf.match(/[a-zA-Z_]*/) + "\">" + buf + "</a>";
                 }
             }
         </script>
     </head>
-    <body onload="addRefsToFunctionClass()">
+    <body > <!-- onload="addRefsToFunctionClass()" -->
         <div id="main">
             <div id="flex-container">
                 <nav id="toc">
-                    <h1>Table of Contents</h1>
+                    <h1 style="font-size: 2em">Table of Contents</h1>
                     <ul>
                         <li> <a href="#description">Description</a> </li>
                         <li> <a href="#properties">Properties</a> </li>
@@ -161,11 +164,12 @@
                 </nav>
                 <section id="main-article">
                     <header id="header">
-                        <h1>Enemy</h1>
-                        <p>Inherits from: Actor</p>
+                        <h1 style="font-size: 2em">Enemy</h1>
                         <p>An enemy actor type</p>
+                        <p><p>Inherits from <code class="class">Actor</code> </p></p>
                     </header>
                     <hr>
+<!-- a7d28a62ddc9342aaf8aa343fb13885b -->
                     <div id="properties">
                         <h2>Properties</h2>
                         <table class="bicolor"><tr><th>Type</th><th>Name</th><th>Default</th></tr><tr><td>Stats</td><td>stats</td><td></td></tr>
@@ -173,14 +177,20 @@
 </table>
 <br>
 <p>&bullet; <b>Stats stats</b> &mdash; The stats of the <code class="class">enemy</code> </p>
+<!-- 6aab33082541593ebdbc2c644135ac3d -->
 <p>&bullet; <b><span class="podtype">float</span> armor_time</b> &mdash; The amount of time the <code class="class">Enemy</code> is invincible after taking damage </p>
 <table class="bicolor_light">
     <tr id="armor_time_default">
         <td>Default</td>
         <td>1.0</td>
     </tr>
+<!-- 89e24cafd085c654990340ac5a006be0 -->
+<!-- 90779a92aa70c3034dfecdbfd2789812 -->
 </table>
                     </div>
+<!-- dbb2de43bcb6db6ff4f7c60dc0e51aa3 -->
+<!-- 4b245a71c688bce9fbb8bf9225b5f7b4 -->
+<!-- fd3943bb1502d0570e63e2e474747700 -->
                     <div id="methods">
                         <h2>Methods</h2>
                         <div id="method_decide_damage">

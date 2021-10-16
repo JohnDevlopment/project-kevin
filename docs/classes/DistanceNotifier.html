@@ -64,6 +64,9 @@
                 margin-left: 1cm;
                 padding-left: 2px;
             }
+            /*h1 {
+                font-size: 2em;
+            }*/
             hr {
                 display: block;
                 border-style: inset;
@@ -136,20 +139,20 @@
                 }
             }*/
             function addRefsToFunctionClass() {
-                const es = document.getElementsByClassName('functionref');
+                const es = document.getElementsByClassName('function');
                 let flen = es.length;
                 for (let i = 0; i < flen; ++i) {
                     let buf = es[i].innerHTML;
-                    es[i].innerHTML = "<a href=\"#" + buf.match(/[a-zA-Z_]*(?=\(\))/) + "\">" + buf + "</a>";
+                    es[i].innerHTML = "<a href=\"#method_" + buf.match(/[a-zA-Z_]*/) + "\">" + buf + "</a>";
                 }
             }
         </script>
     </head>
-    <body onload="addRefsToFunctionClass()">
+    <body > <!-- onload="addRefsToFunctionClass()" -->
         <div id="main">
             <div id="flex-container">
                 <nav id="toc">
-                    <h1>Table of Contents</h1>
+                    <h1 style="font-size: 2em">Table of Contents</h1>
                     <ul>
                         <li> <a href="#description">Description</a> </li>
                         <li> <a href="#properties">Properties</a> </li>
@@ -161,9 +164,9 @@
                 </nav>
                 <section id="main-article">
                     <header id="header">
-                        <h1>DistanceNotifier</h1>
-                        <p>Inherits from: Node2D</p>
+                        <h1 style="font-size: 2em">DistanceNotifier</h1>
                         <p>Measures the distances between two things</p>
+                        <p><p>Inherits from <code class="class">Node2D</code> </p></p>
                     </header>
                     <hr>
                     <div id="description">
@@ -192,6 +195,7 @@
         <td>Setter</td>
         <td>set_other_node(v)</td>
     </tr>
+<!-- d4c9681311944afb7bcbac2f20f6c74e -->
 </table>
 <p>&bullet; <b><span class="podtype">int</span> component</b> &mdash; This determines what gets measures exactly. </p>
 <table class="bicolor_light">
@@ -199,6 +203,8 @@
         <td>Default</td>
         <td>X_COMPONENT</td>
     </tr>
+<!-- 481d9ac76d17dde2f7129b9cf4a4329a -->
+<!-- 301a4925709fd566609f572e3f93c408 -->
 </table>
 <p>Valid values are: <code>X_COMPONENT</code>, <code>Y_COMPONENT</code>, <code>BOTH_COMPONENTS</code>, or <code>FLOAT</code>. <code>X_COMPONENT</code> and <code>Y_COMPONENT</code> are obvious, but <code>BOTH_COMPONENTS</code> and <code>FLOAT</code> need explaining.</p><p>With <code>BOTH_COMPONENTS</code>, both the X and Y component of <i class="argument">threshold</i> are checked: the X and Y distance between two nodes both need to be less than or equal to the threshold's X and Y component, respectively, in order to be considered "within range".</p><p>With <code>FLOAT</code>, the linear distance between the two nodes is calculated. Imagine a line between the connected nodes: the length of that line is the distance being checked under this mode. In this case, the X component of <i class="argument">threshold</i> is used as the threshold.</p>
 <p>&bullet; <b><span class="complextype">Vector2</span> threshold</b> &mdash; Maximum distance between nodes </p>
@@ -211,6 +217,7 @@
         <td>Setter</td>
         <td>set_threshold(value)</td>
     </tr>
+<!-- bd56ca7918f2cd536aefb7aaba129ef0 -->
 </table>
 <p>What you put in here depends on <i class="argument">component</i>: if <code>X_COMPONENT</code> or <code>Y_COMPONENT</code>, either the X component or the Y component are used; if <code>BOTH_COMPONENTS</code>, both components are used; if <code>FLOAT</code>, the X component is used to hold a linear distance.</p><p>In the case of <code>FLOAT</code>, the linear distance refers to the result of <code class="function"><span class="complextype">Vector2</span>::distance</code>.</p>
 <p>&bullet; <b><span class="complextype">Color</span> editor_line_color</b> &mdash; The color of the line when out of range </p>
@@ -223,6 +230,7 @@
         <td>Setter</td>
         <td>set_editor_line_color(value)</td>
     </tr>
+<!-- 07e23b24e9d100785a7ec6cc1a3c9278 -->
 </table>
 <p>&bullet; <b><span class="complextype">Color</span> editor_line_range_color</b> &mdash; The color of the line when in range </p>
 <table class="bicolor_light">
@@ -234,6 +242,7 @@
         <td>Setter</td>
         <td>set_editor_line_color(value)</td>
     </tr>
+<!-- adfa33791d16eb0aec8cb235266b5adf -->
 </table>
 <p>&bullet; <b><span class="podtype">float</span> editor_line_width</b> &mdash; Thickness of the line drawn between nodes </p>
 <table class="bicolor_light">
@@ -245,6 +254,7 @@
         <td>Setter</td>
         <td>set_editor_line_width(value)</td>
     </tr>
+<!-- 4f9546ab82a56dfdcedd54c1d80c291e -->
 </table>
 <p>&bullet; <b><span class="podtype">float</span> editor_radius</b> &mdash; Radius of the circle </p>
 <table class="bicolor_light">
@@ -256,6 +266,7 @@
         <td>Setter</td>
         <td>set_editor_radius(value)</td>
     </tr>
+<!-- ccc8d2dd4b23bf5b826970910da1fe14 -->
 </table>
 <p>&bullet; <b><span class="complextype">Color</span> editor_circle_color</b> &mdash; <span class="complextype">Color</span> of the circle </p>
 <table class="bicolor_light">
@@ -267,8 +278,10 @@
         <td>Setter</td>
         <td>set_editor_circle_color(value)</td>
     </tr>
+<!-- 0c40454b7800391da0d48bd1ed908202 -->
 </table>
                     </div>
+<!-- dbb2de43bcb6db6ff4f7c60dc0e51aa3 -->
                     <div id="constants">
                         <h2>Constants</h2>
                         <ul><li id="const_<b>X_COMPONENT</b> = 0"><b>X_COMPONENT</b> = 0 -- Measure only the X distance</li>
