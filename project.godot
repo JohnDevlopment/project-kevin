@@ -178,7 +178,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/dialog_helper/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/dialog_helper/plugin.cfg", "res://addons/dialogic/plugin.cfg" )
 
 [importer_defaults]
 
