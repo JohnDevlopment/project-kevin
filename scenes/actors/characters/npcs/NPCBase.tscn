@@ -7,6 +7,7 @@ collision_layer = 256
 collision_mask = 3
 script = ExtResource( 1 )
 __meta__ = {
+"_edit_group_": true,
 "collision_layer": 256,
 "collision_mask": 3
 }
@@ -28,6 +29,15 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionField"]
 self_modulate = Color( 0.513726, 0.847059, 0.976471, 1 )
+light_mask = 0
+
+[node name="AutoDetectField" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AutoDetectField"]
+self_modulate = Color( 0.223529, 0.901961, 0.105882, 1 )
 light_mask = 0
 
 [connection signal="body_entered" from="DetectionField" to="." method="_on_detection_field_state_changed" binds= [ true ]]

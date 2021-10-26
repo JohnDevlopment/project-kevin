@@ -1,6 +1,8 @@
 tool
 extends Messenger
 
+export var auto_dialog := false
+
 var _kevin_detected := false
 
 func _ready() -> void:
@@ -8,6 +10,11 @@ func _ready() -> void:
 	yield(get_tree(), 'idle_frame')
 	if Game.has_player():
 		_kevin_detected = $DetectionField.overlaps_body( Game.get_player() )
+	
+	if auto_dialog:
+		$AutoDetectField.connect('body_entered', self, '_on_trigger_auto_detect')
+	else:
+		$AutoDetectField.queue_free()
 
 func _enter_tree() -> void:
 	if Engine.editor_hint:
@@ -33,3 +40,9 @@ func _on_detection_field_state_changed(_body: Node, body_inside: bool) -> void:
 	_kevin_detected = body_inside
 	if body_inside:
 		Game.set_meta('active_npc', self)
+		if has_method('_trigger_auto_dialog'):
+			call('_trigger_auto_dialog')
+
+func _on_trigger_auto_detect(_body: Node) -> void:
+	$AutoDetectField.queue_free()
+	start_dialog()
