@@ -42,10 +42,21 @@
 		},
 		"Timelines": {
 			"files": [
-				"timeline-1635126778.json"
+
 			],
 			"folders": {
+				"beta1": {
+					"files": [
+						"timeline-1635210544.json"
+					],
+					"folders": {
 
+					},
+					"metadata": {
+						"color": null,
+						"folded": false
+					}
+				}
 			},
 			"metadata": {
 				"color": null,
