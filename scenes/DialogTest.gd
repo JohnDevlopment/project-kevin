@@ -7,7 +7,18 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	TransitionRect.fade_in({duration = 1.0})
-	$CanvasLayer/DebugOverlay.add_stat('Kevin Detected', $NPCBase, '_kevin_detected', false)
+
+func _unhandled_input(event: InputEvent):
+	if event is InputEventKey:
+		if event.is_action_pressed("debug"):
+			var debug_console = $CanvasLayer/DebugConsole
+			if not debug_console.active:
+				debug_console.activate()
+				get_tree().set_input_as_handled()
+		elif event.is_action_pressed("ui_start"):
+			var ps: Control = Game.Scenes.pause_screen.instance()
+			$CanvasLayer.add_child(ps)
+			get_tree().set_input_as_handled()
 
 func _on_Kevin_sprint_meter_update_parameters(min_value, max_value) -> void:
 	sprint_meter.min_value = min_value
