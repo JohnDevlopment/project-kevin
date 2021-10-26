@@ -1,4 +1,4 @@
-## An actor that displays a message.
+## An actor that can display a dialog message.
 tool
 extends Actor
 class_name Messenger
@@ -69,12 +69,27 @@ func _get_configuration_warning() -> String:
 		warnings.push_back("No timeline has been specified. In order for Dialogic to work, you need to specify which timeline you want it to show.")
 	return warnings.join("\n\n")
 
-func start_dialog(tm: String = ""):
+## Start a dialog message.
+# @desc Instances a dialog box and adds it to the scene.
+#       The dialog box loads the timeline specified by @a tm. If it is not provided
+#       or is an empty string, @property timeline is used instead.
+#
+#       The dialog box is added to the scene tree under the node pointed to by
+#       @property root_node. For this function to work, the @property root_node
+#       property must point to a @class Node2D.
+#
+#       If a node inheriting from @class Messenger defines the private method
+#       @function _on_dialogic_signal, then it gets linked to the @signal dialogic_signal
+#       signal for the dialog box. The function must have a single parameter, an arbitrary
+#       string value.
+func start_dialog(tm: String = "") -> void:
 	if tm.empty(): tm = timeline
 	var dlg = Dialogic.start(tm)
 	if is_instance_valid(_root) and _root.is_inside_tree():
 		_root.add_child(dlg)
 		dlg.connect("timeline_end", self, "_timeline_complete")
+		if has_method('_on_dialogic_signal'):
+			dlg.connect('dialogic_signal', self, '_on_dialogic_signal')
 		Game.set_dialog_mode(true)
 
 # Signal callbacks

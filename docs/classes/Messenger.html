@@ -165,7 +165,7 @@
                 <section id="main-article">
                     <header id="header">
                         <h1 style="font-size: 2em">Messenger</h1>
-                        <p>An actor that displays a message.</p>
+                        <p>An actor that can display a dialog message.</p>
                         <p><p>Inherits from <code class="class">Actor</code> </p></p>
                     </header>
                     <hr>
@@ -191,7 +191,13 @@
 <!-- dbb2de43bcb6db6ff4f7c60dc0e51aa3 -->
 <!-- 4b245a71c688bce9fbb8bf9225b5f7b4 -->
 <!-- fd3943bb1502d0570e63e2e474747700 -->
-<!-- 082d7f8ef2353f0bfd76bde343bc7aec -->
+                    <div id="methods">
+                        <h2>Methods</h2>
+                        <div id="method_start_dialog">
+    <p>&bullet; <span class="podtype">void</span> <b>start_dialog</b>(<span class="podtype">String</span> tm = "")</p>
+    <p class="brief">Start a dialog message.</p><p>Instances a dialog box and adds it to the scene. The dialog box loads the timeline specified by <i class="argument">tm</i>. If it is not provided or is an empty string, @property timeline is used instead.</p><p>The dialog box is added to the scene tree under the node pointed to by @property root_node. For this function to work, the @property root_node property must point to a <code class="class">Node2D</code>.</p><p>If a node inheriting from <code class="class">Messenger</code> defines the private method <code class="function">_on_dialogic_signal</code>, then it gets linked to the @signal dialogic_signal signal for the dialog box. The function must have a single parameter, an arbitrary string value.</p>
+</div>
+                    </div>
                 </section>
             </div>
         </div>
