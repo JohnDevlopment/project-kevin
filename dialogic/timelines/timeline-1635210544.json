@@ -2,21 +2,49 @@
 	"events": [
 		{
 			"character": "character-1635126735.json",
-			"event_id": "dialogic_001",
+			"event_id": "dialogic_010",
+			"options": [
+
+			],
 			"portrait": "",
-			"text": "Hello there, Kevin! What are you doing here?"
+			"question": "Kevin? What are you doing in the tutorial area?"
 		},
 		{
-			"character": "character-1635126816.json",
-			"event_id": "dialogic_001",
-			"portrait": "",
-			"text": "I'm here to take part in the tutorial."
+			"choice": "I want to do the tutorial.",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
 		},
 		{
 			"character": "character-1635126735.json",
 			"event_id": "dialogic_001",
 			"portrait": "",
-			"text": "I see. In that case, I will help!"
+			"text": "I see. In that case, I will help!\n\nHow about you talk to the person further on down the path from here? He will tell you what to do."
+		},
+		{
+			"emit_signal": "tm_do",
+			"event_id": "dialogic_040"
+		},
+		{
+			"choice": "I am here to \"mess around\", as they say.",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1635126735.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "I see...you want to \"mess around\", huh? Well, alright then!\n\nHow about you try messing around with the tutorial? Just talk to the guy further on down the path!"
+		},
+		{
+			"emit_signal": "tm_mess",
+			"event_id": "dialogic_040"
+		},
+		{
+			"event_id": "dialogic_013"
 		},
 		{
 			"event_id": "dialogic_022",
