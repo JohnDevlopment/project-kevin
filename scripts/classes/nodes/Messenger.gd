@@ -21,7 +21,6 @@ func _ready() -> void:
 	var temp = get_node(root_node)
 	if temp and (temp is Node2D):
 		_root = temp
-	print("gravity_value = ", gravity_value)
 
 func _get(property: String):
 	match property:
@@ -70,9 +69,6 @@ func _get_configuration_warning() -> String:
 		warnings.push_back("No timeline has been specified. In order for Dialogic to work, you need to specify which timeline you want it to show.")
 	return warnings.join("\n\n")
 
-func _physics_process(_delta: float) -> void:
-	velocity = move_and_slide(velocity, Vector2.UP, true)
-
 func start_dialog(tm: String = ""):
 	if tm.empty(): tm = timeline
 	var dlg = Dialogic.start(tm)
@@ -84,5 +80,4 @@ func start_dialog(tm: String = ""):
 # Signal callbacks
 
 func _timeline_complete(_tm):
-	print('turning off dialog mode')
 	Game.set_dialog_mode(false)
