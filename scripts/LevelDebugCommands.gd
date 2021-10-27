@@ -13,8 +13,13 @@ const valid_commands: = [
 	["math_map_range", [TYPE_REAL, TYPE_REAL, TYPE_REAL, TYPE_REAL, TYPE_REAL],
 		['value', 'imin', 'imax', 'omin', 'omax']],
 	["list_actor_ids", [], []],
-	["delete_node", [TYPE_INT], ["iid"]]
+	["delete_node", [TYPE_INT], ["iid"]],
+	["reset_scene", [], []]
 ]
+
+func reset_scene() -> String:
+	get_tree().call_deferred('reload_current_scene')
+	return "@exit"
 
 func delete_node(iid: int) -> String:
 	var inst := instance_from_id(iid)

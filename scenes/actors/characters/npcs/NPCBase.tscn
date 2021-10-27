@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/actors/characters/npcs/NPCBase.gd" type="Script" id=1]
+
+[node name="NPCBase" type="KinematicBody2D"]
+collision_layer = 256
+collision_mask = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"collision_layer": 256,
+"collision_mask": 3
+}
+timeline = ""
+root_node = NodePath("")
+speed_cap = Vector2( 0, 0 )
+disabled = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+self_modulate = Color( 0.898039, 0.117647, 0.117647, 1 )
+light_mask = 0
+
+[node name="Frames" type="Sprite" parent="."]
+
+[node name="DetectionField" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionField"]
+self_modulate = Color( 0.513726, 0.847059, 0.976471, 1 )
+light_mask = 0
+
+[node name="AutoDetectField" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AutoDetectField"]
+self_modulate = Color( 0.223529, 0.901961, 0.105882, 1 )
+light_mask = 0
+
+[connection signal="body_entered" from="DetectionField" to="." method="_on_detection_field_state_changed" binds= [ true ]]
+[connection signal="body_exited" from="DetectionField" to="." method="_on_detection_field_state_changed" binds= [ false ]]

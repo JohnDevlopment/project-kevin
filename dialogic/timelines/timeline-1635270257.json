@@ -1,0 +1,19 @@
+{
+	"events": [
+		{
+			"character": "character-1635126735.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Oh, did you forget what to do? No worrys!\n\nJust go down the path here and talk to the other guy. He will tell you what to do!"
+		},
+		{
+			"event_id": "dialogic_022",
+			"transition_duration": 0.5
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.3",
+		"file": "timeline-1635270257.json",
+		"name": "villager1_dotut"
+	}
+}

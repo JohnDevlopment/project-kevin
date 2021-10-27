@@ -60,10 +60,7 @@ func fade_in(options: Dictionary = {}) -> void:
 		var temp: float = options['initial_value']
 		if Math.is_in_range(temp, 0.01, 1.0):
 			initial_value = temp
-
-	print("interpolate alpha between %f and %f in %f seconds"
-		% [initial_value, 0.0, duration])
-
+	
 	# start tween
 	tween.interpolate_property($ColorRect, @"self_modulate:a",
 		initial_value, 0.0, duration, Tween.TRANS_CUBIC)
@@ -107,10 +104,7 @@ func fade_out(options: Dictionary = {}) -> void:
 		var temp: float = options['initial_value']
 		if Math.is_in_range(temp, 0.00, 0.99):
 			initial_value = temp
-
-	print("interpolate alpha between %f and %f in %f seconds"
-		% [initial_value, 1.0, duration])
-
+	
 	# start tween
 	tween.interpolate_property($ColorRect, @"self_modulate:a",
 		initial_value, 1.0, duration, Tween.TRANS_CUBIC)

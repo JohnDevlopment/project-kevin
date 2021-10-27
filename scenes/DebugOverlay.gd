@@ -1,12 +1,21 @@
+## Debug overlay
+# @name DebugOverlay
 extends CanvasLayer
 
 var stats: = []
 var blocked: = false
 
+## Adds a stat to the overlay.
+# @desc Displays information about a stat on the debug overlay. @a stat_ref is a path to
+#       a property or the name of a method inside @a object. Specify whether it is a method
+#       or not with @a is_method. @a stat_name is the display name of the stat.
 func add_stat(stat_name: String, object: Object, stat_ref: String, is_method: bool) -> void:
 	if blocked: return
 	stats.append([stat_name, object, stat_ref, is_method])
 
+## Remove a stat from the overlay.
+# @desc Removes a stat from the overlay indicated by @a stat_name. It is the same name
+#       as was used in @function add_stat.
 func remove_stat(stat_name: String) -> void:
 	if blocked: return
 	

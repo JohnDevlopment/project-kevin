@@ -233,7 +233,7 @@ func _init_command_map():
 	command_list.sort_custom(StringCommand, "_compare")
 
 func _process(_delta):
-	if (get_tree().get_frame() & 3):
+	if (get_tree().get_frame() & 7):
 		get_tree().paused = true
 
 func _on_InputField_text_entered(new_text: String) -> void:
