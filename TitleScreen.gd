@@ -19,12 +19,17 @@ func _ready() -> void:
 func _on_music_finished(button: Button) -> void:
 	button.disabled = true
 
+func _to_scene(music_fade: float, fade_duration: float, next_scene: String):
+	Game.set_paused(true)
+	BackgroundMusic.fade_out(music_fade)
+	TransitionRect.fade_out({duration = fade_duration})
+	yield(TransitionRect, 'fade_finished')
+	Game.set_paused(false)
+	Game.go_to_scene(next_scene)
+
 func _on_button_pressed(tag: String):
 	match tag:
 		"ctest":
-			Game.set_paused(true)
-			BackgroundMusic.fade_out(4.0)
-			TransitionRect.fade_out({duration = 4.0})
-			yield(TransitionRect, 'fade_finished')
-			Game.set_paused(false)
-			Game.go_to_scene("res://CharacterTest.tscn")
+			_to_scene(4.0, 4.0, "res://CharacterTest.tscn")
+		"dtest":
+			_to_scene(4, 4, 'res://scenes/DialogTest.tscn')
