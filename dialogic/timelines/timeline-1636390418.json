@@ -1,0 +1,60 @@
+{
+	"events": [
+		{
+			"character": "character-1635126735.json",
+			"event_id": "dialogic_010",
+			"options": [
+
+			],
+			"portrait": "",
+			"question": "Here you go!\n\nPick which topic you want to hear."
+		},
+		{
+			"choice": "Basics",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"change_timeline": "timeline-1636390959.json",
+			"event_id": "dialogic_020"
+		},
+		{
+			"choice": "Terrain",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"change_timeline": "timeline-1636399418.json",
+			"event_id": "dialogic_020"
+		},
+		{
+			"choice": "I'm done",
+			"condition": "",
+			"definition": "",
+			"event_id": "dialogic_011",
+			"value": ""
+		},
+		{
+			"character": "character-1635126735.json",
+			"event_id": "dialogic_001",
+			"portrait": "",
+			"text": "Okay! I will be here if you need me!"
+		},
+		{
+			"event_id": "dialogic_013"
+		},
+		{
+			"event_id": "dialogic_022",
+			"transition_duration": 0.5
+		}
+	],
+	"metadata": {
+		"dialogic-version": "1.3",
+		"file": "timeline-1636390418.json",
+		"name": "villager1_tuthub"
+	}
+}
