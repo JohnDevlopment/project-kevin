@@ -18,6 +18,15 @@ extends Node
 #       Param: tree_paused@br
 #       Type:  bool@br
 #       Emitted when @function set_paused() is called.
+#
+#       Param: level_size@br
+#       Type:  Vector2@br
+#       Emitted when the level size is set with @function set_level_size().
+#
+#       Param: changing_scene@br
+#       Type:  String@br
+#       Emitted when the when @function go_to_scene() is called. Can be used to
+#       evaluate code when the scene is about to change.
 signal changed_game_param(param, value)
 
 ## Collision layer bits
@@ -34,6 +43,8 @@ enum CollisionLayer {
 	NPC_DETECTION = 0x0200 ## NPC detection field
 }
 
+const TILE_SIZE := Vector2(16, 16)
+
 enum ActorIDS {
 	KEVIN,
 	DARK_BEAST,
@@ -43,7 +54,7 @@ enum ActorIDS {
 }
 
 var default_kevin_speed := Vector2(85, 275)
-var level_size := Vector2(1020, 610)
+var level_size := Vector2(1020, 610) setget set_level_size
 var dialog_mode := false setget set_dialog_mode
 #var global_scale := Vector2.ONE setget set_global_scale
 
@@ -65,14 +76,13 @@ func actor_id_to_string(id: int) -> String:
 			return 'SIGN'
 	return ''
 
-func get_player() -> Actor:
-	return get_tree().get_nodes_in_group("player")[0]
+func get_player() -> Actor: return get_tree().get_nodes_in_group("player")[0]
 
 func go_to_scene(scene: String) -> void:
 	get_tree().change_scene(scene)
+	emit_signal('changed_game_param', 'changing_scene', scene)
 
-func has_player() -> bool:
-	return get_tree().has_group('player')
+func has_player() -> bool: return get_tree().has_group('player')
 
 func insert_vfx(vfx_name: String, parent: Node, position: Vector2):
 	var vfx = Scenes.get(vfx_name)
@@ -109,6 +119,15 @@ func is_key_pressed(e: InputEventKey, key: int, echo: bool = false):
 func set_dialog_mode(enabled: bool):
 	dialog_mode = enabled
 	emit_signal("changed_game_param", "dialog_mode", enabled)
+
+## Set the size of the current level.
+# @desc Sets the size of the level to @a size. The size of the level should be
+#       in tiles; the value can be converted to pixels using the @constant TILE_SIZE constant.
+#
+#       Emits the @code change_game_param signal.
+func set_level_size(size: Vector2):
+	level_size = size
+	emit_signal('changed_game_param', 'level_size', level_size)
 
 ## Set the pause status of the scene tree.
 # @desc Pauses the scene tree if @a paused is true or unpauses it otherwise.

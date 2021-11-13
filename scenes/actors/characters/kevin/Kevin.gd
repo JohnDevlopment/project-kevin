@@ -5,7 +5,7 @@ signal sprint_meter_updated(value)
 signal sprint_meter_update_parameters(min_value, max_value)
 signal state_changed(old_state, new_state)
 
-# temp signal, will delete later
+# TODO: temp signal, will delete later
 signal attack_anim_hit_wall
 
 # State constants
@@ -17,7 +17,7 @@ const STATE_ATTACK = 3
 const FLOOR_DETECTION_DISTANCE: = 20.0
 const ACCELERATION: = 200.0
 const FRICTION: = 360.0
-const MAX_SLOPE_ANGLE: float = deg2rad(45.0)
+const MAX_SLOPE_ANGLE: float = 0.785398
 const SPRINT_METER_CAP: float = 100.0
 const AIR_FRAMES: = PoolIntArray([
 	18, 19, 20, 21,
@@ -138,8 +138,11 @@ func _on_game_param_changed(param: String, value):
 	match param:
 		"dialog_mode":
 			disable_input = (value as bool)
-		"tree_paused":
-			pass
+		"level_size":
+			var cam_limit : Vector2 = Game.level_size * Game.TILE_SIZE
+			$PlayerCamera.limit_right = cam_limit.x
+			$PlayerCamera.limit_bottom = cam_limit.y
+			print_debug("Set camera limits to %s" % Rect2(Vector2(), cam_limit))
 
 func _on_RecoveryTimer_timeout():
 	if Engine.editor_hint: return
