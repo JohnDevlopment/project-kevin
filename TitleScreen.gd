@@ -1,6 +1,6 @@
 extends Node2D
 
-# CONNECT_ONESHOT = 1
+var GoToVillage: Button
 
 func _array_get(a: Array, idx: int, default = null):
 	assert(idx >= 0, "no negative values!")
@@ -9,15 +9,16 @@ func _array_get(a: Array, idx: int, default = null):
 	return default
 
 func _ready() -> void:
+	NodeMapper.map_nodes(self)
+	
+	Game.connect('changed_game_param', self, '_on_game_param_changed')
+	
 	# fade into scene
 	Game.set_paused(true)
 	TransitionRect.fade_in()
 	yield(TransitionRect, 'fade_finished')
 	BackgroundMusic.play_music("menu")
 	Game.set_paused(false)
-
-func _on_music_finished(button: Button) -> void:
-	button.disabled = true
 
 func _to_scene(music_fade: float, fade_duration: float, next_scene: String):
 	Game.set_paused(true)
@@ -29,7 +30,14 @@ func _to_scene(music_fade: float, fade_duration: float, next_scene: String):
 
 func _on_button_pressed(tag: String):
 	match tag:
-		"ctest":
-			_to_scene(4.0, 4.0, "res://CharacterTest.tscn")
+		"village":
+			_to_scene(4, 4, 'res://scenes/levels/Village.tscn')
 		"dtest":
-			_to_scene(4, 4, 'res://scenes/DialogTest.tscn')
+			pass
+
+func _on_game_param_changed(param: String, value) -> void:
+	match param:
+		'tree_paused':
+			print("tree is %s" % ('paused' if value else 'not paused'))
+		'changing_scene':
+			print("Changing scene to '%s' from current scene '%s'" % [value, get_tree().current_scene])

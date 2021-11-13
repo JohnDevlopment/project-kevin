@@ -162,6 +162,7 @@ Application="*res://scripts/classes/singletons/Application.gd"
 BackgroundMusic="*res://scenes/autoloads/BackgroundMusic.tscn"
 TransitionRect="*res://scenes/autoloads/TransitionRect.tscn"
 Math="*res://scripts/classes/singletons/Math.gd"
+NodeMapper="*res://addons/node_mapper/NodeMapper.gd"
 
 [debug]
 
@@ -178,7 +179,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogic/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/node_mapper/plugin.cfg", "res://addons/snippets_plugin/plugin.cfg" )
 
 [importer_defaults]
 
