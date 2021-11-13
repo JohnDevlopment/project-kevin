@@ -187,7 +187,7 @@
                         <div id="signal_changed_game_param">
     <p>&bullet; <b>changed_game_param(<span class="podtype">String</span> param, <span class="podtype">Variant</span> value)</b></p>
     <p>Indicates that a game parameter has changed.</p>
-    <p>This signal is emitted when certain functions are called. Which function was called is indicated by <i class="argument">param</i>.</p><p>Param: dialog_mode<br> Type: <span class="podtype">bool</span><br> Emitted when <a href="#method_set_dialog_mode">set_dialog_mode</a>() is called. If true, then dialog mode is active: in this mode, a dialog is in process, so actors should not move or accept input.</p><p>Param: tree_paused<br> Type: <span class="podtype">bool</span><br> Emitted when <a href="#method_set_paused">set_paused</a>() is called.</p>
+    <p>This signal is emitted when certain functions are called. Which function was called is indicated by <i class="argument">param</i>.</p><p>Param: dialog_mode<br> Type: <span class="podtype">bool</span><br> Emitted when <a href="#method_set_dialog_mode">set_dialog_mode</a>() is called. If true, then dialog mode is active: in this mode, a dialog is in process, so actors should not move or accept input.</p><p>Param: tree_paused<br> Type: <span class="podtype">bool</span><br> Emitted when <a href="#method_set_paused">set_paused</a>() is called.</p><p>Param: level_size<br> Type: <span class="complextype">Vector2</span><br> Emitted when the level size is set with <a href="#method_set_level_size">set_level_size</a>().</p><p>Param: changing_scene<br> Type: <span class="podtype">String</span><br> Emitted when the when <code class="function">go_to_scene</code>() is called. Can be used to evaluate code when the scene is about to change.</p>
 </div>
                     </div>
                     <div id="methods">
@@ -195,6 +195,10 @@
                         <div id="method_set_dialog_mode">
     <p>&bullet; <span class="podtype">Variant</span> <b>set_dialog_mode</b>(<span class="podtype">bool</span> enabled)</p>
     <p class="brief">Set or clear dialog mode.</p><p>Depending on whether <i class="argument">enabled</i> is true or false, this sets or disables dialog mode. In dialog mode, affected nodes stop working and do not accept input from the user, allowing dialog boxes to work without interruption.</p><p>Emits the <code>changed_game_param</code> signal.</p>
+</div>
+<div id="method_set_level_size">
+    <p>&bullet; <span class="podtype">Variant</span> <b>set_level_size</b>(<span class="complextype">Vector2</span> size)</p>
+    <p class="brief">Set the size of the current level.</p><p>Sets the size of the level to <i class="argument">size</i>. The size of the level should be in tiles; the value can be converted to pixels using the <code class="constant">TILE_SIZE</code> constant.</p><p>Emits the <code>change_game_param</code> signal.</p>
 </div>
 <div id="method_set_paused">
     <p>&bullet; <span class="podtype">void</span> <b>set_paused</b>(<span class="podtype">bool</span> paused)</p>

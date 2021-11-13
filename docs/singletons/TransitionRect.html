@@ -178,8 +178,28 @@
 <!-- dbb2de43bcb6db6ff4f7c60dc0e51aa3 -->
                     <div id="constants">
                         <h2>Constants</h2>
-                        <ul><li id="const_<b>DEFAULT_DURATION</b> = 1.0"><b>DEFAULT_DURATION</b> = 1.0 -- The default duration of a fade.</li>
-</ul>
+                        <table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Brief</th>
+    </tr>
+    <tr id="const_DEFAULT_DURATION">
+    <td>
+        <span class="podtype">float</span>
+    </td>
+    <td>
+        <b>DEFAULT_DURATION</b>
+    </td>
+    <td>
+        1.0
+    </td>
+    <td>
+        The default duration of a fade.
+    </td>
+</tr>
+</table>
                     </div>
                     <div id="signals">
                         <h2>Signals</h2>
@@ -192,11 +212,11 @@
                         <h2>Methods</h2>
                         <div id="method_fade_in">
     <p>&bullet; <span class="podtype">void</span> <b>fade_in</b>(<span class="podtype">Dictionary</span> options = {})</p>
-    <p class="brief">Start a fade-in effect.</p><p>This function interpolates the alpha value of a black rectangle from one to zero. Certain aspects of the fade, such as fade-time and the initial value, can be controlled via <i class="argument">options</i>.</p><p><i class="argument">options</i> is a dictionary that contains various parameters for the fade: the key <i>initial_value</i> is used to specify the initial alpha value at the start of the fade, and <i>duration</i> is used to specify how long the fade lasts in seconds.</p><p><i>duration</i> must be a positive number greater than zero in order to be read. If this parameter is not provided or is invalid, it defaults to @constant DEFAULT_DURATION.</p><p>The option <i>initial_value</i> defaults to 1.0 unless it is specified by the user. For it to be valid, the initial value must be in the range [0.01, 1.0].</p>
+    <p class="brief">Start a fade-in effect.</p><p>This function interpolates the alpha value of a black rectangle from one to zero. Certain aspects of the fade, such as fade-time and the initial value, can be controlled via <i class="argument">options</i>.</p><p><i class="argument">options</i> is a dictionary that contains various parameters for the fade: the key <i>initial_value</i> is used to specify the initial alpha value at the start of the fade, and <i>duration</i> is used to specify how long the fade lasts in seconds.</p><p><i>duration</i> must be a positive number greater than zero in order to be read. If this parameter is not provided or is invalid, it defaults to <code class="constant">DEFAULT_DURATION</code>.</p><p>The option <i>initial_value</i> defaults to 1.0 unless it is specified by the user. For it to be valid, the initial value must be in the range [0.01, 1.0].</p>
 </div>
 <div id="method_fade_out">
     <p>&bullet; <span class="podtype">void</span> <b>fade_out</b>(<span class="podtype">Dictionary</span> options = {})</p>
-    <p class="brief">Start a fade out effect.</p><p>This function causes a fade-out effect by interpolating the alpha value of a black rectangle covering the screen, from zero to one.</p><p><i class="argument">options</i> is a dictionary that contains various parameters for the fade: the key <i>initial_value</i> is used to specify the initial alpha value at the start of the fade, and <i>duration</i> is used to specify how long the fade lasts in seconds.</p><p><i>duration</i> must be a positive number greater than zero in order to be read. If this parameter is not provided or is invalid, it defaults to @constant DEFAULT_DURATION.</p><p>The option <i>initial_value</i> defaults to zero unless it is specified by the user. For it to be valid, the initial value must be in the range [0.0, 0.99].</p>
+    <p class="brief">Start a fade out effect.</p><p>This function causes a fade-out effect by interpolating the alpha value of a black rectangle covering the screen, from zero to one.</p><p><i class="argument">options</i> is a dictionary that contains various parameters for the fade: the key <i>initial_value</i> is used to specify the initial alpha value at the start of the fade, and <i>duration</i> is used to specify how long the fade lasts in seconds.</p><p><i>duration</i> must be a positive number greater than zero in order to be read. If this parameter is not provided or is invalid, it defaults to <code class="constant">DEFAULT_DURATION</code>.</p><p>The option <i>initial_value</i> defaults to zero unless it is specified by the user. For it to be valid, the initial value must be in the range [0.0, 0.99].</p>
 </div>
                     </div>
                 </section>
