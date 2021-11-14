@@ -430,6 +430,7 @@ limit_top = 0
 limit_right = 1024
 limit_bottom = 600
 limit_smoothed = true
+editor_draw_screen = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack1Left = SubResource( 3 )

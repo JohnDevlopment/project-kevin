@@ -142,7 +142,6 @@ func _on_game_param_changed(param: String, value):
 			var cam_limit : Vector2 = Game.level_size * Game.TILE_SIZE
 			$PlayerCamera.limit_right = cam_limit.x
 			$PlayerCamera.limit_bottom = cam_limit.y
-			print_debug("Set camera limits to %s" % Rect2(Vector2(), cam_limit))
 
 func _on_RecoveryTimer_timeout():
 	if Engine.editor_hint: return
