@@ -112,6 +112,10 @@ func fade_out(options: Dictionary = {}) -> void:
 
 	set_meta('current_fade', 'out') # fade type
 
+## Set the alpha value of the fade rect.
+func set_alpha(a: float) -> void:
+	$ColorRect.self_modulate.a = clamp(a, 0, 1)
+
 func _on_all_tweens_completed() -> void:
 	var cf: String = get_meta('current_fade')
 	emit_signal('fade_finished', cf)

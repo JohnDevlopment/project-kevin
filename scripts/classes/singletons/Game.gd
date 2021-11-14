@@ -1,6 +1,7 @@
 ## Game-wide functions and values.
 # @name Game
 # @singleton
+tool
 extends Node
 
 ## Indicates that a game parameter has changed.
