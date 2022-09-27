@@ -1,5 +1,0 @@
-[gd_scene format=2]
-
-[node name="TileMap16x16" type="TileMap"]
-cell_size = Vector2( 16, 16 )
-format = 1
